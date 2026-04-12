@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GridCutter - Best Instagram Grid Splitter</title>
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <h2 class="sr-only">Instagram grid image cropper — split a wide image into 3 portrait crops</h2>
+
+    <div class="drop-zone" id="dropZone">
+      <span class="icon">🖼</span>
+      <strong>Drop your image here or click to upload</strong>
+      <p>Designed for 3240 × 1350 px — works with any wide landscape image</p>
+      <input type="file" id="fileInput" accept="image/*" style="display:none">
+    </div>
+    <div class="error-msg" id="errMsg" style="display:none"></div>
+
+    <div id="mainContent" style="display:none">
+      <div class="info-row" id="infoRow"></div>
+      
+      <div class="preview-section">
+        <div class="preview-label">Original — crop zones highlighted</div>
+        <div class="original-wrap">
+          <canvas id="origCanvas"></canvas>
+          <svg class="overlay-svg" id="overlaySvg" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+
+      <div class="advanced-settings">
+        <details>
+          <summary>⚙️ Advanced Settings</summary>
+          <div class="settings-grid">
+            
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" id="manualOverlapCb"> Override Auto Overlap
+              </label>
+              <div class="input-with-suffix">
+                <input type="number" id="manualOverlapInput" value="67.5" step="0.5" disabled>
+                <span>px</span>
+              </div>
+            </div>
+
+            <div class="setting-group">
+              <label for="formatSelect">Output Format</label>
+              <select id="formatSelect">
+                <option value="image/png">PNG (Lossless, High Size)</option>
+                <option value="image/jpeg">JPEG (Good Quality, Low Size)</option>
+                <option value="image/webp" selected>WEBP (Best Quality & Size)</option>
+              </select>
+            </div>
+
+            <div class="setting-group" id="qualityGroup">
+              <label for="qualitySlider">Quality: <span id="qualityVal">90</span>%</label>
+              <input type="range" id="qualitySlider" min="10" max="100" value="90">
+            </div>
+
+          </div>
+        </details>
+      </div>
+      
+      <div class="preview-label" style="margin-top:2rem">Instagram Profile Preview</div>
+      <div class="ig-mockup-wrapper">
+        <div class="ig-mockup">
+          <div class="ig-header">
+            <div class="ig-avatar"></div>
+            <div class="ig-stats">
+              <div class="stat-box"><strong>12</strong><span>Posts</span></div>
+              <div class="stat-box"><strong>10.5K</strong><span>Followers</span></div>
+              <div class="stat-box"><strong>14</strong><span>Following</span></div>
+            </div>
+          </div>
+          <div class="ig-bio">
+            <strong>Your Name</strong><br>
+            Photography & Art 📷<br>
+            Grid made with GridCutter.com ✨
+          </div>
+          <div class="ig-feed-icons">
+            <span class="active-icon">▦</span>
+            <span>▶</span>
+            <span>👤</span>
+          </div>
+          <div class="ig-grid">
+            <canvas id="prevLeft"></canvas>
+            <canvas id="prevMid"></canvas>
+            <canvas id="prevRight"></canvas>
+            <div class="ig-dummy"></div>
+            <div class="ig-dummy"></div>
+            <div class="ig-dummy"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-label" style="margin-top:1.5rem">Cropped outputs (4:5 portrait)</div>
+      <div class="crops-grid">
+        <div class="crop-card">
+          <canvas id="cropLeft"></canvas>
+          <div class="crop-card-label">Left <span class="crop-order-hint">(post #1)</span></div>
+        </div>
+        <div class="crop-card">
+          <canvas id="cropMid"></canvas>
+          <div class="crop-card-label">Center <span class="crop-order-hint">(post #2)</span></div>
+        </div>
+        <div class="crop-card">
+          <canvas id="cropRight"></canvas>
+          <div class="crop-card-label">Right <span class="crop-order-hint">(post #3)</span></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-dl" id="dlLeft">Download left</button>
+        <button class="btn-dl" id="dlMid">Download center</button>
+        <button class="btn-dl" id="dlRight">Download right</button>
+        <button class="btn-dl" id="dlAll">Download all 3 as ZIP</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
