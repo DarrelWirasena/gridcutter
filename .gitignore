@@ -7,6 +7,9 @@ tests/
 playwright.config.js
 test-results/
 
+#notes files
+notes/
+
 # Logs
 logs
 *.log
