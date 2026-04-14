@@ -1,19 +1,1132 @@
-<section style="font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: auto; padding: 20px;">
-    <h1>Terms of Service</h1>
-    <p>Last updated: April 2026</p>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>Terms of Service | GridCutter</title>
+        <meta
+            name="description"
+            content="GridCutter's Terms of Service. Free to use, client-side image processing, no accounts required."
+        />
+        <meta property="og:url" content="https://gridcutter.com/terms.html" />
+        <meta property="og:image" content="https://gridcutter.com/assets/img/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="628" />
+        <meta property="og:image:type" content="image/png" />
 
-    <h2>1. Acceptance of Terms</h2>
-    <p>By accessing and using GridCutter (gridcutter.com), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by these terms, please do not use this service.</p>
+        <link rel="canonical" href="https://gridcutter.com/terms.html" />
 
-    <h2>2. Description of Service</h2>
-    <p>GridCutter provides a free, client-side web application tool to split and crop images for social media grid layouts. The service is provided "AS IS" and "AS AVAILABLE".</p>
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
 
-    <h2>3. User Responsibility</h2>
-    <p>Since all image processing happens within your own browser (client-side), you retain full ownership and responsibility for any images you process using GridCutter. You agree not to use the tool for any illegal or unauthorized purpose.</p>
+        <!-- Google Analytics - Loaded conditionally based on cookie consent -->
+        <script>
+            function loadGoogleAnalytics() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-H4GB4E0X7E';
+                document.head.appendChild(script);
+                
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', 'G-H4GB4E0X7E');
+            }
+            
+            // Check if user has already consented
+            const cookieConsent = localStorage.getItem('gridcutter_cookies');
+            if (cookieConsent) {
+                const preferences = JSON.parse(cookieConsent);
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+            }
+        </script>
 
-    <h2>4. Disclaimer of Warranties and Limitation of Liability</h2>
-    <p>GridCutter is provided without warranties of any kind, whether express or implied. In no event shall the creators or maintainers of GridCutter be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of this tool (including, but not limited to, data loss, image distortion, or social media account issues).</p>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap"
+            rel="stylesheet"
+        />
 
-    <h2>5. Modifications to Service</h2>
-    <p>We reserve the right to modify or discontinue, temporarily or permanently, the service with or without notice at any time.</p>
-</section>
+        <link rel="stylesheet" href="assets/css/style.css" />
+
+        <style>
+            /* Terms page — layout & components not in shared style.css */
+
+            /* Page header */
+            .terms-header {
+                padding-block: var(--sp-9) var(--sp-7);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .terms-header-meta {
+                display: flex;
+                align-items: center;
+                gap: var(--sp-3);
+                margin-top: var(--sp-5);
+                flex-wrap: wrap;
+            }
+            .terms-header-meta span {
+                font-family: "Archivo", sans-serif;
+                font-size: var(--text-xs);
+                color: var(--text-tertiary);
+            }
+            .terms-header-meta .sep {
+                width: 3px;
+                height: 3px;
+                border-radius: 50%;
+                background: var(--border-mid);
+            }
+
+            /* Summary card */
+            .summary-card {
+                display: flex;
+                align-items: flex-start;
+                gap: var(--sp-5);
+                padding: var(--sp-6);
+                background: var(--brand-xlight);
+                border: 1px solid oklch(85% 0.06 264);
+                border-radius: 16px;
+                margin-top: var(--sp-6);
+            }
+            .summary-icon {
+                width: 44px;
+                height: 44px;
+                flex-shrink: 0;
+                background: var(--brand);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .summary-icon svg {
+                color: white;
+            }
+            .summary-card h4 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-base);
+                color: var(--text-primary);
+                margin-bottom: var(--sp-2);
+            }
+            .summary-card p {
+                font-size: var(--text-sm);
+                color: var(--text-secondary);
+                line-height: 1.65;
+            }
+
+            /* Two-column layout */
+            .terms-layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: var(--sp-8);
+                padding-block: var(--sp-8);
+                align-items: start;
+            }
+            @media (min-width: 960px) {
+                .terms-layout {
+                    grid-template-columns: 200px 1fr;
+                    gap: var(--sp-9);
+                }
+            }
+
+            /* Sticky TOC */
+            .toc {
+                display: none;
+            }
+            @media (min-width: 960px) {
+                .toc {
+                    display: block;
+                    position: sticky;
+                    top: 80px;
+                }
+            }
+            .toc-title {
+                font-family: "Archivo", sans-serif;
+                font-size: var(--text-xs);
+                font-weight: 800;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--text-tertiary);
+                margin-bottom: var(--sp-3);
+            }
+            .toc a {
+                display: block;
+                font-family: "Archivo", sans-serif;
+                font-size: var(--text-sm);
+                font-weight: 500;
+                color: var(--text-secondary);
+                padding: var(--sp-2) var(--sp-3);
+                border-radius: 8px;
+                transition:
+                    color 0.15s,
+                    background 0.15s;
+                line-height: 1.4;
+            }
+            .toc a:hover {
+                color: var(--brand);
+                background: var(--brand-xlight);
+            }
+            .toc a.active {
+                color: var(--brand);
+                font-weight: 700;
+                background: var(--brand-xlight);
+            }
+
+            /* Content sections */
+            .terms-content {
+                display: flex;
+                flex-direction: column;
+                gap: var(--sp-9);
+            }
+            .terms-section {
+                scroll-margin-top: 90px;
+            }
+            .terms-section h2 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-2xl);
+                letter-spacing: -0.03em;
+                color: var(--text-primary);
+                margin-bottom: var(--sp-5);
+                padding-bottom: var(--sp-4);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .terms-section p {
+                font-size: var(--text-base);
+                color: var(--text-secondary);
+                line-height: 1.75;
+                margin-bottom: var(--sp-4);
+            }
+            .terms-section p:last-child {
+                margin-bottom: 0;
+            }
+            .terms-section a {
+                color: var(--brand);
+                text-decoration: underline;
+                text-underline-offset: 3px;
+            }
+            .terms-section a:hover {
+                opacity: 0.8;
+            }
+            .terms-section ul {
+                margin: var(--sp-3) 0 var(--sp-4) var(--sp-5);
+                display: flex;
+                flex-direction: column;
+                gap: var(--sp-2);
+            }
+            .terms-section ul li {
+                font-size: var(--text-base);
+                color: var(--text-secondary);
+                line-height: 1.65;
+            }
+
+            /* Highlight callout */
+            .callout {
+                background: var(--surface-1);
+                border-left: 3px solid var(--brand);
+                border-radius: 0 12px 12px 0;
+                padding: var(--sp-4) var(--sp-5);
+                margin: var(--sp-5) 0;
+            }
+            .callout p {
+                font-size: var(--text-sm);
+                color: var(--text-secondary);
+                line-height: 1.65;
+                margin: 0;
+            }
+            .callout strong {
+                font-family: "Archivo", sans-serif;
+                color: var(--text-primary);
+            }
+
+            /* Numbered clauses */
+            .clause-list {
+                display: flex;
+                flex-direction: column;
+                gap: var(--sp-4);
+                margin-top: var(--sp-5);
+            }
+            .clause {
+                display: flex;
+                gap: var(--sp-4);
+            }
+            .clause-num {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-xs);
+                color: var(--brand);
+                background: var(--brand-xlight);
+                border-radius: 8px;
+                width: 36px;
+                height: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                letter-spacing: 0.02em;
+                margin-top: 2px;
+            }
+            .clause h4 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 700;
+                font-size: var(--text-base);
+                color: var(--text-primary);
+                margin-bottom: var(--sp-1);
+            }
+            .clause p {
+                font-size: var(--text-sm);
+                color: var(--text-secondary);
+                line-height: 1.65;
+                margin: 0;
+            }
+
+            /* Contact CTA */
+            .terms-cta {
+                background: var(--surface-1);
+                border-radius: 16px;
+                padding: var(--sp-7);
+                display: flex;
+                flex-direction: column;
+                gap: var(--sp-4);
+                align-items: flex-start;
+                border: 1px solid var(--border-subtle);
+                margin-top: var(--sp-5);
+            }
+            @media (min-width: 640px) {
+                .terms-cta {
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
+            .terms-cta h4 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-lg);
+                letter-spacing: -0.02em;
+                color: var(--text-primary);
+                margin-bottom: var(--sp-2);
+            }
+            .terms-cta p {
+                font-size: var(--text-sm);
+                color: var(--text-secondary);
+                max-width: 40ch;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- COOKIE CONSENT BANNER -->
+        <div id="cookieBanner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.98); color: white; padding: 20px; z-index: 9999; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Archivo', sans-serif;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <!-- Expanded Preferences Section (Hidden by default) -->
+                <div id="cookieBannerExpanded" style="display: none; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">Privacy Settings</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.9);">
+                        We use cookies for essential functionality and (optionally) for analytics and ads. You control what's enabled.
+                    </p>
+                    
+                    <!-- Cookie Checkboxes -->
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                        <!-- Strictly Necessary -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; opacity: 0.7;">
+                            <input type="checkbox" id="cookieNecessary" checked disabled style="margin-top: 3px; cursor: not-allowed;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Strictly Necessary</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Required for site to function (always enabled)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Analytics -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAnalytics" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Analytics (Google Analytics)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Helps us understand how you use the site (anonymized)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Advertising -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAdvertising" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Advertising (Google AdSense)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Personalized ads based on browsing history</div>
+                            </div>
+                        </label>
+                    </div>
+                    <button id="saveCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Save Preferences</button>
+                    <a href="privacy.html" style="font-size: 12px; color: #66b3ff; text-decoration: none; border-bottom: 1px solid #66b3ff;">Read our Privacy Policy</a>
+                </div>
+                
+                <!-- Message & Buttons (Always visible) -->
+                <div class="cookie-bottom-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                    <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.9); flex: 1; min-width: 200px;">
+                        We use cookies to ensure you get the best experience on our website.
+                    </p>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0;">
+                        <button class="cookie-buttons" id="preferencesBtn" style="padding: 8px 16px; background: transparent; color: white; border: 3px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Preferences</button>
+                        <button class="cookie-buttons" id="rejectAllCookies" style="padding: 8px 16px; background: transparent; color: rgba(255,255,255,0.7); border: none; cursor: pointer; font-weight: 400; font-size: 14px; white-space: nowrap; text-decoration: underline;">Reject</button>
+                        <button class="cookie-buttons" id="acceptAllCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: 3px solid #ffffff8f; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Cookie management system
+            const COOKIE_CONSENT_KEY = 'gridcutter_cookies';
+            
+            // Default preferences
+            const defaultPreferences = {
+                necessary: true,
+                analytics: false,
+                advertising: false
+            };
+            
+            // Initialize cookie banner
+            function initCookieBanner() {
+                const bannerEl = document.getElementById('cookieBanner');
+                const analyticsCheckbox = document.getElementById('cookieAnalytics');
+                const advertisingCheckbox = document.getElementById('cookieAdvertising');
+                const saveBtn = document.getElementById('saveCookies');
+                const acceptAllBtn = document.getElementById('acceptAllCookies');
+                const rejectAllBtn = document.getElementById('rejectAllCookies');
+                const preferencesBtn = document.getElementById('preferencesBtn');
+                
+                // Check if user has already made a choice
+                const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
+                if (stored) {
+                    const preferences = JSON.parse(stored);
+                    analyticsCheckbox.checked = preferences.analytics;
+                    advertisingCheckbox.checked = preferences.advertising;
+                    bannerEl.style.display = 'none';
+                } else {
+                    bannerEl.style.display = 'block';
+                }
+                
+                // Save preferences
+                saveBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: analyticsCheckbox.checked,
+                        advertising: advertisingCheckbox.checked
+                    };
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Toggle preferences panel  <-- ADD THIS RIGHT HERE
+                preferencesBtn.addEventListener('click', function() {
+                    const expanded = document.getElementById('cookieBannerExpanded');
+                    expanded.style.display = expanded.style.display === 'none' ? 'block' : 'none';
+                });
+
+                // Accept all
+                acceptAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: true,
+                        advertising: true
+                    };
+                    analyticsCheckbox.checked = true;
+                    advertisingCheckbox.checked = true;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Reject optional
+                rejectAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: false,
+                        advertising: false
+                    };
+                    analyticsCheckbox.checked = false;
+                    advertisingCheckbox.checked = false;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+            }
+            
+            // Load AdSense conditionally
+            function loadAdSense() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7273655471475479';
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+            }
+            
+            // Apply preferences (load GA/AdSense if consented)
+            function applyPreferences(preferences) {
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+                if (preferences.advertising) {
+                    loadAdSense();
+                }
+            }
+            
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCookieBanner);
+            } else {
+                initCookieBanner();
+            }
+        </script>
+
+        <!-- NAV -->
+        <header class="nav">
+            <div class="container">
+                <nav class="nav-inner">
+                    <a href="/" class="nav-logo" aria-label="GridCutter home">
+                        <div class="nav-logo-mark" aria-hidden="true">
+                            <span></span><span></span><span></span> <span></span
+                            ><span></span><span></span>
+                        </div>
+                        GridCutter
+                    </a>
+                    <ul class="nav-links" role="list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="gridcutter.html">Tool</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                    <a href="gridcutter.html" class="btn btn-primary nav-cta">
+                        Try Free
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M2 7h10M8 3l4 4-4 4"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </a>
+                    <button
+                        class="mobile-toggle"
+                        id="mobileToggle"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                    >
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                        >
+                            <rect y="2" width="16" height="1.5" rx="1" />
+                            <rect y="7" width="16" height="1.5" rx="1" />
+                            <rect y="12" width="16" height="1.5" rx="1" />
+                        </svg>
+                    </button>
+                </nav>
+                <div class="mobile-menu" id="mobileMenu" role="navigation">
+                    <a href="index.html">Home</a>
+                    <a href="gridcutter.html">Tool</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="container">
+                <!-- PAGE HEADER -->
+                <div class="terms-header reveal">
+                    <div class="f-label">Legal</div>
+                    <h1
+                        class="f-display"
+                        style="
+                            font-size: var(--text-3xl);
+                            margin-top: var(--sp-4);
+                            max-width: 16ch;
+                        "
+                    >
+                        Terms of Service
+                    </h1>
+                    <p
+                        style="
+                            font-size: var(--text-lg);
+                            color: var(--text-secondary);
+                            margin-top: var(--sp-4);
+                            max-width: 52ch;
+                            font-weight: 300;
+                            line-height: 1.55;
+                        "
+                    >
+                        Plain-language terms for a plain tool. GridCutter is
+                        free to use — here's what that means for both of us.
+                    </p>
+                    <div class="terms-header-meta">
+                        <span>Last updated: April 2026</span>
+                        <span class="sep"></span>
+                        <span>Applies to gridcutter.com and all subpages</span>
+                    </div>
+
+                    <!-- TL;DR card -->
+                    <div class="summary-card reveal reveal-delay-1">
+                        <div class="summary-icon">
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                aria-hidden="true"
+                            >
+                                <rect
+                                    x="3"
+                                    y="2"
+                                    width="14"
+                                    height="16"
+                                    rx="2"
+                                    stroke="currentColor"
+                                    stroke-width="1.6"
+                                />
+                                <path
+                                    d="M7 7h6M7 10h6M7 13h4"
+                                    stroke="currentColor"
+                                    stroke-width="1.6"
+                                    stroke-linecap="round"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4>The short version</h4>
+                            <p>
+                                GridCutter is a free, no-account tool. You own
+                                your images — we never touch them. Use the tool
+                                lawfully, don't try to break it, and understand
+                                it comes without warranty. That's really the
+                                whole story.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TWO-COLUMN LAYOUT -->
+                <div class="terms-layout">
+                    <!-- STICKY TOC -->
+                    <nav class="toc" aria-label="Page sections">
+                        <div class="toc-title">On this page</div>
+                        <a href="#acceptance" class="active">Acceptance</a>
+                        <a href="#service">The Service</a>
+                        <a href="#your-content">Your Content</a>
+                        <a href="#acceptable-use">Acceptable Use</a>
+                        <a href="#intellectual-property"
+                            >Intellectual Property</a
+                        >
+                        <a href="#disclaimers">Disclaimers</a>
+                        <a href="#liability">Liability</a>
+                        <a href="#modifications">Modifications</a>
+                        <a href="#governing-law">Governing Law</a>
+                        <a href="#contact">Contact</a>
+                    </nav>
+
+                    <!-- CONTENT -->
+                    <div class="terms-content">
+                        <!-- ACCEPTANCE -->
+                        <section class="terms-section reveal" id="acceptance">
+                            <h2>1. Acceptance of Terms</h2>
+                            <p>
+                                By accessing or using GridCutter at
+                                gridcutter.com ("the Service"), you confirm that
+                                you have read, understood, and agree to be bound
+                                by these Terms of Service ("Terms"). If you do
+                                not agree, please discontinue use of the Service
+                                immediately.
+                            </p>
+                            <p>
+                                These Terms apply to all visitors and users of
+                                the Service. Your continued use of GridCutter
+                                following any changes to these Terms constitutes
+                                acceptance of those changes.
+                            </p>
+                        </section>
+
+                        <!-- THE SERVICE -->
+                        <section class="terms-section reveal" id="service">
+                            <h2>2. Description of Service</h2>
+                            <p>
+                                GridCutter is a free, browser-based
+                                image-splitting tool designed to help creators
+                                prepare photos for Instagram grid layouts. The
+                                Service currently supports 3×1, 3×2, and 3×3
+                                grid formats outputting images in the 3:4 aspect
+                                ratio standard used by Instagram.
+                            </p>
+                            <div class="callout">
+                                <p>
+                                    <strong>Client-side processing:</strong> All
+                                    image processing occurs entirely within your
+                                    web browser using the HTML5 Canvas API. No
+                                    image data is transmitted to any server.
+                                    GridCutter has no backend image pipeline, no
+                                    cloud storage, and no image database.
+                                </p>
+                            </div>
+                            <p>
+                                The Service is provided free of charge and is
+                                supported by display advertising served via
+                                Google AdSense. No subscription, account
+                                registration, or payment is required to use any
+                                feature of GridCutter.
+                            </p>
+                        </section>
+
+                        <!-- YOUR CONTENT -->
+                        <section class="terms-section reveal" id="your-content">
+                            <h2>3. Your Content &amp; Ownership</h2>
+                            <p>
+                                You retain full ownership of any images you
+                                process using GridCutter. Because all processing
+                                is client-side, we never receive, store, or
+                                transmit your images — therefore we make no
+                                claim whatsoever over your content.
+                            </p>
+                            <p>
+                                By using the Service you represent and warrant
+                                that:
+                            </p>
+                            <ul>
+                                <li>
+                                    You own the images you process, or have the
+                                    necessary rights and permissions to use
+                                    them.
+                                </li>
+                                <li>
+                                    Your use of those images does not infringe
+                                    any third-party intellectual property,
+                                    privacy, or publicity rights.
+                                </li>
+                                <li>
+                                    You are solely responsible for the content
+                                    you produce and distribute using output from
+                                    GridCutter.
+                                </li>
+                            </ul>
+                        </section>
+
+                        <!-- ACCEPTABLE USE -->
+                        <section
+                            class="terms-section reveal"
+                            id="acceptable-use"
+                        >
+                            <h2>4. Acceptable Use</h2>
+                            <p>
+                                GridCutter is a general-purpose image utility.
+                                You agree not to use the Service in any way
+                                that:
+                            </p>
+                            <div class="clause-list">
+                                <div class="clause">
+                                    <div class="clause-num">a</div>
+                                    <div>
+                                        <h4>Violates any law</h4>
+                                        <p>
+                                            Including processing or distributing
+                                            images that are illegal in your
+                                            jurisdiction, or using the tool to
+                                            facilitate copyright infringement.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="clause">
+                                    <div class="clause-num">b</div>
+                                    <div>
+                                        <h4>Harms others</h4>
+                                        <p>
+                                            Including processing non-consensual
+                                            intimate imagery, images of minors
+                                            in an exploitative context, or
+                                            content intended to harass or defame
+                                            individuals.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="clause">
+                                    <div class="clause-num">c</div>
+                                    <div>
+                                        <h4>Disrupts the Service</h4>
+                                        <p>
+                                            Including attempting to
+                                            reverse-engineer, scrape at
+                                            excessive scale, inject malicious
+                                            code, or circumvent any technical
+                                            measures of the Service.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="clause">
+                                    <div class="clause-num">d</div>
+                                    <div>
+                                        <h4>Misrepresents the Service</h4>
+                                        <p>
+                                            Including redistributing GridCutter
+                                            under a different brand without
+                                            permission, or implying endorsement
+                                            or affiliation where none exists.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- INTELLECTUAL PROPERTY -->
+                        <section
+                            class="terms-section reveal"
+                            id="intellectual-property"
+                        >
+                            <h2>5. Intellectual Property</h2>
+                            <p>
+                                The GridCutter name, logo, website design,
+                                interface, and source code are the intellectual
+                                property of GridCutter and its creators. Nothing
+                                in these Terms grants you a right to use any
+                                trademark, trade name, or other proprietary mark
+                                of GridCutter.
+                            </p>
+                            <p>
+                                The underlying JavaScript tool logic is provided
+                                for personal, non-commercial use via the
+                                Service. You may not copy, modify, distribute,
+                                or create derivative works from GridCutter's
+                                source code without explicit written permission.
+                            </p>
+                            <p>
+                                Third-party libraries used by GridCutter are
+                                subject to their own respective open-source
+                                licenses.
+                            </p>
+                        </section>
+
+                        <!-- DISCLAIMERS -->
+                        <section class="terms-section reveal" id="disclaimers">
+                            <h2>6. Disclaimers</h2>
+                            <p>
+                                The Service is provided on an
+                                <strong>"AS IS"</strong> and
+                                <strong>"AS AVAILABLE"</strong> basis without
+                                warranties of any kind, whether express,
+                                implied, or statutory. We specifically disclaim
+                                all implied warranties of merchantability,
+                                fitness for a particular purpose, and
+                                non-infringement.
+                            </p>
+                            <p>We do not warrant that:</p>
+                            <ul>
+                                <li>
+                                    The Service will be uninterrupted,
+                                    error-free, or free of viruses or other
+                                    harmful components.
+                                </li>
+                                <li>
+                                    Output images will meet the requirements of
+                                    any particular platform, including
+                                    Instagram, which may change its own
+                                    specifications at any time.
+                                </li>
+                                <li>
+                                    Any errors in the Service will be corrected
+                                    within any specific timeframe.
+                                </li>
+                            </ul>
+                            <div class="callout">
+                                <p>
+                                    <strong>Platform compatibility:</strong>
+                                    GridCutter outputs images intended for
+                                    Instagram grids. Instagram's display format
+                                    and compression behaviour are controlled
+                                    entirely by Meta Platforms, Inc. GridCutter
+                                    is not affiliated with, endorsed by, or in
+                                    any way officially connected to Instagram or
+                                    Meta.
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- LIABILITY -->
+                        <section class="terms-section reveal" id="liability">
+                            <h2>7. Limitation of Liability</h2>
+                            <p>
+                                To the fullest extent permitted by applicable
+                                law, GridCutter and its creators, contributors,
+                                and operators shall not be liable for any
+                                indirect, incidental, special, consequential, or
+                                punitive damages arising out of or in connection
+                                with your use of the Service, including but not
+                                limited to:
+                            </p>
+                            <ul>
+                                <li>Loss of data or image files</li>
+                                <li>
+                                    Image distortion, colour shift, or quality
+                                    degradation resulting from browser-based
+                                    processing
+                                </li>
+                                <li>
+                                    Social media account issues arising from use
+                                    of output images
+                                </li>
+                                <li>
+                                    Loss of revenue, goodwill, or business
+                                    opportunity
+                                </li>
+                            </ul>
+                            <p>
+                                Our total liability to you for any claim arising
+                                from use of the Service shall not exceed zero
+                                dollars (USD $0), reflecting the fact that the
+                                Service is provided entirely free of charge.
+                            </p>
+                        </section>
+
+                        <!-- MODIFICATIONS -->
+                        <section
+                            class="terms-section reveal"
+                            id="modifications"
+                        >
+                            <h2>8. Modifications to the Service</h2>
+                            <p>
+                                We reserve the right to modify, suspend, or
+                                discontinue any aspect of the Service at any
+                                time, with or without notice. This includes
+                                adding or removing grid formats, changing the
+                                advertising model, or taking the Service offline
+                                temporarily or permanently.
+                            </p>
+                            <p>
+                                We will make reasonable efforts to notify users
+                                of significant changes by updating the "Last
+                                updated" date on this page and, where
+                                appropriate, posting a notice on the homepage.
+                            </p>
+                        </section>
+
+                        <!-- GOVERNING LAW -->
+                        <section
+                            class="terms-section reveal"
+                            id="governing-law"
+                        >
+                            <h2>9. Governing Law</h2>
+                            <p>
+                                These Terms shall be governed by and construed
+                                in accordance with the laws of the jurisdiction
+                                in which GridCutter is operated, without regard
+                                to its conflict-of-law provisions. Any disputes
+                                arising under these Terms shall be subject to
+                                the exclusive jurisdiction of the courts in that
+                                jurisdiction.
+                            </p>
+                            <p>
+                                If any provision of these Terms is found to be
+                                unenforceable, the remaining provisions will
+                                continue in full force and effect.
+                            </p>
+                        </section>
+
+                        <!-- CONTACT -->
+                        <section class="terms-section reveal" id="contact">
+                            <h2>10. Contact</h2>
+                            <p>
+                                If you have any questions about these Terms, or
+                                wish to request permission for a use not covered
+                                here, please get in touch:
+                            </p>
+                            <div class="terms-cta">
+                                <div>
+                                    <h4>Questions about these Terms?</h4>
+                                    <p>
+                                        For legal questions, please email
+                                        <a
+                                            href="mailto:gridcuttertool@gmail.com"
+                                            >gridcuttertool@gmail.com</a
+                                        >. You can also use the
+                                        <a href="contact.html">contact page</a>.
+                                    </p>
+                                </div>
+                                <a
+                                    href="contact.html"
+                                    class="btn btn-primary"
+                                    style="white-space: nowrap; flex-shrink: 0"
+                                >
+                                    Contact Us
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 14 14"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M2 7h10M8 3l4 4-4 4"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- end .terms-content -->
+                </div>
+                <!-- end .terms-layout -->
+            </div>
+            <!-- end .container -->
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer" style="margin-top: var(--sp-8)">
+            <div class="container">
+                <div class="footer-inner">
+                    <div class="footer-brand">
+                        <a
+                            href="index.html"
+                            class="nav-logo"
+                            aria-label="GridCutter home"
+                        >
+                            <div class="nav-logo-mark" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                                <span></span><span></span><span></span>
+                            </div>
+                            GridCutter
+                        </a>
+                        <p>
+                            The precision Instagram grid splitter. Free,
+                            private, and built for creators who care about
+                            craft.
+                        </p>
+                    </div>
+                    <div class="footer-cols">
+                        <div class="footer-col">
+                            <div class="footer-col-title">Tools</div>
+                            <ul>
+                                <li>
+                                    <a href="gridcutter.html">Grid Cutter</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Company</div>
+                            <ul>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Legal</div>
+                            <ul>
+                                <li>
+                                    <a href="privacy.html">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="terms.html"
+                                        style="
+                                            color: var(--brand);
+                                            font-weight: 700;
+                                        "
+                                        >Terms of Service</a
+                                    >
+                                </li>
+                                
+                                <li>
+                                    <a href="data-processing.html">Data Processing</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom" style="margin-top: var(--sp-7)">
+                    <p>© 2026 GridCutter. All rights reserved.</p>
+                    <p>No images are uploaded to any server. Ever.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // Mobile nav toggle
+            const toggle = document.getElementById("mobileToggle");
+            const menu = document.getElementById("mobileMenu");
+            toggle.addEventListener("click", () => {
+                const open = menu.classList.toggle("open");
+                toggle.setAttribute("aria-expanded", open);
+            });
+
+            // Reveal on scroll
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add("is-visible");
+                            observer.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.08 },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => observer.observe(el));
+
+            // TOC active state on scroll
+            const sections = document.querySelectorAll(".terms-section");
+            const tocLinks = document.querySelectorAll(".toc a");
+            const tocObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            tocLinks.forEach((a) =>
+                                a.classList.remove("active"),
+                            );
+                            const active = document.querySelector(
+                                `.toc a[href="#${entry.target.id}"]`,
+                            );
+                            if (active) active.classList.add("active");
+                        }
+                    });
+                },
+                { rootMargin: "-20% 0px -70% 0px" },
+            );
+            sections.forEach((s) => tocObserver.observe(s));
+        </script>
+    </body>
+</html>
