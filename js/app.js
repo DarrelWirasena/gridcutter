@@ -1,284 +1,846 @@
-// --- DOM ELEMENTS ---
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
-const mainContent = document.getElementById('mainContent');
-const errMsg = document.getElementById('errMsg');
-const infoRow = document.getElementById('infoRow');
-const origCanvas = document.getElementById('origCanvas');
-const overlaySvg = document.getElementById('overlaySvg');
-const cropCanvases = {
-  left: document.getElementById('cropLeft'),
-  mid:  document.getElementById('cropMid'),
-  right: document.getElementById('cropRight')
-};
-
-// DOM Settings Baru
-const manualOverlapCb = document.getElementById('manualOverlapCb');
-const manualOverlapInput = document.getElementById('manualOverlapInput');
-const formatSelect = document.getElementById('formatSelect');
-const qualityGroup = document.getElementById('qualityGroup');
-const qualitySlider = document.getElementById('qualitySlider');
-const qualityVal = document.getElementById('qualityVal');
-
-let currentLoadedImage = null; // Menyimpan gambar global untuk real-time update
-
-// --- EVENT LISTENERS ---
-dropZone.addEventListener('click', () => fileInput.click());
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
-fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
-
-// Event Listeners Settings (Real-time update)
-manualOverlapCb.addEventListener('change', () => {
-  manualOverlapInput.disabled = !manualOverlapCb.checked;
-  if(currentLoadedImage) processImage(currentLoadedImage);
-});
-
-manualOverlapInput.addEventListener('input', () => {
-  if(currentLoadedImage && manualOverlapCb.checked) processImage(currentLoadedImage);
-});
-
-formatSelect.addEventListener('change', () => {
-  // Format PNG bersifat lossless, jadi kita matikan slider quality jika PNG dipilih
-  const isPng = formatSelect.value === 'image/png';
-  qualityGroup.style.opacity = isPng ? '0.4' : '1';
-  qualitySlider.disabled = isPng;
-});
-
-qualitySlider.addEventListener('input', () => {
-  qualityVal.textContent = qualitySlider.value;
-});
-
-// --- CORE FUNCTIONS ---
-function handleFile(file) {
-  if (!file || !file.type.startsWith('image/')) return showErr('Please upload an image file.');
-  const img = new Image();
-  const url = URL.createObjectURL(file);
-  img.onload = () => { 
-    URL.revokeObjectURL(url); 
-    currentLoadedImage = img; // Simpan ke global
-    processImage(img); 
-  };
-  img.onerror = () => showErr('Could not load image.');
-  img.src = url;
-}
-
-function showErr(msg) { 
-  errMsg.textContent = msg; 
-  errMsg.style.display = 'block'; 
-}
-
-function processImage(img) {
-  errMsg.style.display = 'none';
-  const imgW = img.naturalWidth;
-  const imgH = img.naturalHeight;
-
-  // Cek apakah user mengaktifkan manual overlap
-  const useManual = manualOverlapCb.checked;
-  const manualVal = parseFloat(manualOverlapInput.value) || 0;
-
-  const zones = calculateZones(imgW, imgH, useManual ? manualVal : null);
-
-  // Validasi Boundary (Mencegah layar hitam)
-  if (zones.left.sx < 0 || zones.right.endX > imgW) {
-    const requiredWidth = Math.ceil(zones.right.endX - zones.left.sx);
-    return showErr(`Gambar kurang lebar. Butuh lebar minimal ${requiredWidth}px berdasarkan pengaturan overlap saat ini.`);
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("mobileToggle");
+  const menu = document.getElementById("mobileMenu");
+  if (toggle && menu) {
+    toggle.addEventListener("click", () => {
+      const open = menu.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(open));
+    });
   }
 
-  const cropW = zones.mid.sw;
-  const cropH = zones.mid.sh;
-
-  drawOriginal(img, imgW, imgH, zones);
-  drawCrops(img, zones, cropW, cropH);
-  showInfo(imgW, imgH, cropW, cropH, zones.calculatedOverlap, useManual);
-  
-  mainContent.style.display = 'block';
-  setupDownloadButtons();
-}
-
-function calculateZones(imgW, imgH, manualOverlapOverride) {
-  const midX = imgW / 2;
-
-  // Lebar berdasarkan rasio
-  const profilePreviewWidth = imgH * (3 / 4); // Sebelumnya: w34
-  const postDetailWidth = imgH * (4 / 5);     // Sebelumnya: w45
-
-  // --- TITIK KOORDINAT FOTO TENGAH ---
-  const previewCenterStartX = midX - (profilePreviewWidth / 2); // Titik 'a'
-  const previewCenterEndX = midX + (profilePreviewWidth / 2);   // Titik 'b'
-  
-  const postCenterStartX = midX - (postDetailWidth / 2);        // Titik 'c'
-  const postCenterEndX = midX + (postDetailWidth / 2);          // Titik 'd'
-
-  // Variabel untuk menampung titik foto Kiri dan Kanan
-  let postLeftStartX, postLeftEndX;       // Titik 'e' dan 'f'
-  let postRightStartX, postRightEndX;     // Titik 'g' dan 'h'
-  let displayOverlap;
-
-  // --- IMPLEMENTASI IF/ELSE JANGKAR (ANCHOR) ---
-  if (manualOverlapOverride === null) {
-    // MODE AUTO: Berpatokan pada preview 3:4 agar sejajar sempurna di IG Profile
-    
-    // Overlap sejati adalah selisih lebar post (4:5) dan preview (3:4)
-    displayOverlap = postDetailWidth - profilePreviewWidth; 
-    
-    const autoOverlapOffset = previewCenterStartX - postCenterStartX; // Setengah overlap
-    
-    postLeftEndX = previewCenterStartX + autoOverlapOffset;     // f = a + Offset
-    postRightStartX = previewCenterEndX - autoOverlapOffset;    // g = b - Offset
-
+  const revealElements = document.querySelectorAll(".reveal");
+  if (revealElements.length > 0) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    );
+    revealElements.forEach((el) => io.observe(el));
   } else {
-    // MODE MANUAL: Berpatokan pada post 4:5 agar input user mutlak tanpa kompensasi
-    
-    displayOverlap = manualOverlapOverride;
-
-    postLeftEndX = postCenterStartX + displayOverlap;           // f = c + Input
-    postRightStartX = postCenterEndX - displayOverlap;          // g = d - Input
+    document
+      .querySelectorAll(".hero, .nav, .sidebar, .canvas-area")
+      .forEach((el) => el.classList.add("is-visible"));
   }
 
-  // --- KALKULASI TITIK LUAR ---
-  // Lebar mutlak selalu 4:5, jadi tinggal dikurang/ditambah dari titik dalamnya
-  postLeftStartX = postLeftEndX - postDetailWidth;              // e = f - w45
-  postRightEndX = postRightStartX + postDetailWidth;            // h = g + w45
+  const uploadZone = document.getElementById("uploadZone");
+  const fileInput = document.getElementById("fileInput");
+  const fileInfo = document.getElementById("fileInfo");
+  const fileName = document.getElementById("fileName");
+  const mainContent = document.getElementById("mainContent");
+  const errMsg = document.getElementById("errMsg");
+  const infoRow = document.getElementById("infoRow");
+  const origCanvas = document.getElementById("origCanvas");
+  const overlaySvg = document.getElementById("overlaySvg");
+  const previewWrap = document.getElementById("previewWrap");
+  const mainStage = document.getElementById("mainContent");
+  const canvasSub = document.getElementById("canvasSub");
+  const downloadPanel = document.getElementById("downloadPanel");
+  const downloadGrid = document.getElementById("downloadGrid");
+  const statSlices = document.getElementById("statSlices");
+  const downloadIntro = document.getElementById("downloadCopy");
+  const postingNoteText = document.getElementById("postingNoteText");
+  const statFormat = document.getElementById("statFormat");
+  const statMode = document.getElementById("statMode");
+  const manualOverlapCb = document.getElementById("manualOverlapCb");
+  const manualOverlapInput = document.getElementById("manualOverlapInput");
+  const manualOverlapGroup = document.getElementById("manualOverlapGroup");
+  const qualityGroup = document.getElementById("qualityGroup");
+  const qualitySlider = document.getElementById("qualitySlider");
+  const qualityVal = document.getElementById("qualityVal");
+  const gridColsInput = document.getElementById("gridColsInput");
+  const gridRowsInput = document.getElementById("gridRowsInput");
+  const downloadAllBtn = document.getElementById("dlAll");
 
-  return {
-    left:  { sx: Math.round(postLeftStartX), sy: 0, sw: Math.round(postDetailWidth), sh: Math.round(imgH), endX: Math.round(postLeftEndX) },
-    mid:   { sx: Math.round(postCenterStartX), sy: 0, sw: Math.round(postDetailWidth), sh: Math.round(imgH) },
-    right: { sx: Math.round(postRightStartX), sy: 0, sw: Math.round(postDetailWidth), sh: Math.round(imgH), endX: Math.round(postRightEndX) },
-    calculatedOverlap: displayOverlap
-  };
-}
+  let currentLoadedImage = null;
+  let currentInputFormat = "image/jpeg";
+  let currentFormatMode = "same";
+  let currentRatio = "4x5";
+  let currentGrid = { cols: 3, rows: 1 };
+  let currentSlices = [];
 
-// --- RENDER FUNCTIONS ---
-function drawOriginal(img, W, H, zones) {
-  const ctx = origCanvas.getContext('2d');
-  origCanvas.width = W;
-  origCanvas.height = H;
-  ctx.drawImage(img, 0, 0);
+  const formatPills = Array.from(document.querySelectorAll(".pill[data-fmt]"));
+  const ratioPills = Array.from(document.querySelectorAll(".pill[data-ratio]"));
+  const gridPresetPills = Array.from(
+    document.querySelectorAll(".pill[data-grid-preset]"),
+  );
 
-  const svg = overlaySvg;
-  svg.innerHTML = '';
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  updateUiState();
 
-  const colors  = { left: '#534AB7', mid: '#0F6E56', right: '#993C1D' };
-  const fills   = { left: '#534AB722', mid: '#0F6E5622', right: '#993C1D22' };
-  const labels  = { left: 'Left', mid: 'Center', right: 'Right' };
-  const sw = Math.max(2, Math.round(W / 400));
-  const fs = Math.round(W / 28);
+  if (uploadZone && fileInput) {
+    uploadZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      uploadZone.classList.add("drag-over");
+    });
+    uploadZone.addEventListener("dragleave", () =>
+      uploadZone.classList.remove("drag-over"),
+    );
+    uploadZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove("drag-over");
+      handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener("change", () => handleFile(fileInput.files[0]));
+  }
 
-  Object.entries(zones).forEach(([key, z]) => {
-    // Abaikan parameter ekstra seperti 'calculatedOverlap' saat looping objek
-    if(key === 'calculatedOverlap') return;
+  if (manualOverlapCb && manualOverlapInput) {
+    manualOverlapCb.addEventListener("change", () => {
+      manualOverlapInput.disabled = !manualOverlapCb.checked;
+      if (currentLoadedImage) {
+        processImage(currentLoadedImage);
+      } else {
+        updateUiState();
+      }
+    });
+    manualOverlapInput.addEventListener("input", () => {
+      if (currentLoadedImage && manualOverlapCb.checked) {
+        processImage(currentLoadedImage);
+      }
+    });
+  }
 
-    const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
-    rect.setAttribute('x', z.sx); rect.setAttribute('y', z.sy);
-    rect.setAttribute('width', z.sw); rect.setAttribute('height', z.sh);
-    rect.setAttribute('fill', fills[key]);
-    rect.setAttribute('stroke', colors[key]);
-    rect.setAttribute('stroke-width', sw);
-    svg.appendChild(rect);
-
-    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
-    text.setAttribute('x', z.sx + z.sw / 2);
-    text.setAttribute('y', z.sy + z.sh / 2);
-    text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('dominant-baseline', 'middle');
-    text.setAttribute('fill', colors[key]);
-    text.setAttribute('font-size', fs);
-    text.setAttribute('font-weight', '500');
-    text.textContent = labels[key];
-    svg.appendChild(text);
-  });
-}
-
-function drawCrops(img, zones, cropW, cropH) {
-  const keys = ['left', 'mid', 'right'];
-  const previewCanvases = { left: document.getElementById('prevLeft'), mid: document.getElementById('prevMid'), right: document.getElementById('prevRight') };
-
-  keys.forEach(key => {
-    const z = zones[key];
-    // Download Canvas
-    const c = cropCanvases[key];
-    c.width  = cropW;
-    c.height = cropH;
-    const ctx = c.getContext('2d');
-    ctx.drawImage(img, z.sx, z.sy, z.sw, z.sh, 0, 0, cropW, cropH);
-
-    // Preview Canvas
-    const pC = previewCanvases[key];
-    pC.width = cropW;
-    pC.height = cropH;
-    const pCtx = pC.getContext('2d');
-    pCtx.drawImage(img, z.sx, z.sy, z.sw, z.sh, 0, 0, cropW, cropH);
-  });
-}
-
-function showInfo(W, H, cropW, cropH, calculatedOverlap, isManual) {
-  const overlapLabel = isManual ? 'Manual Overlap' : 'Auto Overlap';
-  infoRow.innerHTML = [
-    `Original: <span>${W} × ${H}px</span>`,
-    `Output: <span>${cropW} × ${cropH}px</span>`,
-    `Ratio: <span>4 : 5</span>`,
-    `${overlapLabel}: <span>${calculatedOverlap.toFixed(1)}px</span>`
-  ].map(t => `<div class="info-pill">${t}</div>`).join('');
-}
-
-// --- DOWNLOAD INTEGRATION (Format & Quality Fix) ---
-function setupDownloadButtons() {
-  const keys = ['left', 'mid', 'right'];
-  
-  // Setup tombol individual
-  ['dlLeft', 'dlMid', 'dlRight'].forEach((id, i) => {
-    document.getElementById(id).onclick = () => {
-      // 1. PINDAHKAN KE SINI: Baca nilai secara dinamis saat tombol diklik
-      const format = formatSelect.value;
-      const ext = format === 'image/jpeg' ? 'jpg' : format.split('/')[1];
-      const quality = format === 'image/png' ? undefined : parseInt(qualitySlider.value) / 100;
-      
-      const canvas = cropCanvases[keys[i]];
-      const a = document.createElement('a');
-      a.download = `gridcutter_${keys[i]}.${ext}`;
-      a.href = canvas.toDataURL(format, quality);
-      a.click();
-    };
+  ratioPills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      ratioPills.forEach((btn) => {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-checked", "false");
+      });
+      pill.classList.add("active");
+      pill.setAttribute("aria-checked", "true");
+      currentRatio = pill.dataset.ratio;
+      if (currentRatio === "3x4" && manualOverlapCb) {
+        manualOverlapCb.checked = false;
+        manualOverlapInput.disabled = true;
+      }
+      updateUiState();
+      if (currentLoadedImage) {
+        processImage(currentLoadedImage);
+      }
+    });
   });
 
-  // Setup tombol JSZip
-  document.getElementById('dlAll').onclick = async function() {
-    const originalText = this.textContent;
-    this.textContent = "Packaging ZIP...";
-    this.style.opacity = "0.7";
-    this.style.pointerEvents = "none";
+  formatPills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      formatPills.forEach((btn) => {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-checked", "false");
+      });
+      pill.classList.add("active");
+      pill.setAttribute("aria-checked", "true");
+      currentFormatMode = pill.dataset.fmt;
+      updateUiState();
+    });
+  });
 
-    // 2. PINDAHKAN KE SINI: Baca nilai secara dinamis saat tombol ZIP diklik
-    const format = formatSelect.value;
-    const ext = format === 'image/jpeg' ? 'jpg' : format.split('/')[1];
-    const quality = format === 'image/png' ? undefined : parseInt(qualitySlider.value) / 100;
+  gridPresetPills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      setGridPreset(pill.dataset.gridPreset);
+      if (currentLoadedImage) {
+        processImage(currentLoadedImage);
+      } else {
+        updateUiState();
+      }
+    });
+  });
 
-    try {
-      const zip = new JSZip();
-      
-      await Promise.all(keys.map(async (key) => {
-        const canvas = cropCanvases[key];
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, format, quality));
-        zip.file(`gridcutter_${key}.${ext}`, blob);
-      }));
+  if (gridRowsInput) {
+    gridRowsInput.addEventListener("input", () => {
+      currentGrid.rows = clampGridRows(gridRowsInput.value);
+      updateGridPresetState();
+      if (currentLoadedImage) {
+        processImage(currentLoadedImage);
+      } else {
+        updateUiState();
+      }
+    });
+  }
 
-      const content = await zip.generateAsync({ type: "blob" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(content);
-      link.download = "GridCutter_Pack.zip";
-      link.click();
-      
-      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-    } catch (error) {
-      console.error("ZIP Error:", error);
-      showErr("Failed to create ZIP.");
-    } finally {
-      this.textContent = originalText;
-      this.style.opacity = "1";
-      this.style.pointerEvents = "auto";
+  if (qualitySlider) {
+    qualitySlider.addEventListener("input", () => {
+      if (qualityVal) {
+        qualityVal.textContent = qualitySlider.value;
+      }
+    });
+  }
+
+  window.addEventListener("resize", () => {
+    if (currentLoadedImage) {
+      fitPreviewToStage(currentLoadedImage);
     }
-  };
-}
+  });
+
+  function clampGridRows(value) {
+    const rows = parseInt(value, 10);
+    return Number.isFinite(rows) ? Math.max(1, Math.min(6, rows)) : 1;
+  }
+
+  function setGridPreset(preset) {
+    const [colsText, rowsText] = preset.split("x");
+    currentGrid = {
+      cols: parseInt(colsText, 10) || 3,
+      rows: clampGridRows(rowsText),
+    };
+    if (gridColsInput) {
+      gridColsInput.value = String(currentGrid.cols);
+    }
+    if (gridRowsInput) {
+      gridRowsInput.value = String(currentGrid.rows);
+    }
+    updateGridPresetState(preset);
+  }
+
+  function updateGridPresetState(activePreset) {
+    const preset = activePreset || `${currentGrid.cols}x${currentGrid.rows}`;
+    gridPresetPills.forEach((btn) => {
+      const isActive = btn.dataset.gridPreset === preset;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-checked", String(isActive));
+    });
+    if (gridRowsInput) {
+      gridRowsInput.value = String(currentGrid.rows);
+    }
+  }
+
+  function resolveOutputFormat() {
+    if (currentFormatMode === "same") {
+      return currentInputFormat || "image/png";
+    }
+    if (currentFormatMode === "png") {
+      return "image/png";
+    }
+    if (currentFormatMode === "webp") {
+      return "image/webp";
+    }
+    return "image/jpeg";
+  }
+
+  function updateUiState() {
+    const resolvedFormat = resolveOutputFormat();
+
+    if (statFormat) {
+      statFormat.textContent =
+        resolvedFormat === "image/png"
+          ? "PNG"
+          : resolvedFormat === "image/webp"
+            ? "WEBP"
+            : "JPG";
+    }
+
+    if (statMode) {
+      statMode.textContent = getModeLabel();
+    }
+
+    if (statSlices) {
+      statSlices.textContent = String(currentGrid.cols * currentGrid.rows);
+    }
+
+    if (manualOverlapGroup) {
+      manualOverlapGroup.style.display =
+        currentRatio === "4x5" ? "block" : "none";
+    }
+
+    if (qualityGroup && qualitySlider) {
+      const isPng = resolvedFormat === "image/png";
+      qualityGroup.style.opacity = isPng ? "0.4" : "1";
+      qualitySlider.disabled = isPng;
+    }
+
+    updateGridPresetState();
+  }
+
+  function handleFile(file) {
+    if (!file || !file.type.startsWith("image/")) {
+      showErr("Please upload a JPG, PNG, or WEBP image file.");
+      return;
+    }
+
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      currentLoadedImage = img;
+      currentInputFormat = normalizeInputFormat(file.type);
+      updateUiState();
+      if (fileInfo) {
+        fileInfo.classList.add("show");
+      }
+      if (fileName) {
+        fileName.textContent = file.name;
+      }
+      processImage(img);
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      showErr("Could not load that image.");
+    };
+
+    img.src = url;
+  }
+
+  function normalizeInputFormat(mimeType) {
+    if (
+      mimeType === "image/png" ||
+      mimeType === "image/webp" ||
+      mimeType === "image/jpeg"
+    ) {
+      return mimeType;
+    }
+    return "image/png";
+  }
+
+  function getModeLabel() {
+    const gridLabel = `${currentGrid.cols}x${currentGrid.rows}`;
+    if (currentRatio === "3x4") {
+      return `${gridLabel} Simple`;
+    }
+    if (manualOverlapCb && manualOverlapCb.checked) {
+      return `${gridLabel} Precision`;
+    }
+    return `${gridLabel} Profile`;
+  }
+
+  function showErr(message) {
+    if (errMsg) {
+      errMsg.textContent = message;
+      errMsg.style.display = "block";
+    }
+  }
+
+  function clearErr() {
+    if (errMsg) {
+      errMsg.textContent = "";
+      errMsg.style.display = "none";
+    }
+  }
+
+  function processImage(img) {
+    clearErr();
+
+    const imgW = img.naturalWidth;
+    const imgH = img.naturalHeight;
+    const useManual =
+      currentRatio === "4x5" && manualOverlapCb
+        ? manualOverlapCb.checked
+        : false;
+    const manualVal = manualOverlapInput
+      ? parseFloat(manualOverlapInput.value) || 0
+      : 0;
+    const zones = calculateZones(imgW, imgH, useManual ? manualVal : null);
+
+    drawOriginal(img, imgW, imgH, zones);
+    currentSlices = generateSlices(img, zones);
+    renderDownloadGrid(currentSlices);
+    showInfo(
+      imgW,
+      imgH,
+      zones.tileW,
+      zones.tileH,
+      zones.calculatedOverlap,
+      useManual,
+      zones.fitMode,
+    );
+
+    if (mainContent) {
+      mainContent.style.display = "flex";
+    }
+    if (previewWrap) {
+      previewWrap.style.display = "block";
+    }
+    fitPreviewToStage(img);
+    if (downloadPanel) {
+      downloadPanel.style.display = "block";
+    }
+    if (canvasSub) {
+      canvasSub.textContent = getSubtitle(useManual);
+    }
+    if (downloadIntro) {
+      downloadIntro.textContent = getDownloadIntro();
+    }
+    if (postingNoteText) {
+      postingNoteText.innerHTML = getPostingOrderText();
+    }
+    updateUiState();
+  }
+
+  function getSubtitle(useManual) {
+    const gridLabel = `${currentGrid.cols}x${currentGrid.rows}`;
+    if (currentRatio === "3x4") {
+      return currentGrid.rows === 1
+        ? `${gridLabel} simple 3:4 cuts with no overlap.`
+        : `${gridLabel} simple grid cuts with no overlap.`;
+    }
+    if (useManual) {
+      return currentGrid.rows === 1
+        ? `${gridLabel} advanced preview shows the true left, center, and right 4:5 export regions.`
+        : `${gridLabel} advanced preview shows the true 4:5 export regions for every tile.`;
+    }
+    return currentGrid.rows === 1
+      ? `${gridLabel} exports are generated as left, center, and right 4:5 posts aligned for Instagram profile preview.`
+      : `${gridLabel} exports are generated as 4:5 tiles aligned for Instagram profile preview.`;
+  }
+
+  function getDownloadIntro() {
+    const totalTiles = currentGrid.cols * currentGrid.rows;
+    return totalTiles === 3
+      ? "Review each crop, then save a single tile or package all three together."
+      : `Review each crop, then save individual tiles or package all ${totalTiles} together.`;
+  }
+
+  function getPostingOrderSequence() {
+    return [...currentSlices]
+      .sort((a, b) => b.row - a.row || b.col - a.col)
+      .map((slice, index) => ({
+        ...slice,
+        uploadOrder: index + 1,
+      }));
+  }
+
+  function getUploadOrderForSlice(slice) {
+    const orderedSlices = getPostingOrderSequence();
+    const match = orderedSlices.find(
+      (orderedSlice) => orderedSlice.index === slice.index,
+    );
+    return match ? match.uploadOrder : null;
+  }
+
+  function getPostingOrderText() {
+    const orderedSlices = getPostingOrderSequence();
+
+    if (currentGrid.rows === 1) {
+      const labels = ["right", "center", "left"];
+      const sequenceText = labels
+        .map((label, index) => `#${index + 1} ${label}`)
+        .join(" → ");
+      return `<strong>Posting order:</strong> Publish right first, then center, then left so the finished triptych lands correctly on your profile grid. <span>Sequence: ${sequenceText}</span>`;
+    }
+
+    const sequenceText = orderedSlices
+      .map(
+        (slice) =>
+          `#${slice.uploadOrder} Tile ${String(slice.index).padStart(2, "0")}`,
+      )
+      .join(" → ");
+
+    return `<strong>Posting order:</strong> Upload tiles from the bottom-right corner to the top-left corner so the finished multi-row grid lands correctly on your profile. <span>Sequence: ${sequenceText}</span>`;
+  }
+
+  function calculateZones(imgW, imgH, manualOverlapOverride) {
+    const rows = currentGrid.rows;
+    const rowHeight = imgH / rows;
+    const rowZones = [];
+    let tileW = 0;
+    let tileH = 0;
+    let overlap = 0;
+    let fitMode = "Height Fit";
+
+    for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+      const rowTop = rowHeight * rowIndex;
+      const zone =
+        currentRatio === "3x4"
+          ? calculateSimpleRowZones(imgW, rowHeight, rowTop)
+          : calculateFourByFiveRowZones(
+              imgW,
+              rowHeight,
+              rowTop,
+              manualOverlapOverride,
+            );
+      rowZones.push(zone);
+      tileW = zone.tileW;
+      tileH = zone.tileH;
+      overlap = zone.calculatedOverlap;
+      fitMode = zone.fitMode;
+    }
+
+    return {
+      rows: rowZones,
+      tileW,
+      tileH,
+      calculatedOverlap: overlap,
+      fitMode,
+    };
+  }
+
+  function calculateSimpleRowZones(imgW, rowHeight, rowTop) {
+    const fittedHeight = Math.min(rowHeight, imgW / 2.25);
+    const cropWidth = fittedHeight * (3 / 4);
+    const totalWidth = cropWidth * 3;
+    const offsetX = (imgW - totalWidth) / 2;
+    const offsetY = rowTop + (rowHeight - fittedHeight) / 2;
+
+    return {
+      tiles: [0, 1, 2].map((index) => ({
+        sx: Math.round(offsetX + cropWidth * index),
+        sy: Math.round(offsetY),
+        sw: Math.round(cropWidth),
+        sh: Math.round(fittedHeight),
+      })),
+      previewTiles: [0, 1, 2].map((index) => ({
+        sx: Math.round(offsetX + cropWidth * index),
+        sy: Math.round(offsetY),
+        sw: Math.round(cropWidth),
+        sh: Math.round(fittedHeight),
+      })),
+      tileW: Math.round(cropWidth),
+      tileH: Math.round(fittedHeight),
+      calculatedOverlap: 0,
+      fitMode:
+        Math.abs(fittedHeight - rowHeight) < 0.5 ? "Height Fit" : "Width Fit",
+    };
+  }
+
+  function calculateFourByFiveRowZones(
+    imgW,
+    rowHeight,
+    rowTop,
+    manualOverlapOverride,
+  ) {
+    const midX = imgW / 2;
+    const manualOverlap =
+      manualOverlapOverride === null
+        ? null
+        : Math.max(manualOverlapOverride, 0);
+    const fittedHeight = calculateFittedCropHeight(
+      imgW,
+      rowHeight,
+      manualOverlap,
+    );
+    const profilePreviewWidth = fittedHeight * (3 / 4);
+    const postDetailWidth = fittedHeight * (4 / 5);
+    const offsetY = rowTop + (rowHeight - fittedHeight) / 2;
+
+    const postCenterStartX = midX - postDetailWidth / 2;
+    const postCenterEndX = midX + postDetailWidth / 2;
+
+    let postLeftEndX;
+    let postRightStartX;
+    let displayOverlap;
+
+    if (manualOverlap === null) {
+      const previewCenterStartX = midX - profilePreviewWidth / 2;
+      const previewCenterEndX = midX + profilePreviewWidth / 2;
+      displayOverlap = postDetailWidth - profilePreviewWidth;
+      const autoOverlapOffset = previewCenterStartX - postCenterStartX;
+      postLeftEndX = previewCenterStartX + autoOverlapOffset;
+      postRightStartX = previewCenterEndX - autoOverlapOffset;
+    } else {
+      displayOverlap = manualOverlap;
+      postLeftEndX = postCenterStartX + displayOverlap;
+      postRightStartX = postCenterEndX - displayOverlap;
+    }
+
+    const postLeftStartX = postLeftEndX - postDetailWidth;
+    const postRightEndX = postRightStartX + postDetailWidth;
+    const totalOverlayWidth = postRightEndX - postLeftStartX;
+
+    const exportTiles = [
+      {
+        sx: Math.round(postLeftStartX),
+        sy: Math.round(offsetY),
+        sw: Math.round(postDetailWidth),
+        sh: Math.round(fittedHeight),
+      },
+      {
+        sx: Math.round(postCenterStartX),
+        sy: Math.round(offsetY),
+        sw: Math.round(postDetailWidth),
+        sh: Math.round(fittedHeight),
+      },
+      {
+        sx: Math.round(postRightStartX),
+        sy: Math.round(offsetY),
+        sw: Math.round(postDetailWidth),
+        sh: Math.round(fittedHeight),
+      },
+    ];
+
+    const previewCropWidth =
+      manualOverlapCb && manualOverlapCb.checked
+        ? Math.round(postDetailWidth)
+        : Math.round(profilePreviewWidth);
+    const previewOffsetX =
+      postCenterStartX + postDetailWidth / 2 - (previewCropWidth * 3) / 2;
+    const previewTiles = [0, 1, 2].map((index) => ({
+      sx: Math.round(previewOffsetX + previewCropWidth * index),
+      sy: Math.round(offsetY),
+      sw: previewCropWidth,
+      sh: Math.round(fittedHeight),
+    }));
+
+    return {
+      tiles: exportTiles,
+      previewTiles,
+      tileW: Math.round(postDetailWidth),
+      tileH: Math.round(fittedHeight),
+      calculatedOverlap: displayOverlap,
+      fitMode:
+        Math.abs(fittedHeight - rowHeight) < 0.5 || totalOverlayWidth < imgW
+          ? "Height Fit"
+          : "Width Fit",
+    };
+  }
+
+  function calculateFittedCropHeight(imgW, rowHeight, manualOverlap) {
+    if (manualOverlap === null) {
+      return Math.min(rowHeight, imgW / 2.3);
+    }
+    const overlap = Math.max(manualOverlap, 0);
+    const maxHeightFromWidth = (imgW + 2 * overlap) / 2.4;
+    return Math.min(rowHeight, maxHeightFromWidth);
+  }
+
+  function drawOriginal(img, width, height, zones) {
+    if (!origCanvas || !overlaySvg) {
+      return;
+    }
+
+    const ctx = origCanvas.getContext("2d");
+    origCanvas.width = width;
+    origCanvas.height = height;
+    ctx.drawImage(img, 0, 0);
+
+    overlaySvg.innerHTML = "";
+    overlaySvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+    const colors = ["#534AB7", "#0F6E56", "#993C1D"];
+    const labels = ["Left", "Center", "Right"];
+    const strokeWidth = Math.max(2, Math.round(width / 400));
+    const fontSize = Math.round(width / 28);
+
+    zones.rows.forEach((row) => {
+      row.previewTiles.forEach((zone, index) => {
+        const rect = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "rect",
+        );
+        rect.setAttribute("x", zone.sx);
+        rect.setAttribute("y", zone.sy);
+        rect.setAttribute("width", zone.sw);
+        rect.setAttribute("height", zone.sh);
+        rect.setAttribute("fill", `${colors[index]}22`);
+        rect.setAttribute("stroke", colors[index]);
+        rect.setAttribute("stroke-width", strokeWidth);
+        overlaySvg.appendChild(rect);
+
+        if (currentGrid.rows === 1) {
+          const text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text",
+          );
+          text.setAttribute("x", zone.sx + zone.sw / 2);
+          text.setAttribute("y", zone.sy + zone.sh / 2);
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("dominant-baseline", "middle");
+          text.setAttribute("fill", colors[index]);
+          text.setAttribute("font-size", fontSize);
+          text.setAttribute("font-weight", "500");
+          text.textContent = labels[index];
+          overlaySvg.appendChild(text);
+        }
+      });
+    });
+  }
+
+  function fitPreviewToStage(img) {
+    if (!previewWrap || !mainStage) {
+      return;
+    }
+
+    const stageStyle = window.getComputedStyle(mainStage);
+    const paddingX =
+      parseFloat(stageStyle.paddingLeft) + parseFloat(stageStyle.paddingRight);
+    const paddingY =
+      parseFloat(stageStyle.paddingTop) + parseFloat(stageStyle.paddingBottom);
+    const availableWidth = Math.max(mainStage.clientWidth - paddingX, 0);
+    const availableHeight = Math.max(mainStage.clientHeight - paddingY, 0);
+    if (!availableWidth || !availableHeight) {
+      return;
+    }
+
+    const imageAspect = img.naturalWidth / img.naturalHeight;
+    const stageAspect = availableWidth / availableHeight;
+
+    let renderWidth;
+    let renderHeight;
+    if (imageAspect > stageAspect) {
+      renderWidth = availableWidth;
+      renderHeight = renderWidth / imageAspect;
+    } else {
+      renderHeight = availableHeight;
+      renderWidth = renderHeight * imageAspect;
+    }
+
+    previewWrap.style.width = `${renderWidth}px`;
+    previewWrap.style.height = `${renderHeight}px`;
+  }
+
+  function generateSlices(img, zones) {
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = zones.tileW;
+    tempCanvas.height = zones.tileH;
+    const tempCtx = tempCanvas.getContext("2d");
+    const slices = [];
+
+    zones.rows.forEach((row, rowIndex) => {
+      row.tiles.forEach((tile, colIndex) => {
+        tempCtx.clearRect(0, 0, zones.tileW, zones.tileH);
+        tempCtx.drawImage(
+          img,
+          tile.sx,
+          tile.sy,
+          tile.sw,
+          tile.sh,
+          0,
+          0,
+          zones.tileW,
+          zones.tileH,
+        );
+        const { format, ext, quality } = getExportOptions();
+        const dataUrl = tempCanvas.toDataURL(format, quality);
+        const index = rowIndex * currentGrid.cols + colIndex + 1;
+        slices.push({
+          index,
+          row: rowIndex,
+          col: colIndex,
+          label: `Tile ${String(index).padStart(2, "0")}`,
+          dataUrl,
+          filename: `gridcutter_tile_${String(index).padStart(2, "0")}.${ext}`,
+        });
+      });
+    });
+
+    return slices;
+  }
+
+  function renderDownloadGrid(slices) {
+    if (!downloadGrid) {
+      return;
+    }
+    downloadGrid.innerHTML = "";
+
+    slices.forEach((slice) => {
+      const uploadOrder = getUploadOrderForSlice(slice);
+      const card = document.createElement("article");
+      card.className = "download-thumb";
+      card.innerHTML = `
+                <div class="download-thumb-img"><img src="${slice.dataUrl}" alt="${slice.label}" loading="lazy"></div>
+                <div class="download-thumb-foot">
+                    <span class="download-thumb-num">${slice.label}${uploadOrder ? ` · Upload #${uploadOrder}` : ""}</span>
+                    <button class="btn btn-ghost" type="button" style="padding:8px 12px;font-size:var(--text-xs);">Download</button>
+                </div>
+            `;
+      const button = card.querySelector("button");
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        triggerDownload(slice.dataUrl, slice.filename);
+      });
+      card.addEventListener("click", () =>
+        triggerDownload(slice.dataUrl, slice.filename),
+      );
+      downloadGrid.appendChild(card);
+    });
+
+    if (downloadAllBtn) {
+      downloadAllBtn.onclick = async () => {
+        const originalText = downloadAllBtn.textContent;
+        downloadAllBtn.textContent = "Packaging ZIP...";
+        downloadAllBtn.style.opacity = "0.7";
+        downloadAllBtn.style.pointerEvents = "none";
+
+        try {
+          if (typeof JSZip === "undefined") {
+            throw new Error("JSZip is not available.");
+          }
+
+          const zip = new JSZip();
+          for (const slice of slices) {
+            const blob = await fetch(slice.dataUrl).then((response) =>
+              response.blob(),
+            );
+            zip.file(slice.filename, blob);
+          }
+
+          const content = await zip.generateAsync({ type: "blob" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(content);
+          link.download = "GridCutter_Pack.zip";
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+        } catch (error) {
+          console.error("ZIP Error:", error);
+          showErr("Failed to create ZIP package.");
+        } finally {
+          downloadAllBtn.textContent = originalText;
+          downloadAllBtn.style.opacity = "1";
+          downloadAllBtn.style.pointerEvents = "auto";
+        }
+      };
+    }
+  }
+
+  function showInfo(
+    width,
+    height,
+    cropW,
+    cropH,
+    calculatedOverlap,
+    isManual,
+    fitMode,
+  ) {
+    if (!infoRow) {
+      return;
+    }
+
+    const overlapLabel = isManual ? "Manual Overlap" : "Auto Overlap";
+    infoRow.innerHTML = [
+      `Original: <span>${width} x ${height}px</span>`,
+      `Tile Output: <span>${cropW} x ${cropH}px</span>`,
+      `Grid: <span>${currentGrid.cols} x ${currentGrid.rows}</span>`,
+      `Ratio: <span>${currentRatio === "3x4" ? "3 : 4" : "4 : 5"}</span>`,
+      `${overlapLabel}: <span>${calculatedOverlap.toFixed(1)}px</span>`,
+      `Fit Mode: <span>${fitMode}</span>`,
+    ]
+      .map(
+        (text) =>
+          `<div class="panel" style="padding:14px 16px;font-size:var(--text-xs);font-family:'Archivo',sans-serif;">${text}</div>`,
+      )
+      .join("");
+  }
+
+  function getExportOptions() {
+    const format = resolveOutputFormat();
+    const ext =
+      format === "image/jpeg"
+        ? "jpg"
+        : format === "image/webp"
+          ? "webp"
+          : "png";
+    const quality =
+      format === "image/png" || !qualitySlider
+        ? undefined
+        : parseInt(qualitySlider.value, 10) / 100;
+
+    return { format, ext, quality };
+  }
+
+  function triggerDownload(dataUrl, filename) {
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = filename;
+    link.click();
+  }
+
+  // Check for preset in localStorage, or default to 3x1
+  const gridPreset = localStorage.getItem("gridPreset");
+  const presetToUse =
+    gridPreset && ["3x1", "3x2", "3x3"].includes(gridPreset)
+      ? gridPreset
+      : "3x1";
+  setGridPreset(presetToUse);
+});

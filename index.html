@@ -1,156 +1,1172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H4GB4E0X7E"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>GridCutter — Precision Instagram Grid Splitter</title>
+        <meta
+            name="description"
+            content="Split your photos into perfect 3:4 grids for Instagram. 3×1, 3×2, and 3×3 layouts. 100% client-side — your images never leave your device."
+        />
+        <meta
+            name="keywords"
+            content="instagram grid cutter, instagram grid splitter, split photo instagram, instagram grid maker, 3x3 grid instagram"
+        />
+        <meta
+            property="og:title"
+            content="GridCutter — Precision Instagram Grid Splitter"
+        />
+        <meta
+            property="og:description"
+            content="Split your photos into perfect 3:4 grids for Instagram. 100% private, no uploads."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://gridcutter.com/" />
+        <meta property="og:image" content="https://gridcutter.com/assets/img/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="628" />
+        <meta property="og:image:type" content="image/png" />
 
-    gtag('config', 'G-H4GB4E0X7E');
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GridCutter - Best Instagram Grid Splitter</title>
-    <meta name="title" content="GridCutter - High Quality Instagram Grid Splitter">
-    <meta name="description" content="Free client-side tool to perfectly slice your photos for Instagram 3:4 profile grids. No server uploads, 100% private, and pixel-perfect overlap calculation.">
+        <link rel="canonical" href="https://gridcutter.com/" />
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gridcutter.com/">
-    <meta property="og:title" content="GridCutter - High Quality Instagram Grid Splitter">
-    <meta property="og:description" content="Free client-side tool to perfectly slice your photos for Instagram 3:4 profile grids. No server uploads, 100% private.">
-    <meta property="og:image" content="https://gridcutter.com/banner.jpg"> 
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
 
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://gridcutter.com/">
-    <meta property="twitter:title" content="GridCutter - High Quality Instagram Grid Splitter">
-    <meta property="twitter:description" content="Free client-side tool to perfectly slice your photos for Instagram 3:4 profile grids. No server uploads, 100% private.">
-    <meta property="twitter:image" content="https://gridcutter.com/banner.jpg">
-  <link rel="stylesheet" href="assets/css/style.css">
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-</head>
-<body>
-  <div class="wrap">
-    <h2 class="sr-only">Instagram grid image cropper — split a wide image into 3 portrait crops</h2>
-
-    <div class="drop-zone" id="dropZone">
-      <span class="icon">🖼</span>
-      <strong>Drop your image here or click to upload</strong>
-      <p>Designed for 3240 × 1350 px — works with any wide landscape image</p>
-      <input type="file" id="fileInput" accept="image/*" style="display:none">
-    </div>
-    <div class="error-msg" id="errMsg" style="display:none"></div>
-
-    <div id="mainContent" style="display:none">
-      <div class="info-row" id="infoRow"></div>
-      
-      <div class="preview-section">
-        <div class="preview-label">Original — crop zones highlighted</div>
-        <div class="original-wrap">
-          <canvas id="origCanvas"></canvas>
-          <svg class="overlay-svg" id="overlaySvg" preserveAspectRatio="none"></svg>
-        </div>
-      </div>
-
-      <div class="advanced-settings">
-        <details>
-          <summary>⚙️ Advanced Settings</summary>
-          <div class="settings-grid">
+        <!-- Google Analytics - Loaded conditionally based on cookie consent -->
+        <script>
+            function loadGoogleAnalytics() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-H4GB4E0X7E';
+                document.head.appendChild(script);
+                
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', 'G-H4GB4E0X7E');
+            }
             
-            <div class="setting-group">
-              <label>
-                <input type="checkbox" id="manualOverlapCb"> Override Auto Overlap
-              </label>
-              <div class="input-with-suffix">
-                <input type="number" id="manualOverlapInput" value="67.5" step="0.5" disabled>
-                <span>px</span>
-              </div>
+            // Check if user has already consented
+            const cookieConsent = localStorage.getItem('gridcutter_cookies');
+            if (cookieConsent) {
+                const preferences = JSON.parse(cookieConsent);
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+            }
+        </script>
+
+        <!-- Fonts: Archivo (display) + Source Serif 4 (body) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="assets/css/style.css" />
+    </head>
+    <body>
+        <!-- COOKIE CONSENT BANNER -->
+        <div id="cookieBanner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.98); color: white; padding: 20px; z-index: 9999; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Archivo', sans-serif;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <!-- Expanded Preferences Section (Hidden by default) -->
+                <div id="cookieBannerExpanded" style="display: none; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">Privacy Settings</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.9);">
+                        We use cookies for essential functionality and (optionally) for analytics and ads. You control what's enabled.
+                    </p>
+                    
+                    <!-- Cookie Checkboxes -->
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                        <!-- Strictly Necessary -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; opacity: 0.7;">
+                            <input type="checkbox" id="cookieNecessary" checked disabled style="margin-top: 3px; cursor: not-allowed;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Strictly Necessary</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Required for site to function (always enabled)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Analytics -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAnalytics" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Analytics (Google Analytics)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Helps us understand how you use the site (anonymized)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Advertising -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAdvertising" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Advertising (Google AdSense)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Personalized ads based on browsing history</div>
+                            </div>
+                        </label>
+                    </div>
+                    <button id="saveCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Save Preferences</button>
+                    <a href="privacy.html" style="font-size: 12px; color: #66b3ff; text-decoration: none; border-bottom: 1px solid #66b3ff;">Read our Privacy Policy</a>
+                </div>
+                
+                <!-- Message & Buttons (Always visible) -->
+                <div class="cookie-bottom-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                    <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.9); flex: 1; min-width: 200px;">
+                        We use cookies to ensure you get the best experience on our website.
+                    </p>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0;">
+                        <button class="cookie-buttons" id="preferencesBtn" style="padding: 8px 16px; background: transparent; color: white; border: 3px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Preferences</button>
+                        <button class="cookie-buttons" id="rejectAllCookies" style="padding: 8px 16px; background: transparent; color: rgba(255,255,255,0.7); border: none; cursor: pointer; font-weight: 400; font-size: 14px; white-space: nowrap; text-decoration: underline;">Reject</button>
+                        <button class="cookie-buttons" id="acceptAllCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: 3px solid #ffffff8f; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Accept</button>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="setting-group">
-              <label for="formatSelect">Output Format</label>
-              <select id="formatSelect">
-                <option value="image/png">PNG (Lossless, High Size)</option>
-                <option value="image/jpeg">JPEG (Good Quality, Low Size)</option>
-                <option value="image/webp" selected>WEBP (Best Quality & Size)</option>
-              </select>
+        <script>
+            // Cookie management system
+            const COOKIE_CONSENT_KEY = 'gridcutter_cookies';
+            
+            // Default preferences
+            const defaultPreferences = {
+                necessary: true,
+                analytics: false,
+                advertising: false
+            };
+            
+            // Initialize cookie banner
+            function initCookieBanner() {
+                const bannerEl = document.getElementById('cookieBanner');
+                const analyticsCheckbox = document.getElementById('cookieAnalytics');
+                const advertisingCheckbox = document.getElementById('cookieAdvertising');
+                const saveBtn = document.getElementById('saveCookies');
+                const acceptAllBtn = document.getElementById('acceptAllCookies');
+                const rejectAllBtn = document.getElementById('rejectAllCookies');
+                const preferencesBtn = document.getElementById('preferencesBtn');
+                
+                // Check if user has already made a choice
+                const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
+                if (stored) {
+                    const preferences = JSON.parse(stored);
+                    analyticsCheckbox.checked = preferences.analytics;
+                    advertisingCheckbox.checked = preferences.advertising;
+                    bannerEl.style.display = 'none';
+                } else {
+                    bannerEl.style.display = 'block';
+                }
+                
+                // Save preferences
+                saveBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: analyticsCheckbox.checked,
+                        advertising: advertisingCheckbox.checked
+                    };
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Toggle preferences panel  <-- ADD THIS RIGHT HERE
+                preferencesBtn.addEventListener('click', function() {
+                    const expanded = document.getElementById('cookieBannerExpanded');
+                    expanded.style.display = expanded.style.display === 'none' ? 'block' : 'none';
+                });
+
+                // Accept all
+                acceptAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: true,
+                        advertising: true
+                    };
+                    analyticsCheckbox.checked = true;
+                    advertisingCheckbox.checked = true;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Reject optional
+                rejectAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: false,
+                        advertising: false
+                    };
+                    analyticsCheckbox.checked = false;
+                    advertisingCheckbox.checked = false;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+            }
+            
+            // Load AdSense conditionally
+            function loadAdSense() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7273655471475479';
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+            }
+            
+            // Apply preferences (load GA/AdSense if consented)
+            function applyPreferences(preferences) {
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+                if (preferences.advertising) {
+                    loadAdSense();
+                }
+            }
+            
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCookieBanner);
+            } else {
+                initCookieBanner();
+            }
+        </script>
+
+        <!-- NAV -->
+        <header class="nav">
+            <div class="container">
+                <nav class="nav-inner">
+                    <a href="/" class="nav-logo" aria-label="GridCutter home">
+                        <div class="nav-logo-mark" aria-hidden="true">
+                            <span></span><span></span><span></span> <span></span
+                            ><span></span><span></span>
+                        </div>
+                        GridCutter
+                    </a>
+                    <ul class="nav-links" role="list">
+                        <li><a href="/" class="active">Home</a></li>
+                        <li><a href="gridcutter.html">Tool</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                    <a href="gridcutter.html" class="btn btn-primary nav-cta">
+                        Try Free
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M2 7h10M8 3l4 4-4 4"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </a>
+                    <button
+                        class="mobile-toggle"
+                        id="mobileToggle"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                    >
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                        >
+                            <rect y="2" width="16" height="1.5" rx="1" />
+                            <rect y="7" width="16" height="1.5" rx="1" />
+                            <rect y="12" width="16" height="1.5" rx="1" />
+                        </svg>
+                    </button>
+                </nav>
             </div>
-
-            <div class="setting-group" id="qualityGroup">
-              <label for="qualitySlider">Quality: <span id="qualityVal">90</span>%</label>
-              <input type="range" id="qualitySlider" min="10" max="100" value="90">
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="/">Home</a>
+                <a href="gridcutter.html">Tool</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a
+                    href="gridcutter.html"
+                    class="btn btn-primary"
+                    style="margin-top: 4px; justify-content: center"
+                    >Try Free</a
+                >
             </div>
+        </header>
 
-          </div>
-        </details>
-      </div>
+        <main>
+            <!-- HERO -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-layout">
+                        <div>
+                            <div class="hero-eyebrow">
+                                <div
+                                    class="hero-eyebrow-dot"
+                                    aria-hidden="true"
+                                ></div>
+                                <span>100% private — no uploads, ever</span>
+                            </div>
+                            <h1 class="f-display reveal">
+                                Cut your photos into <em>perfect</em> grids.
+                            </h1>
+                            <p class="hero-body reveal reveal-delay-1">
+                                GridCutter is made for people who want an
+                                Instagram grid without calculating the cuts by
+                                hand. It helps beginners get clean results
+                                quickly, and it is fast enough for creators who
+                                just want a simple browser-based workflow
+                                without Photoshop, watermarks, or uploads.
+                            </p>
+                            <div class="hero-actions reveal reveal-delay-2">
+                                <a
+                                    href="gridcutter.html"
+                                    class="btn btn-primary"
+                                    style="padding: 13px 28px; font-size: 1rem"
+                                    >Launch GridCutter</a
+                                >
+                                <a href="#how-it-works" class="hero-link"
+                                    >See how it works ↓</a
+                                >
+                            </div>
+                            <div class="hero-trust reveal reveal-delay-3">
+                                <div class="trust-item">
+                                    <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M8 1.5L10 6H14.5L11 8.8L12.3 13.5L8 10.8L3.7 13.5L5 8.8L1.5 6H6L8 1.5Z"
+                                            fill="var(--green)"
+                                        />
+                                    </svg>
+                                    No server uploads
+                                </div>
+                                <div class="trust-item">
+                                    <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <rect
+                                            x="1.5"
+                                            y="1.5"
+                                            width="13"
+                                            height="13"
+                                            rx="3"
+                                            stroke="var(--brand)"
+                                            stroke-width="1.5"
+                                        />
+                                        <path
+                                            d="M5 8l2 2 4-4"
+                                            stroke="var(--brand)"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+                                    Works on any device
+                                </div>
+                                <div class="trust-item">
+                                    <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M8 1v4M8 11v4M1 8h4M11 8h4"
+                                            stroke="oklch(72% .14 75)"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                        />
+                                    </svg>
+                                    Instant processing
+                                </div>
+                            </div>
+                        </div>
 
-      <div class="preview-label" style="margin-top:2rem">Instagram Profile Preview</div>
-      <div class="ig-mockup-wrapper">
-        <div class="ig-mockup">
-          <div class="ig-header">
-            <div class="ig-avatar"></div>
-            <div class="ig-stats">
-              <div class="stat-box"><strong>12</strong><span>Posts</span></div>
-              <div class="stat-box"><strong>10.5K</strong><span>Followers</span></div>
-              <div class="stat-box"><strong>14</strong><span>Following</span></div>
+                        <div class="hero-visual">
+                            <div class="phone-frame">
+                                <div
+                                    class="phone-notch"
+                                    aria-hidden="true"
+                                ></div>
+                                <div class="phone-ig-header">
+                                    <div
+                                        class="ig-avatar-ring"
+                                        aria-hidden="true"
+                                    >
+                                        <div class="ig-avatar-inner"></div>
+                                    </div>
+                                    <div class="ig-meta">
+                                        <div class="ig-username">your_feed</div>
+                                        <div class="ig-stats-row">
+                                            <span class="ig-stat"
+                                                ><strong>9</strong> posts</span
+                                            >
+                                            <span class="ig-stat"
+                                                ><strong>12.4K</strong>
+                                                followers</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="ig-grid"
+                                    role="img"
+                                    aria-label="Instagram grid preview showing 9 tiles"
+                                >
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                    <div class="ig-cell">
+                                        <div class="ig-cell-fill"></div>
+                                    </div>
+                                </div>
+                                <div class="phone-badge">
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 14 14"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <circle
+                                            cx="7"
+                                            cy="7"
+                                            r="6"
+                                            stroke="var(--green)"
+                                            stroke-width="1.5"
+                                        />
+                                        <path
+                                            d="M4.5 7l2 2 3-3"
+                                            stroke="var(--green)"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+                                    <span>9 slices ready — download all</span>
+                                </div>
+                            </div>
+                            <div class="chip chip-left">
+                                <div class="chip-label">Grid</div>
+                                <div class="chip-value">3 × 3</div>
+                            </div>
+                            <div class="chip chip-right">
+                                <div class="chip-label">Engine</div>
+                                <div class="chip-value">Browser</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GRID TYPES -->
+            <section
+                class="section section-alt"
+                aria-labelledby="grid-types-heading"
+            >
+                <div class="container">
+                    <p class="f-label reveal">Choose your layout</p>
+                    <h2
+                        class="f-display reveal reveal-delay-1"
+                        id="grid-types-heading"
+                        style="
+                            font-size: var(--text-2xl);
+                            margin-top: var(--sp-2);
+                        "
+                    >
+                        Three formats. One precise result.
+                    </h2>
+                    <div class="grid-types-layout">
+                        <a href="gridcutter.html" onclick="localStorage.setItem('gridPreset', '3x1')" class="grid-type reveal">
+                            <div class="mini-preview" aria-hidden="true">
+                                <div class="mini-cell on"></div>
+                                <div class="mini-cell on-med"></div>
+                                <div class="mini-cell on-light"></div>
+                            </div>
+                            <div class="grid-type-name">3 × 1</div>
+                            <p class="grid-type-desc">
+                                One panoramic row. Perfect for a banner reveal
+                                or announcement that spans your feed.
+                            </p>
+                            <div class="grid-type-count">3 slices →</div>
+                        </a>
+                        <a
+                            href="gridcutter.html"
+                            onclick="localStorage.setItem('gridPreset', '3x2')"
+                            class="grid-type featured reveal reveal-delay-1"
+                        >
+                            <div class="mini-preview" aria-hidden="true">
+                                <div class="mini-cell on"></div>
+                                <div class="mini-cell on-med"></div>
+                                <div class="mini-cell on-light"></div>
+                                <div class="mini-cell on-med"></div>
+                                <div class="mini-cell on-light"></div>
+                                <div class="mini-cell on"></div>
+                            </div>
+                            <div class="grid-type-name">
+                                3 × 2 &nbsp;<span
+                                    class="f-label"
+                                    style="
+                                        font-size: 10px;
+                                        vertical-align: middle;
+                                    "
+                                    >Popular</span
+                                >
+                            </div>
+                            <p class="grid-type-desc">
+                                Two rows for product launches, travel series, or
+                                before-and-after reveals.
+                            </p>
+                            <div class="grid-type-count">6 slices →</div>
+                        </a>
+                        <a
+                            href="gridcutter.html?preset=3x3"                            onclick="localStorage.setItem('gridPreset', '3x3')"                            class="grid-type reveal reveal-delay-2"
+                        >
+                            <div class="mini-preview" aria-hidden="true">
+                                <div class="mini-cell on"></div>
+                                <div class="mini-cell on-med"></div>
+                                <div class="mini-cell on-light"></div>
+                                <div class="mini-cell on-med"></div>
+                                <div class="mini-cell on"></div>
+                                <div class="mini-cell on-light"></div>
+                                <div class="mini-cell on-light"></div>
+                                <div class="mini-cell on-med"></div>
+                                <div class="mini-cell on"></div>
+                            </div>
+                            <div class="grid-type-name">3 × 3</div>
+                            <p class="grid-type-desc">
+                                The full nine-tile mosaic. Your entire profile
+                                becomes one unified, cinematic image.
+                            </p>
+                            <div class="grid-type-count">9 slices →</div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS -->
+            <section
+                class="section"
+                id="how-it-works"
+                aria-labelledby="how-heading"
+            >
+                <div class="container">
+                    <div class="how-layout">
+                        <div>
+                            <p class="f-label reveal">How it works</p>
+                            <h2
+                                class="f-display reveal reveal-delay-1"
+                                id="how-heading"
+                                style="
+                                    font-size: var(--text-2xl);
+                                    margin-top: var(--sp-2);
+                                    margin-bottom: var(--sp-7);
+                                "
+                            >
+                                Three steps to a flawless grid.
+                            </h2>
+                            <div class="how-steps">
+                                <div class="how-step reveal">
+                                    <div class="step-num" aria-hidden="true">
+                                        1
+                                    </div>
+                                    <div class="step-body">
+                                        <h3 class="step-title">
+                                            Upload your image
+                                        </h3>
+                                        <p class="step-desc">
+                                            Drop in a JPG, PNG, or WEBP image
+                                            directly in your browser. No account
+                                            is required and no image upload is
+                                            needed for the basic cutting flow.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="how-step reveal reveal-delay-1">
+                                    <div class="step-num" aria-hidden="true">
+                                        2
+                                    </div>
+                                    <div class="step-body">
+                                        <h3 class="step-title">
+                                            Choose your grid layout
+                                        </h3>
+                                        <p class="step-desc">
+                                            Pick 3×1, 3×2, or 3×3 and choose the
+                                            ratio that matches the result you
+                                            want. GridCutter is built to help
+                                            the cuts line up cleanly on your
+                                            Instagram profile.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="how-step reveal reveal-delay-2">
+                                    <div class="step-num" aria-hidden="true">
+                                        3
+                                    </div>
+                                    <div class="step-body">
+                                        <h3 class="step-title">
+                                            Download and post
+                                        </h3>
+                                        <p class="step-desc">
+                                            Export your slices, follow the
+                                            posting order, and avoid the ugly
+                                            solid-color buffer approach used by
+                                            some grid tools.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reveal reveal-delay-1">
+                            <div class="demo-panel">
+                                <div class="demo-panel-label">
+                                    Live tool preview
+                                </div>
+                                <div class="demo-dropzone">
+                                    <div
+                                        class="demo-dropzone-icon"
+                                        aria-hidden="true"
+                                    >
+                                        <svg
+                                            width="18"
+                                            height="18"
+                                            viewBox="0 0 18 18"
+                                            fill="none"
+                                        >
+                                            <rect
+                                                x="2"
+                                                y="4"
+                                                width="14"
+                                                height="10"
+                                                rx="2"
+                                                stroke="var(--text-tertiary)"
+                                                stroke-width="1.2"
+                                            />
+                                            <path
+                                                d="M9 8v4M7 10l2-2 2 2"
+                                                stroke="var(--text-tertiary)"
+                                                stroke-width="1.2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <p>Drop your photo here</p>
+                                    <small>JPG or PNG, any size</small>
+                                </div>
+                                <div class="demo-tabs">
+                                    <div class="demo-tab active">3×1</div>
+                                    <div class="demo-tab">3×2</div>
+                                    <div class="demo-tab">3×3</div>
+                                </div>
+                                <div
+                                    class="demo-mini-grid"
+                                    role="img"
+                                    aria-label="Grid preview"
+                                >
+                                    <div class="demo-mini-cell"></div>
+                                    <div class="demo-mini-cell"></div>
+                                    <div class="demo-mini-cell"></div>
+                                </div>
+                                <a
+                                    href="gridcutter.html"
+                                    class="btn btn-primary"
+                                    style="
+                                        width: 100%;
+                                        justify-content: center;
+                                        padding: 12px;
+                                    "
+                                    >Open GridCutter</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURES -->
+            <section
+                class="section section-alt"
+                aria-labelledby="features-heading"
+            >
+                <div class="container">
+                    <p class="f-label reveal">Why GridCutter</p>
+                    <h2
+                        class="f-display reveal reveal-delay-1"
+                        id="features-heading"
+                        style="
+                            font-size: var(--text-2xl);
+                            margin-top: var(--sp-2);
+                        "
+                    >
+                        Built for precision creators.
+                    </h2>
+                    <div class="features-grid reveal">
+                        <div class="feature-item">
+                            <div class="feature-number">01</div>
+                            <h3 class="feature-title">Absolute Privacy</h3>
+                            <p class="feature-desc">
+                                Your photos stay on your device during the basic
+                                cutting workflow. GridCutter is designed for
+                                people who want a simpler way to work without
+                                sending images to a remote editor.
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-number">02</div>
+                            <h3 class="feature-title">Accurate Grid Logic</h3>
+                            <p class="feature-desc">
+                                GridCutter was built because many web-based grid
+                                tools cut images incorrectly or fail to match
+                                the way Instagram actually displays grid posts.
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-number">03</div>
+                            <h3 class="feature-title">No Solid-Color Buffer</h3>
+                            <p class="feature-desc">
+                                Some tools force alignment by adding obvious
+                                solid-color buffer areas that look bad when a
+                                post is opened. GridCutter is designed to avoid
+                                that approach.
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-number">04</div>
+                            <h3 class="feature-title">Made for Beginners</h3>
+                            <p class="feature-desc">
+                                You do not need to calculate crop positions or
+                                understand Instagram grid math. The tool is made
+                                for people who just want the cuts to work.
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-number">05</div>
+                            <h3 class="feature-title">Fast Browser Workflow</h3>
+                            <p class="feature-desc">
+                                If you need a quick result, you can cut a grid
+                                directly in the browser without Photoshop,
+                                sign-up flows, or extra software.
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-number">06</div>
+                            <h3 class="feature-title">Free Core Tool</h3>
+                            <p class="feature-desc">
+                                The simple cutting workflow is intended to stay
+                                free to use, with ads helping support the
+                                project over time.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="section" aria-labelledby="faq-heading">
+                <div class="container">
+                    <p class="f-label reveal">FAQ</p>
+                    <h2
+                        class="f-display reveal reveal-delay-1"
+                        id="faq-heading"
+                        style="
+                            font-size: var(--text-2xl);
+                            margin-top: var(--sp-2);
+                            margin-bottom: var(--sp-7);
+                        "
+                    >
+                        Common questions about GridCutter.
+                    </h2>
+                    <div
+                        class="reveal reveal-delay-1"
+                        style="
+                            display: grid;
+                            grid-template-columns: repeat(
+                                auto-fit,
+                                minmax(260px, 1fr)
+                            );
+                            gap: var(--sp-4);
+                        "
+                    >
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                Who is GridCutter for?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                GridCutter is mainly for people who want an
+                                Instagram grid but do not want to calculate the
+                                cuts manually. It is also useful for creators
+                                who want a fast browser-based workflow.
+                            </p>
+                        </div>
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                Are my images uploaded anywhere?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                The basic cutting flow is designed to run
+                                client-side in the browser, so your image stays
+                                on your device while you prepare your grid.
+                            </p>
+                        </div>
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                What file types are supported?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                GridCutter currently supports JPG, PNG, and WEBP
+                                images.
+                            </p>
+                        </div>
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                What grid sizes can I make?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                You can currently cut 3×1, 3×2, and 3×3
+                                Instagram grid layouts.
+                            </p>
+                        </div>
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                Why is GridCutter different from other grid
+                                cutters?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                It was built to avoid two common problems:
+                                incorrect cutting logic and ugly solid-color
+                                buffer areas that appear when some tools try to
+                                fake alignment.
+                            </p>
+                        </div>
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                What is the correct posting order?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                For multi-tile grids, post from the bottom-right
+                                tile back toward the top-left so the finished
+                                layout lands correctly on your profile.
+                            </p>
+                        </div>
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                Does GridCutter work on mobile?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                GridCutter is designed to work in modern
+                                browsers on desktop and mobile. The best
+                                experience is on up-to-date browsers.
+                            </p>
+                        </div>
+                        <div class="panel" style="padding: var(--sp-6)">
+                            <h3
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-base);
+                                    font-weight: 700;
+                                    margin-bottom: var(--sp-3);
+                                    color: var(--text-primary);
+                                "
+                            >
+                                Is GridCutter free?
+                            </h3>
+                            <p
+                                style="
+                                    font-size: var(--text-sm);
+                                    color: var(--text-secondary);
+                                    line-height: 1.7;
+                                "
+                            >
+                                The simple cutting tool is intended to stay free
+                                to use. Ads help support the project and keep
+                                the core workflow accessible.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="section section-alt">
+                <div class="container">
+                    <div class="cta-strip reveal">
+                        <div>
+                            <h2 class="f-display">Ready for a perfect grid?</h2>
+                            <p>
+                                Free. Private. No sign-up required. Works right
+                                in your browser.
+                            </p>
+                        </div>
+                        <a href="gridcutter.html" class="btn-cta-inverse">
+                            Open GridCutter
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 14 14"
+                                fill="none"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M2 7h10M8 3l4 4-4 4"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-inner">
+                    <div class="footer-brand">
+                        <a
+                            href="/"
+                            class="nav-logo"
+                            aria-label="GridCutter home"
+                        >
+                            <div class="nav-logo-mark" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                                <span></span><span></span><span></span>
+                            </div>
+                            GridCutter
+                        </a>
+                        <p>
+                            The precision Instagram grid splitter. Free,
+                            private, and built for creators who care about
+                            craft.
+                        </p>
+                    </div>
+                    <div class="footer-cols">
+                        <div class="footer-col">
+                            <div class="footer-col-title">Tools</div>
+                            <ul>
+                                <li>
+                                    <a href="gridcutter.html">Grid Cutter</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Company</div>
+                            <ul>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Legal</div>
+                            <ul>
+                                <li>
+                                    <a href="privacy.html">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="terms.html">Terms of Service</a>
+                                </li>
+                                <li>
+                                    <a href="data-processing.html">Data Processing</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom" style="margin-top: var(--sp-7)">
+                    <p>© 2026 GridCutter. All rights reserved.</p>
+                    <p>No images are uploaded to any server. Ever.</p>
+                </div>
             </div>
-          </div>
-          <div class="ig-bio">
-            <strong>Your Name</strong><br>
-            Photography & Art 📷<br>
-            Grid made with GridCutter.com ✨
-          </div>
-          <div class="ig-feed-icons">
-            <span class="active-icon">▦</span>
-            <span>▶</span>
-            <span>👤</span>
-          </div>
-          <div class="ig-grid">
-            <canvas id="prevLeft"></canvas>
-            <canvas id="prevMid"></canvas>
-            <canvas id="prevRight"></canvas>
-            <div class="ig-dummy"></div>
-            <div class="ig-dummy"></div>
-            <div class="ig-dummy"></div>
-          </div>
-        </div>
-      </div>
+        </footer>
 
-      <div class="preview-label" style="margin-top:1.5rem">Cropped outputs (4:5 portrait)</div>
-      <div class="crops-grid">
-        <div class="crop-card">
-          <canvas id="cropLeft"></canvas>
-          <div class="crop-card-label">Left <span class="crop-order-hint">(post #1)</span></div>
-        </div>
-        <div class="crop-card">
-          <canvas id="cropMid"></canvas>
-          <div class="crop-card-label">Center <span class="crop-order-hint">(post #2)</span></div>
-        </div>
-        <div class="crop-card">
-          <canvas id="cropRight"></canvas>
-          <div class="crop-card-label">Right <span class="crop-order-hint">(post #3)</span></div>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn-dl" id="dlLeft">Download left</button>
-        <button class="btn-dl" id="dlMid">Download center</button>
-        <button class="btn-dl" id="dlRight">Download right</button>
-        <button class="btn-dl" id="dlAll">Download all 3 as ZIP</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/app.min.js"></script>
-  <footer style="margin-top: 3rem; padding: 2rem; border-top: 1px solid var(--color-border-secondary); text-align: center; font-size: 13px; color: var(--color-text-tertiary);">
-    <p>&copy; 2026 GridCutter.com - High Quality Instagram Grid Splitter</p>
-    <div style="margin-top: 10px;">
-        <a href="privacy.html" style="color: var(--color-text-secondary); text-decoration: none; margin: 0 10px;">Privacy Policy</a>
-        <a href="terms.html" style="color: var(--color-text-secondary); text-decoration: none; margin: 0 10px;">Terms of Service</a>
-    </div>
-</footer>
-</body>
+        <script>
+            const toggle = document.getElementById("mobileToggle");
+            const menu = document.getElementById("mobileMenu");
+            toggle.addEventListener("click", () => {
+                const open = menu.classList.toggle("open");
+                toggle.setAttribute("aria-expanded", String(open));
+            });
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add("is-visible");
+                            io.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => io.observe(el));
+        </script>
+    </body>
 </html>
