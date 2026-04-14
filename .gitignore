@@ -1,3 +1,12 @@
+#unfinished feature
+blog.html
+blog1.html
+
+#unnecessary files for live
+tests/
+playwright.config.js
+test-results/
+
 # Logs
 logs
 *.log
