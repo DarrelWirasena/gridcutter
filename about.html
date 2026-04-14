@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>About | GridCutter</title>
+        <meta
+            name="description"
+            content="GridCutter is a free, private Instagram grid splitter. Built for creators who care about precision and craft."
+        />
+        <meta property="og:url" content="https://gridcutter.com/about.html" />
+        <meta property="og:image" content="https://gridcutter.com/assets/img/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="628" />
+        <meta property="og:image:type" content="image/png" />
+
+        <link rel="canonical" href="https://gridcutter.com/about.html" />
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!-- Google Analytics - Loaded conditionally based on cookie consent -->
+        <script>
+            function loadGoogleAnalytics() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-H4GB4E0X7E';
+                document.head.appendChild(script);
+                
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', 'G-H4GB4E0X7E');
+            }
+            
+            // Check if user has already consented
+            const cookieConsent = localStorage.getItem('gridcutter_cookies');
+            if (cookieConsent) {
+                const preferences = JSON.parse(cookieConsent);
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+            }
+        </script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="assets/css/style.css" />
+
+        <style>
+            /* ── About page layout ── */
+
+            .about-header {
+                padding-block: var(--sp-9) var(--sp-7);
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .about-header .f-label {
+                margin-bottom: var(--sp-4);
+                display: block;
+            }
+            .about-header h1 {
+                font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+                max-width: 18ch;
+                margin-bottom: var(--sp-5);
+            }
+            .about-header h1 em {
+                font-style: italic;
+                color: var(--brand);
+            }
+            .about-header-lead {
+                font-size: var(--text-lg);
+                color: var(--text-secondary);
+                max-width: 58ch;
+                font-weight: 300;
+                line-height: 1.6;
+            }
+
+            /* ── Origin section ── */
+            .origin-layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: var(--sp-8);
+                padding-block: var(--sp-9);
+                align-items: start;
+            }
+            @media (min-width: 860px) {
+                .origin-layout {
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--sp-9);
+                    align-items: center;
+                }
+            }
+            .origin-text h2 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-2xl);
+                letter-spacing: -0.03em;
+                color: var(--text-primary);
+                margin-bottom: var(--sp-5);
+                line-height: 1.15;
+            }
+            .origin-text h2 em {
+                font-style: italic;
+                color: var(--brand);
+            }
+            .origin-text p {
+                font-size: var(--text-base);
+                color: var(--text-secondary);
+                line-height: 1.75;
+                margin-bottom: var(--sp-4);
+                max-width: 54ch;
+            }
+            .origin-text p:last-child {
+                margin-bottom: 0;
+            }
+
+            /* Stat block — no hero-metric layout, just inline text pairs */
+            .stat-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--sp-6) var(--sp-8);
+                padding-top: var(--sp-6);
+                border-top: 1px solid var(--border-subtle);
+                margin-top: var(--sp-6);
+            }
+            .stat-item {
+            }
+            .stat-value {
+                font-family: "Archivo", sans-serif;
+                font-weight: 900;
+                font-size: var(--text-2xl);
+                letter-spacing: -0.04em;
+                color: var(--brand);
+                line-height: 1;
+                margin-bottom: 4px;
+            }
+            .stat-label {
+                font-family: "Archivo", sans-serif;
+                font-size: var(--text-xs);
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                color: var(--text-tertiary);
+            }
+
+            /* Visual panel */
+            .origin-visual {
+                background: var(--surface-1);
+                border: 1px solid var(--border-subtle);
+                border-radius: 20px;
+                padding: var(--sp-5);
+            }
+            .origin-visual-label {
+                font-family: "Archivo", sans-serif;
+                font-size: var(--text-xs);
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: var(--text-tertiary);
+                margin-bottom: var(--sp-4);
+            }
+            /* Mini grid demo */
+            .about-grid-demo {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3px;
+                border-radius: 12px;
+                overflow: hidden;
+                margin-bottom: var(--sp-4);
+            }
+            .about-grid-cell {
+                aspect-ratio: 3/4;
+            }
+            .about-grid-cell:nth-child(1) {
+                background: oklch(82% 0.12 264);
+            }
+            .about-grid-cell:nth-child(2) {
+                background: oklch(72% 0.14 264);
+            }
+            .about-grid-cell:nth-child(3) {
+                background: oklch(62% 0.16 264);
+            }
+            .about-grid-cell:nth-child(4) {
+                background: oklch(78% 0.13 264);
+            }
+            .about-grid-cell:nth-child(5) {
+                background: oklch(55% 0.17 264);
+            }
+            .about-grid-cell:nth-child(6) {
+                background: oklch(48% 0.18 264);
+            }
+            .about-grid-cell:nth-child(7) {
+                background: oklch(70% 0.14 264);
+            }
+            .about-grid-cell:nth-child(8) {
+                background: oklch(50% 0.17 264);
+            }
+            .about-grid-cell:nth-child(9) {
+                background: oklch(40% 0.18 264);
+            }
+            .origin-visual-caption {
+                font-size: var(--text-xs);
+                color: var(--text-tertiary);
+                line-height: 1.5;
+            }
+
+            /* ── Principles — tiled, no icon-above-heading ── */
+            .principles-section {
+                padding-block: var(--sp-9);
+                border-top: 1px solid var(--border-subtle);
+            }
+            .principles-header {
+                margin-bottom: var(--sp-7);
+            }
+            .principles-header h2 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-2xl);
+                letter-spacing: -0.03em;
+                margin-top: var(--sp-2);
+            }
+            .principles-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1px;
+                background: var(--border-subtle);
+                border: 1px solid var(--border-subtle);
+                border-radius: 20px;
+                overflow: hidden;
+            }
+            @media (min-width: 640px) {
+                .principles-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media (min-width: 960px) {
+                .principles-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+            .principle-item {
+                background: var(--surface-0);
+                padding: var(--sp-6);
+                transition: background 0.2s;
+            }
+            .principle-item:hover {
+                background: var(--brand-xlight);
+            }
+            .principle-num {
+                font-family: "Archivo", sans-serif;
+                font-size: var(--text-xs);
+                font-weight: 700;
+                color: var(--brand);
+                letter-spacing: 0.04em;
+                margin-bottom: var(--sp-4);
+            }
+            .principle-title {
+                font-family: "Archivo", sans-serif;
+                font-weight: 700;
+                font-size: var(--text-base);
+                color: var(--text-primary);
+                margin-bottom: var(--sp-3);
+            }
+            .principle-desc {
+                font-size: var(--text-sm);
+                color: var(--text-secondary);
+                line-height: 1.65;
+                max-width: 38ch;
+            }
+
+            /* ── Privacy promise card ── */
+            .promise-card {
+                display: flex;
+                align-items: flex-start;
+                gap: var(--sp-5);
+                padding: var(--sp-6);
+                background: var(--brand-xlight);
+                border: 1px solid oklch(85% 0.06 264);
+                border-radius: 16px;
+                margin-bottom: var(--sp-9);
+            }
+            .promise-icon {
+                width: 44px;
+                height: 44px;
+                flex-shrink: 0;
+                background: var(--brand);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .promise-icon svg {
+                color: white;
+            }
+            .promise-card h4 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-base);
+                color: var(--text-primary);
+                margin-bottom: var(--sp-2);
+            }
+            .promise-card p {
+                font-size: var(--text-sm);
+                color: var(--text-secondary);
+                line-height: 1.65;
+            }
+
+            /* ── CTA ── */
+            .about-cta {
+                padding-block: var(--sp-9);
+                border-top: 1px solid var(--border-subtle);
+            }
+            .cta-strip {
+                background: var(--brand);
+                border-radius: 20px;
+                padding: var(--sp-7);
+                display: flex;
+                flex-direction: column;
+                gap: var(--sp-5);
+                align-items: flex-start;
+            }
+            @media (min-width: 640px) {
+                .cta-strip {
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
+            .cta-strip h2 {
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                letter-spacing: -0.03em;
+                font-size: var(--text-2xl);
+                color: white;
+                line-height: 1.1;
+            }
+            .cta-strip p {
+                color: oklch(87% 0.06 264);
+                font-size: var(--text-sm);
+                font-weight: 300;
+                max-width: 38ch;
+                margin-top: var(--sp-2);
+            }
+            .btn-cta-inverse {
+                background: white;
+                color: var(--brand);
+                font-family: "Archivo", sans-serif;
+                font-weight: 800;
+                font-size: var(--text-sm);
+                padding: 12px var(--sp-6);
+                border-radius: 10px;
+                white-space: nowrap;
+                display: inline-flex;
+                align-items: center;
+                gap: var(--sp-2);
+                transition:
+                    opacity 0.15s,
+                    transform 0.15s;
+                flex-shrink: 0;
+            }
+            .btn-cta-inverse:hover {
+                opacity: 0.9;
+                transform: translateY(-1px);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- COOKIE CONSENT BANNER -->
+        <div id="cookieBanner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.98); color: white; padding: 20px; z-index: 9999; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Archivo', sans-serif;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <!-- Expanded Preferences Section (Hidden by default) -->
+                <div id="cookieBannerExpanded" style="display: none; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">Privacy Settings</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.9);">
+                        We use cookies for essential functionality and (optionally) for analytics and ads. You control what's enabled.
+                    </p>
+                    
+                    <!-- Cookie Checkboxes -->
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                        <!-- Strictly Necessary -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; opacity: 0.7;">
+                            <input type="checkbox" id="cookieNecessary" checked disabled style="margin-top: 3px; cursor: not-allowed;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Strictly Necessary</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Required for site to function (always enabled)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Analytics -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAnalytics" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Analytics (Google Analytics)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Helps us understand how you use the site (anonymized)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Advertising -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAdvertising" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Advertising (Google AdSense)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Personalized ads based on browsing history</div>
+                            </div>
+                        </label>
+                    </div>
+                    <button id="saveCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Save Preferences</button>
+                    <a href="privacy.html" style="font-size: 12px; color: #66b3ff; text-decoration: none; border-bottom: 1px solid #66b3ff;">Read our Privacy Policy</a>
+                </div>
+                
+                <!-- Message & Buttons (Always visible) -->
+                <div class="cookie-bottom-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                    <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.9); flex: 1; min-width: 200px;">
+                        We use cookies to ensure you get the best experience on our website.
+                    </p>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0;">
+                        <button class="cookie-buttons" id="preferencesBtn" style="padding: 8px 16px; background: transparent; color: white; border: 3px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Preferences</button>
+                        <button class="cookie-buttons" id="rejectAllCookies" style="padding: 8px 16px; background: transparent; color: rgba(255,255,255,0.7); border: none; cursor: pointer; font-weight: 400; font-size: 14px; white-space: nowrap; text-decoration: underline;">Reject</button>
+                        <button class="cookie-buttons" id="acceptAllCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: 3px solid #ffffff8f; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Cookie management system
+            const COOKIE_CONSENT_KEY = 'gridcutter_cookies';
+            
+            // Default preferences
+            const defaultPreferences = {
+                necessary: true,
+                analytics: false,
+                advertising: false
+            };
+            
+            // Initialize cookie banner
+            function initCookieBanner() {
+                const bannerEl = document.getElementById('cookieBanner');
+                const analyticsCheckbox = document.getElementById('cookieAnalytics');
+                const advertisingCheckbox = document.getElementById('cookieAdvertising');
+                const saveBtn = document.getElementById('saveCookies');
+                const acceptAllBtn = document.getElementById('acceptAllCookies');
+                const rejectAllBtn = document.getElementById('rejectAllCookies');
+                const preferencesBtn = document.getElementById('preferencesBtn');
+                
+                // Check if user has already made a choice
+                const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
+                if (stored) {
+                    const preferences = JSON.parse(stored);
+                    analyticsCheckbox.checked = preferences.analytics;
+                    advertisingCheckbox.checked = preferences.advertising;
+                    bannerEl.style.display = 'none';
+                } else {
+                    bannerEl.style.display = 'block';
+                }
+                
+                // Save preferences
+                saveBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: analyticsCheckbox.checked,
+                        advertising: advertisingCheckbox.checked
+                    };
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Toggle preferences panel  <-- ADD THIS RIGHT HERE
+                preferencesBtn.addEventListener('click', function() {
+                    const expanded = document.getElementById('cookieBannerExpanded');
+                    expanded.style.display = expanded.style.display === 'none' ? 'block' : 'none';
+                });
+
+                // Accept all
+                acceptAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: true,
+                        advertising: true
+                    };
+                    analyticsCheckbox.checked = true;
+                    advertisingCheckbox.checked = true;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Reject optional
+                rejectAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: false,
+                        advertising: false
+                    };
+                    analyticsCheckbox.checked = false;
+                    advertisingCheckbox.checked = false;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+            }
+            
+            // Load AdSense conditionally
+            function loadAdSense() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7273655471475479';
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+            }
+            
+            // Apply preferences (load GA/AdSense if consented)
+            function applyPreferences(preferences) {
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+                if (preferences.advertising) {
+                    loadAdSense();
+                }
+            }
+            
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCookieBanner);
+            } else {
+                initCookieBanner();
+            }
+        </script>
+
+        <!-- NAV -->
+        <header class="nav">
+            <div class="container">
+                <nav class="nav-inner">
+                    <a
+                        href="index.html"
+                        class="nav-logo"
+                        aria-label="GridCutter home"
+                    >
+                        <div class="nav-logo-mark" aria-hidden="true">
+                            <span></span><span></span><span></span> <span></span
+                            ><span></span><span></span>
+                        </div>
+                        GridCutter
+                    </a>
+                    <ul class="nav-links" role="list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="gridcutter.html">Tool</a></li>
+                        <li><a href="about.html" class="active">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                    <a href="gridcutter.html" class="btn btn-primary nav-cta">
+                        Try Free
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M2 7h10M8 3l4 4-4 4"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </a>
+                    <button
+                        class="mobile-toggle"
+                        id="mobileToggle"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                    >
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                        >
+                            <rect y="2" width="16" height="1.5" rx="1" />
+                            <rect y="7" width="16" height="1.5" rx="1" />
+                            <rect y="12" width="16" height="1.5" rx="1" />
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="index.html">Home</a>
+                <a href="gridcutter.html">Tool</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a
+                    href="gridcutter.html"
+                    class="btn btn-primary"
+                    style="margin-top: 4px; justify-content: center"
+                    >Try Free</a
+                >
+            </div>
+        </header>
+
+        <main>
+            <div class="container">
+                <!-- PAGE HEADER -->
+                <div class="about-header">
+                    <span class="f-label reveal">About GridCutter</span>
+                    <h1 class="f-display reveal reveal-delay-1">
+                        Built for creators who care about <em>craft.</em>
+                    </h1>
+                    <p class="about-header-lead reveal reveal-delay-2">
+                        I built GridCutter because I needed a simpler way to cut
+                        Instagram grids without uploading images, signing up for
+                        an account, or dealing with watermarks. It started from
+                        a personal need and grew into a tool I thought other
+                        creators might find useful too.
+                    </p>
+                </div>
+
+                <!-- ORIGIN -->
+                <div class="origin-layout">
+                    <div class="origin-text reveal">
+                        <h2>Why I <em>built</em> this.</h2>
+                        <p>
+                            I built GridCutter because I wanted a tool for
+                            people who like the idea of an Instagram grid but do
+                            not want to calculate the cuts manually. A lot of
+                            people just want a simple result that looks right on
+                            their profile without needing Photoshop or advanced
+                            editing skills.
+                        </p>
+                        <p>
+                            The bigger problem was accuracy. Some web tools use
+                            the wrong cutting logic, so the finished posts do
+                            not align properly on an Instagram grid. Others try
+                            to force alignment by adding solid-color buffer
+                            areas, which can look awkward when someone opens the
+                            individual posts. I wanted to avoid both of those
+                            problems.
+                        </p>
+                        <p>
+                            GridCutter is my attempt to make that process
+                            simpler: accurate 3:4 and 4:5 output, no watermark,
+                            no unnecessary steps, and no image upload to a
+                            server. It is an independent solo creator project
+                            from Indonesia, built from personal need and shared
+                            because I could not find another tool that handled
+                            this the way I wanted.
+                        </p>
+
+                        <div class="stat-row">
+                            <div class="stat-item">
+                                <div class="stat-value">100%</div>
+                                <div class="stat-label">
+                                    Client-side processing
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">3:4</div>
+                                <div class="stat-label">
+                                    Native IG ratio enforced
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">Free</div>
+                                <div class="stat-label">
+                                    No account, no paywall
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal reveal-delay-1">
+                        <div class="origin-visual">
+                            <div class="origin-visual-label">
+                                3×3 grid output
+                            </div>
+                            <div
+                                class="about-grid-demo"
+                                role="img"
+                                aria-label="Example 3×3 Instagram grid preview"
+                            >
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                                <div class="about-grid-cell"></div>
+                            </div>
+                            <p class="origin-visual-caption">
+                                One image. Nine slices. Each output is sized for
+                                the same kind of profile-grid presentation
+                                GridCutter is built to support.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRINCIPLES -->
+            <section
+                class="principles-section"
+                aria-labelledby="principles-heading"
+            >
+                <div class="container">
+                    <div class="principles-header reveal">
+                        <span class="f-label">How we think</span>
+                        <h2 id="principles-heading">
+                            The principles behind the tool.
+                        </h2>
+                    </div>
+                    <div class="principles-grid reveal reveal-delay-1">
+                        <div class="principle-item">
+                            <div class="principle-num">01</div>
+                            <h3 class="principle-title">
+                                Privacy first, always
+                            </h3>
+                            <p class="principle-desc">
+                                No upload means fewer trust concerns. GridCutter
+                                is designed to keep image processing in the
+                                browser so creators can work with more
+                                confidence.
+                            </p>
+                        </div>
+                        <div class="principle-item">
+                            <div class="principle-num">02</div>
+                            <h3 class="principle-title">
+                                The right ratio, by default
+                            </h3>
+                            <p class="principle-desc">
+                                GridCutter is designed around the way creators
+                                expect their grids to appear on profile pages,
+                                so outputs feel more intentional and consistent.
+                            </p>
+                        </div>
+                        <div class="principle-item">
+                            <div class="principle-num">03</div>
+                            <h3 class="principle-title">
+                                No features for their own sake
+                            </h3>
+                            <p class="principle-desc">
+                                The goal is focus, not feature bloat. GridCutter
+                                prioritizes the small set of controls that make
+                                grid cutting faster and easier to understand.
+                            </p>
+                        </div>
+                        <div class="principle-item">
+                            <div class="principle-num">04</div>
+                            <h3 class="principle-title">
+                                Free is not a marketing trick
+                            </h3>
+                            <p class="principle-desc">
+                                GridCutter is intended to stay accessible. The
+                                core idea is a simple tool that people can use
+                                without turning a basic workflow into a
+                                subscription decision.
+                            </p>
+                        </div>
+                        <div class="principle-item">
+                            <div class="principle-num">05</div>
+                            <h3 class="principle-title">
+                                Quality output, not just fast output
+                            </h3>
+                            <p class="principle-desc">
+                                We use canvas-based slicing to preserve full
+                                image fidelity. Your DSLR photos should stay
+                                sharp across all nine tiles.
+                            </p>
+                        </div>
+                        <div class="principle-item">
+                            <div class="principle-num">06</div>
+                            <h3 class="principle-title">Works everywhere</h3>
+                            <p class="principle-desc">
+                                Desktop, tablet, phone — GridCutter runs in any
+                                modern browser without installation, plugins, or
+                                app store downloads.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container">
+                <!-- PRIVACY PROMISE -->
+                <div
+                    class="promise-card reveal"
+                    style="margin-top: var(--sp-9)"
+                >
+                    <div class="promise-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                        >
+                            <path
+                                d="M10 2L3 5v5c0 4.4 3 8.5 7 9.5C14 18.5 17 14.4 17 10V5L10 2Z"
+                                stroke="white"
+                                stroke-width="1.5"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M7 10l2 2 4-4"
+                                stroke="white"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Your images never leave your device.</h4>
+                        <p>
+                            GridCutter is designed to process images directly in
+                            the browser so creators can work without uploading
+                            photos to a remote image-processing service. The
+                            goal is a simpler, more private workflow with fewer
+                            moving parts.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="about-cta">
+                    <div class="cta-strip reveal">
+                        <div>
+                            <h2>Ready to try it?</h2>
+                            <p>
+                                Free, private, no sign-up. Open the tool and cut
+                                your first grid in under a minute.
+                            </p>
+                        </div>
+                        <a href="gridcutter.html" class="btn-cta-inverse">
+                            Open GridCutter
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 14 14"
+                                fill="none"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M2 7h10M8 3l4 4-4 4"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-inner">
+                    <div class="footer-brand">
+                        <a
+                            href="index.html"
+                            class="nav-logo"
+                            aria-label="GridCutter home"
+                        >
+                            <div class="nav-logo-mark" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                                <span></span><span></span><span></span>
+                            </div>
+                            GridCutter
+                        </a>
+                        <p>
+                            The precision Instagram grid splitter. Free,
+                            private, and built for creators who care about
+                            craft.
+                        </p>
+                    </div>
+                    <div class="footer-cols">
+                        <div class="footer-col">
+                            <div class="footer-col-title">Tools</div>
+                            <ul>
+                                <li>
+                                    <a href="gridcutter.html">Grid Cutter</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Company</div>
+                            <ul>
+                                <li>
+                                    <a
+                                        href="about.html"
+                                        style="
+                                            color: var(--brand);
+                                            font-weight: 700;
+                                        "
+                                        >About</a
+                                    >
+                                </li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Legal</div>
+                            <ul>
+                                <li>
+                                    <a href="privacy.html">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="terms.html">Terms of Service</a>
+                                </li>
+                                <li>
+                                    <a href="data-processing.html">Data Processing</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom" style="margin-top: var(--sp-7)">
+                    <p>© 2026 GridCutter. All rights reserved.</p>
+                    <p>No images are uploaded to any server. Ever.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            const toggle = document.getElementById("mobileToggle");
+            const menu = document.getElementById("mobileMenu");
+            toggle.addEventListener("click", () => {
+                const open = menu.classList.toggle("open");
+                toggle.setAttribute("aria-expanded", String(open));
+            });
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add("is-visible");
+                            io.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => io.observe(el));
+        </script>
+    </body>
+</html>

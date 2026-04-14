@@ -1,0 +1,1303 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <title>Grid Cutter Tool — GridCutter</title>
+        <meta
+            name="description"
+            content="Split your photos into perfect 3:4 grids for Instagram. 3×1, 3×2, and 3×3 layouts. 100% client-side — your images never leave your device."
+        />
+        <meta
+            name="keywords"
+            content="instagram grid cutter, instagram grid splitter, split photo instagram, instagram grid maker, 3x3 grid instagram"
+        />
+        <meta property="og:title" content="Grid Cutter Tool — GridCutter" />
+        <meta
+            property="og:description"
+            content="Split your photos into perfect 3:4 grids for Instagram. 100% private, no uploads."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://gridcutter.com/gridcutter.html" />
+        <meta property="og:image" content="https://gridcutter.com/assets/img/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="628" />
+        <meta property="og:image:type" content="image/png" />
+
+        <link rel="canonical" href="https://gridcutter.com/gridcutter.html" />
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!-- Google Analytics - Loaded conditionally based on cookie consent -->
+        <script>
+            function loadGoogleAnalytics() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-H4GB4E0X7E';
+                document.head.appendChild(script);
+                
+                window.dataLayer = window.dataLayer || [];
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', 'G-H4GB4E0X7E');
+            }
+            
+            // Check if user has already consented
+            const cookieConsent = localStorage.getItem('gridcutter_cookies');
+            if (cookieConsent) {
+                const preferences = JSON.parse(cookieConsent);
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+            }
+        </script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="assets/css/style.css" />
+    </head>
+    <body>
+        <!-- COOKIE CONSENT BANNER -->
+        <div id="cookieBanner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.98); color: white; padding: 20px; z-index: 9999; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Archivo', sans-serif;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <!-- Expanded Preferences Section (Hidden by default) -->
+                <div id="cookieBannerExpanded" style="display: none; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">Privacy Settings</h3>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.9);">
+                        We use cookies for essential functionality and (optionally) for analytics and ads. You control what's enabled.
+                    </p>
+                    
+                    <!-- Cookie Checkboxes -->
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                        <!-- Strictly Necessary -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; opacity: 0.7;">
+                            <input type="checkbox" id="cookieNecessary" checked disabled style="margin-top: 3px; cursor: not-allowed;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Strictly Necessary</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Required for site to function (always enabled)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Analytics -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAnalytics" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Analytics (Google Analytics)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Helps us understand how you use the site (anonymized)</div>
+                            </div>
+                        </label>
+                        
+                        <!-- Advertising -->
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+                            <input type="checkbox" id="cookieAdvertising" style="margin-top: 3px;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: white;">Advertising (Google AdSense)</div>
+                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Personalized ads based on browsing history</div>
+                            </div>
+                        </label>
+                    </div>
+                    <button id="saveCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Save Preferences</button>
+                    <a href="privacy.html" style="font-size: 12px; color: #66b3ff; text-decoration: none; border-bottom: 1px solid #66b3ff;">Read our Privacy Policy</a>
+                </div>
+                
+                <!-- Message & Buttons (Always visible) -->
+                <div class="cookie-bottom-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                    <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.9); flex: 1; min-width: 200px;">
+                        We use cookies to ensure you get the best experience on our website.
+                    </p>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0;">
+                        <button class="cookie-buttons" id="preferencesBtn" style="padding: 8px 16px; background: transparent; color: white; border: 3px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Preferences</button>
+                        <button class="cookie-buttons" id="rejectAllCookies" style="padding: 8px 16px; background: transparent; color: rgba(255,255,255,0.7); border: none; cursor: pointer; font-weight: 400; font-size: 14px; white-space: nowrap; text-decoration: underline;">Reject</button>
+                        <button class="cookie-buttons" id="acceptAllCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: 3px solid #ffffff8f; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Cookie management system
+            const COOKIE_CONSENT_KEY = 'gridcutter_cookies';
+            
+            // Default preferences
+            const defaultPreferences = {
+                necessary: true,
+                analytics: false,
+                advertising: false
+            };
+            
+            // Initialize cookie banner
+            function initCookieBanner() {
+                const bannerEl = document.getElementById('cookieBanner');
+                const analyticsCheckbox = document.getElementById('cookieAnalytics');
+                const advertisingCheckbox = document.getElementById('cookieAdvertising');
+                const saveBtn = document.getElementById('saveCookies');
+                const acceptAllBtn = document.getElementById('acceptAllCookies');
+                const rejectAllBtn = document.getElementById('rejectAllCookies');
+                const preferencesBtn = document.getElementById('preferencesBtn');
+                
+                // Check if user has already made a choice
+                const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
+                if (stored) {
+                    const preferences = JSON.parse(stored);
+                    analyticsCheckbox.checked = preferences.analytics;
+                    advertisingCheckbox.checked = preferences.advertising;
+                    bannerEl.style.display = 'none';
+                } else {
+                    bannerEl.style.display = 'block';
+                }
+                
+                // Save preferences
+                saveBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: analyticsCheckbox.checked,
+                        advertising: advertisingCheckbox.checked
+                    };
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Toggle preferences panel  <-- ADD THIS RIGHT HERE
+                preferencesBtn.addEventListener('click', function() {
+                    const expanded = document.getElementById('cookieBannerExpanded');
+                    expanded.style.display = expanded.style.display === 'none' ? 'block' : 'none';
+                });
+
+                // Accept all
+                acceptAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: true,
+                        advertising: true
+                    };
+                    analyticsCheckbox.checked = true;
+                    advertisingCheckbox.checked = true;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+                
+                // Reject optional
+                rejectAllBtn.addEventListener('click', function() {
+                    const preferences = {
+                        necessary: true,
+                        analytics: false,
+                        advertising: false
+                    };
+                    analyticsCheckbox.checked = false;
+                    advertisingCheckbox.checked = false;
+                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
+                    applyPreferences(preferences);
+                    bannerEl.style.display = 'none';
+                });
+            }
+            
+            // Load AdSense conditionally
+            function loadAdSense() {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7273655471475479';
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+            }
+            
+            // Apply preferences (load GA/AdSense if consented)
+            function applyPreferences(preferences) {
+                if (preferences.analytics) {
+                    loadGoogleAnalytics();
+                }
+                if (preferences.advertising) {
+                    loadAdSense();
+                }
+            }
+            
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCookieBanner);
+            } else {
+                initCookieBanner();
+            }
+        </script>
+
+        <!-- NAV -->
+        <header class="nav">
+            <div class="container">
+                <nav class="nav-inner">
+                    <a
+                        href="index.html"
+                        class="nav-logo"
+                        aria-label="GridCutter home"
+                    >
+                        <div class="nav-logo-mark" aria-hidden="true">
+                            <span></span><span></span><span></span> <span></span
+                            ><span></span><span></span>
+                        </div>
+                        GridCutter
+                    </a>
+                    <ul class="nav-links" role="list">
+                        <li><a href="index.html">Home</a></li>
+                        <li>
+                            <a href="gridcutter.html" class="active">Tool</a>
+                        </li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                    <a href="gridcutter.html" class="btn btn-primary nav-cta">
+                        Try Free
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M2 7h10M8 3l4 4-4 4"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </a>
+                    <button
+                        class="mobile-toggle"
+                        id="mobileToggle"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                    >
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                        >
+                            <rect y="2" width="16" height="1.5" rx="1" />
+                            <rect y="7" width="16" height="1.5" rx="1" />
+                            <rect y="12" width="16" height="1.5" rx="1" />
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="index.html">Home</a>
+                <a href="gridcutter.html">Tool</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a
+                    href="gridcutter.html"
+                    class="btn btn-primary"
+                    style="margin-top: 4px; justify-content: center"
+                    >Try Free</a
+                >
+            </div>
+        </header>
+
+        <main>
+            <div class="container">
+                <!-- PAGE HEADER -->
+                <div
+                    style="
+                        padding-top: var(--sp-6);
+                        padding-bottom: var(--sp-5);
+                        display: flex;
+                        align-items: flex-start;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+                        gap: var(--sp-4);
+                    "
+                >
+                    <div>
+                        <div
+                            class="privacy-badge reveal"
+                            style="margin-bottom: var(--sp-3)"
+                        >
+                            <div class="privacy-dot" aria-hidden="true"></div>
+                            <span
+                                >100% private — images never leave your
+                                device</span
+                            >
+                        </div>
+                        <h1
+                            class="f-display reveal"
+                            style="font-size: var(--text-2xl)"
+                        >
+                            Grid Cutter
+                        </h1>
+                        <p
+                            style="
+                                font-size: var(--text-sm);
+                                color: var(--text-secondary);
+                                margin-top: 6px;
+                                font-weight: 300;
+                            "
+                            class="reveal"
+                        >
+                            Upload a photo, choose your layout, download your
+                            slices.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- TOOL LAYOUT -->
+                <div class="tool-wrap">
+                    <!-- ── SIDEBAR ── -->
+                    <aside class="sidebar reveal">
+                        <!-- Upload -->
+                        <div class="panel tool-panel tool-panel-upload">
+                            <div class="panel-title">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <rect
+                                        x="1.5"
+                                        y="3.5"
+                                        width="13"
+                                        height="9"
+                                        rx="2"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <path
+                                        d="M8 6v4M6 8l2-2 2 2"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                                Source Image
+                            </div>
+                            <label
+                                class="upload-zone"
+                                id="uploadZone"
+                                for="fileInput"
+                            >
+                                <div class="upload-icon" aria-hidden="true">
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 20 20"
+                                        fill="none"
+                                    >
+                                        <rect
+                                            x="2"
+                                            y="4"
+                                            width="16"
+                                            height="12"
+                                            rx="2.5"
+                                            stroke="var(--text-tertiary)"
+                                            stroke-width="1.4"
+                                        />
+                                        <path
+                                            d="M10 9v4M8 11l2-2 2 2"
+                                            stroke="var(--text-tertiary)"
+                                            stroke-width="1.4"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                        <circle
+                                            cx="6.5"
+                                            cy="8.5"
+                                            r="1"
+                                            fill="var(--text-tertiary)"
+                                        />
+                                    </svg>
+                                </div>
+                                <p>Drop photo or click to browse</p>
+                                <small
+                                    >JPG, PNG, or WEBP &middot; any size</small
+                                >
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    aria-label="Upload image"
+                                />
+                            </label>
+                            <div class="file-info" id="fileInfo">
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 14 14"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <circle
+                                        cx="7"
+                                        cy="7"
+                                        r="6"
+                                        stroke="var(--green)"
+                                        stroke-width="1.4"
+                                    />
+                                    <path
+                                        d="M4.5 7l2 2 3-3"
+                                        stroke="var(--green)"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                                <span
+                                    id="fileName"
+                                    style="
+                                        font-family:
+                                            &quot;Archivo&quot;, sans-serif;
+                                        font-size: var(--text-xs);
+                                        font-weight: 700;
+                                        color: var(--green);
+                                        white-space: nowrap;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        max-width: 200px;
+                                    "
+                                ></span>
+                            </div>
+                        </div>
+
+                        <div class="panel tool-panel tool-panel-ratio">
+                            <div class="panel-title">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <rect
+                                        x="1.5"
+                                        y="2"
+                                        width="4"
+                                        height="12"
+                                        rx="1"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <rect
+                                        x="6"
+                                        y="2"
+                                        width="4"
+                                        height="12"
+                                        rx="1"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <rect
+                                        x="10.5"
+                                        y="2"
+                                        width="4"
+                                        height="12"
+                                        rx="1"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                </svg>
+                                Post Ratio
+                            </div>
+                            <div
+                                class="format-pills"
+                                role="radiogroup"
+                                aria-label="Output ratio"
+                            >
+                                <button
+                                    class="pill active"
+                                    data-ratio="4x5"
+                                    role="radio"
+                                    aria-checked="true"
+                                >
+                                    4:5
+                                </button>
+                                <button
+                                    class="pill"
+                                    data-ratio="3x4"
+                                    role="radio"
+                                    aria-checked="false"
+                                >
+                                    3:4
+                                </button>
+                            </div>
+                            <p
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-xs);
+                                    color: var(--text-tertiary);
+                                    margin-top: var(--sp-3);
+                                    line-height: 1.6;
+                                "
+                            >
+                                Use `4:5` for Instagram-style overlap alignment
+                                or `3:4` for a simple edge-to-edge triptych
+                                split.
+                            </p>
+                        </div>
+
+                        <div class="panel tool-panel tool-panel-grid">
+                            <div class="panel-title">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <rect
+                                        x="1.5"
+                                        y="1.5"
+                                        width="4"
+                                        height="4"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="6.5"
+                                        y="1.5"
+                                        width="4"
+                                        height="4"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="11.5"
+                                        y="1.5"
+                                        width="3"
+                                        height="4"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="1.5"
+                                        y="6.5"
+                                        width="4"
+                                        height="4"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="6.5"
+                                        y="6.5"
+                                        width="4"
+                                        height="4"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="11.5"
+                                        y="6.5"
+                                        width="3"
+                                        height="4"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="1.5"
+                                        y="11.5"
+                                        width="4"
+                                        height="3"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="6.5"
+                                        y="11.5"
+                                        width="4"
+                                        height="3"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                    <rect
+                                        x="11.5"
+                                        y="11.5"
+                                        width="3"
+                                        height="3"
+                                        rx="0.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.2"
+                                    />
+                                </svg>
+                                Grid Layout
+                            </div>
+                            <div
+                                class="format-pills"
+                                role="radiogroup"
+                                aria-label="Grid layout presets"
+                            >
+                                <button
+                                    class="pill active"
+                                    data-grid-preset="3x1"
+                                    role="radio"
+                                    aria-checked="true"
+                                >
+                                    3x1
+                                </button>
+                                <button
+                                    class="pill"
+                                    data-grid-preset="3x2"
+                                    role="radio"
+                                    aria-checked="false"
+                                >
+                                    3x2
+                                </button>
+                                <button
+                                    class="pill"
+                                    data-grid-preset="3x3"
+                                    role="radio"
+                                    aria-checked="false"
+                                >
+                                    3x3
+                                </button>
+                            </div>
+                            <p
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-xs);
+                                    color: var(--text-tertiary);
+                                    margin-top: var(--sp-3);
+                                    line-height: 1.6;
+                                "
+                            >
+                                Presets control how many 3-column rows are
+                                exported. For custom grids, use the Advanced
+                                section.
+                            </p>
+                        </div>
+
+                        <div class="panel tool-panel tool-panel-format">
+                            <div class="panel-title">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <rect
+                                        x="2"
+                                        y="1.5"
+                                        width="9"
+                                        height="13"
+                                        rx="1.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <path
+                                        d="M11 4.5h2a.5.5 0 01.5.5v8.5a.5.5 0 01-.5.5H6"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+                                Output Format
+                            </div>
+                            <div
+                                class="format-pills"
+                                role="radiogroup"
+                                aria-label="Output format"
+                            >
+                                <button
+                                    class="pill active"
+                                    data-fmt="same"
+                                    role="radio"
+                                    aria-checked="true"
+                                >
+                                    Same as input
+                                </button>
+                                <button
+                                    class="pill"
+                                    data-fmt="jpg"
+                                    role="radio"
+                                    aria-checked="false"
+                                >
+                                    JPG
+                                </button>
+                                <button
+                                    class="pill"
+                                    data-fmt="png"
+                                    role="radio"
+                                    aria-checked="false"
+                                >
+                                    PNG
+                                </button>
+                                <button
+                                    class="pill"
+                                    data-fmt="webp"
+                                    role="radio"
+                                    aria-checked="false"
+                                >
+                                    WEBP
+                                </button>
+                            </div>
+                            <p
+                                style="
+                                    font-family:
+                                        &quot;Archivo&quot;, sans-serif;
+                                    font-size: var(--text-xs);
+                                    color: var(--text-tertiary);
+                                    margin-top: var(--sp-3);
+                                    line-height: 1.6;
+                                "
+                            >
+                                Default keeps the uploaded format. Override it
+                                only if you want a specific export type.
+                            </p>
+                        </div>
+
+                        <details
+                            class="panel tool-panel tool-panel-advanced"
+                            id="advancedPanel"
+                        >
+                            <summary
+                                class="panel-title"
+                                style="cursor: pointer; list-style: none"
+                            >
+                                <span
+                                    style="
+                                        display: inline-flex;
+                                        align-items: center;
+                                        gap: 8px;
+                                    "
+                                >
+                                    <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M8 2.2l1.2 1.9 2.2.4-.7 2.1 1.5 1.7-1.5 1.7.7 2.1-2.2.4L8 13.8l-1.2-1.9-2.2-.4.7-2.1-1.5-1.7 1.5-1.7-.7-2.1 2.2-.4L8 2.2z"
+                                            stroke="currentColor"
+                                            stroke-width="1.2"
+                                        />
+                                        <circle
+                                            cx="8"
+                                            cy="8"
+                                            r="1.6"
+                                            stroke="currentColor"
+                                            stroke-width="1.2"
+                                        />
+                                    </svg>
+                                    Advanced
+                                </span>
+                            </summary>
+                            <div
+                                id="advancedControls"
+                                style="
+                                    margin-top: var(--sp-4);
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: var(--sp-4);
+                                "
+                            >
+                                <div id="gridSizeGroup">
+                                    <div
+                                        class="panel-title"
+                                        style="margin-bottom: 10px"
+                                    >
+                                        Manual Rows
+                                    </div>
+                                    <div
+                                        style="
+                                            display: grid;
+                                            grid-template-columns: 1fr 1fr;
+                                            gap: 12px;
+                                            margin-top: 12px;
+                                        "
+                                    >
+                                        <label
+                                            style="
+                                                display: flex;
+                                                flex-direction: column;
+                                                gap: 6px;
+                                                font-family:
+                                                    &quot;Archivo&quot;,
+                                                    sans-serif;
+                                                font-size: var(--text-xs);
+                                                color: var(--text-secondary);
+                                            "
+                                        >
+                                            Columns
+                                            <input
+                                                type="number"
+                                                id="gridColsInput"
+                                                min="3"
+                                                max="3"
+                                                step="1"
+                                                value="3"
+                                                disabled
+                                                style="
+                                                    width: 100%;
+                                                    padding: 8px;
+                                                    background: var(
+                                                        --surface-2
+                                                    );
+                                                    border: 1px solid
+                                                        var(--border);
+                                                    border-radius: 6px;
+                                                    color: var(--text-main);
+                                                "
+                                            />
+                                        </label>
+                                        <label
+                                            style="
+                                                display: flex;
+                                                flex-direction: column;
+                                                gap: 6px;
+                                                font-family:
+                                                    &quot;Archivo&quot;,
+                                                    sans-serif;
+                                                font-size: var(--text-xs);
+                                                color: var(--text-secondary);
+                                            "
+                                        >
+                                            Rows
+                                            <input
+                                                type="number"
+                                                id="gridRowsInput"
+                                                min="1"
+                                                max="6"
+                                                step="1"
+                                                value="1"
+                                                style="
+                                                    width: 100%;
+                                                    padding: 8px;
+                                                    background: var(
+                                                        --surface-2
+                                                    );
+                                                    border: 1px solid
+                                                        var(--border);
+                                                    border-radius: 6px;
+                                                    color: var(--text-main);
+                                                "
+                                            />
+                                        </label>
+                                    </div>
+                                    <p
+                                        style="
+                                            font-family:
+                                                &quot;Archivo&quot;, sans-serif;
+                                            font-size: var(--text-xs);
+                                            color: var(--text-tertiary);
+                                            margin-top: 8px;
+                                            line-height: 1.6;
+                                        "
+                                    >
+                                        Use presets above for quick layouts, or
+                                        set rows manually here.
+                                    </p>
+                                </div>
+                                <div id="manualOverlapGroup">
+                                    <div
+                                        style="
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 10px;
+                                            margin-bottom: 10px;
+                                        "
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id="manualOverlapCb"
+                                        />
+                                        <label
+                                            for="manualOverlapCb"
+                                            style="font-size: var(--text-xs)"
+                                            >Enable Precision Overlap</label
+                                        >
+                                    </div>
+                                    <input
+                                        type="number"
+                                        id="manualOverlapInput"
+                                        value="0"
+                                        disabled
+                                        style="
+                                            width: 100%;
+                                            padding: 8px;
+                                            background: var(--surface-2);
+                                            border: 1px solid var(--border);
+                                            border-radius: 6px;
+                                            color: var(--text-main);
+                                        "
+                                    />
+                                    <p
+                                        style="
+                                            font-family:
+                                                &quot;Archivo&quot;, sans-serif;
+                                            font-size: var(--text-xs);
+                                            color: var(--text-tertiary);
+                                            margin-top: 8px;
+                                            line-height: 1.6;
+                                        "
+                                    >
+                                        Only applies to `4:5` mode when you want
+                                        to override the automatic Instagram
+                                        overlap.
+                                    </p>
+                                </div>
+                                <div id="qualityGroup">
+                                    <div class="panel-title">
+                                        Quality:
+                                        <span id="qualityVal">95</span>%
+                                    </div>
+                                    <input
+                                        type="range"
+                                        id="qualitySlider"
+                                        min="1"
+                                        max="100"
+                                        value="95"
+                                        style="width: 100%"
+                                    />
+                                </div>
+                            </div>
+                        </details>
+
+                        <div class="panel tool-panel tool-panel-summary">
+                            <div
+                                class="panel-title"
+                                style="margin-bottom: var(--sp-3)"
+                            >
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <rect
+                                        x="1.5"
+                                        y="9"
+                                        width="3"
+                                        height="5.5"
+                                        rx="1"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <rect
+                                        x="6.5"
+                                        y="5.5"
+                                        width="3"
+                                        height="9"
+                                        rx="1"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <rect
+                                        x="11.5"
+                                        y="1.5"
+                                        width="3"
+                                        height="13"
+                                        rx="1"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                </svg>
+                                Export Summary
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-item">
+                                    <div class="stat-label">Posts</div>
+                                    <div class="stat-value" id="statSlices">
+                                        3
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Format</div>
+                                    <div class="stat-value" id="statFormat">
+                                        JPG
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Mode</div>
+                                    <div class="stat-value" id="statMode">
+                                        4:5 Profile
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </aside>
+
+                    <!-- ── CANVAS + DOWNLOADS ── -->
+                    <div class="canvas-area reveal">
+                        <div
+                            class="canvas-header tool-panel tool-panel-preview-head"
+                        >
+                            <div>
+                                <div class="canvas-title">Preview</div>
+                                <div class="canvas-sub" id="canvasSub">
+                                    Upload a photo to preview your grid tiles
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stage -->
+                        <div
+                            class="canvas-stage tool-panel tool-panel-preview-stage"
+                            id="mainContent"
+                            style="display: none"
+                        >
+                            <div
+                                class="preview-wrap"
+                                id="previewWrap"
+                                style="position: relative"
+                            >
+                                <canvas
+                                    id="origCanvas"
+                                    style="
+                                        width: 100%;
+                                        height: 100%;
+                                        display: block;
+                                    "
+                                ></canvas>
+                                <svg
+                                    id="overlaySvg"
+                                    style="
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        pointer-events: none;
+                                    "
+                                ></svg>
+                            </div>
+                        </div>
+
+                        <div
+                            class="panel tool-panel tool-panel-error"
+                            id="errMsg"
+                            style="
+                                display: none;
+                                margin-top: var(--sp-3);
+                                padding: 14px;
+                                color: #b42318;
+                                background: rgba(180, 35, 24, 0.08);
+                                border: 1px solid rgba(180, 35, 24, 0.18);
+                            "
+                        ></div>
+
+                        <div
+                            class="tool-panel tool-panel-info"
+                            id="infoRow"
+                            style="
+                                display: grid;
+                                grid-template-columns: repeat(
+                                    auto-fit,
+                                    minmax(160px, 1fr)
+                                );
+                                gap: var(--sp-3);
+                                margin-top: var(--sp-4);
+                            "
+                        ></div>
+
+                        <!-- Download panel -->
+                        <div
+                            class="download-panel tool-panel tool-panel-downloads"
+                            id="downloadPanel"
+                            style="display: none"
+                        >
+                            <div
+                                style="
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    flex-wrap: wrap;
+                                    gap: var(--sp-3);
+                                "
+                            >
+                                <div>
+                                    <p
+                                        class="f-label"
+                                        style="margin-bottom: 4px"
+                                        id="downloadTitle"
+                                    >
+                                        Ready to download
+                                    </p>
+                                    <p
+                                        id="downloadCopy"
+                                        style="
+                                            font-family:
+                                                &quot;Archivo&quot;, sans-serif;
+                                            font-size: var(--text-xs);
+                                            color: var(--text-secondary);
+                                        "
+                                    >
+                                        Review each tile, then save one
+                                        individually or download the full grid
+                                        together.
+                                    </p>
+                                </div>
+                                <button
+                                    class="btn btn-primary"
+                                    id="dlAll"
+                                    style="padding: 10px var(--sp-5)"
+                                >
+                                    Download All
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 14 14"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M7 2v7M4 7l3 3 3-3M2 12h10"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="download-grid" id="downloadGrid"></div>
+                            <div class="posting-note">
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 14 14"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <circle
+                                        cx="7"
+                                        cy="7"
+                                        r="6"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                    />
+                                    <path
+                                        d="M7 6v4M7 4.5v.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.4"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+                                <p id="postingNoteText">
+                                    <strong>Posting order:</strong> Upload your
+                                    tiles in reverse grid order so the finished
+                                    layout lands correctly on your profile grid.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer" style="margin-top: var(--sp-8)">
+            <div class="container">
+                <div class="footer-inner">
+                    <div class="footer-brand">
+                        <a
+                            href="index.html"
+                            class="nav-logo"
+                            aria-label="GridCutter home"
+                        >
+                            <div class="nav-logo-mark" aria-hidden="true">
+                                <span></span><span></span><span></span>
+                                <span></span><span></span><span></span>
+                            </div>
+                            GridCutter
+                        </a>
+                        <p>
+                            The precision Instagram grid splitter. Free,
+                            private, and built for creators who care about
+                            craft.
+                        </p>
+                    </div>
+                    <div class="footer-cols">
+                        <div class="footer-col">
+                            <div class="footer-col-title">Tools</div>
+                            <ul>
+                                <li>
+                                    <a
+                                        href="gridcutter.html"
+                                        style="
+                                            color: var(--brand);
+                                            font-weight: 700;
+                                        "
+                                        >Grid Cutter</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Company</div>
+                            <ul>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-col">
+                            <div class="footer-col-title">Legal</div>
+                            <ul>
+                                <li>
+                                    <a href="privacy.html">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="terms.html">Terms of Service</a>
+                                </li>
+                                <li>
+                                    <a href="data-processing.html">Data Processing</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom" style="margin-top: var(--sp-7)">
+                    <p>&copy; 2026 GridCutter. All rights reserved.</p>
+                    <p>No images are uploaded to any server. Ever.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
