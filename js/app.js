@@ -440,15 +440,51 @@ document.addEventListener("DOMContentLoaded", () => {
     let overlap = 0;
     let fitMode = "Height Fit";
 
+    // Pre-compute fittedHeight once — it is identical for every row because
+    // rowHeight is equal across all rows.
+    const manualOverlapNorm =
+      manualOverlapOverride === null
+        ? null
+        : Math.max(manualOverlapOverride, 0);
+    const fittedHeight =
+      currentRatio === "3x4"
+        ? Math.min(rowHeight, imgW / 2.25)
+        : calculateFittedCropHeight(imgW, rowHeight, manualOverlapNorm);
+
+    // Build offsetY values from the image's vertical centre outward so that
+    // adjacent rows always touch with zero gap.
+    const centerY = imgH / 2;
+    const rowOffsets = [];
+
+    if (rows % 2 === 0) {
+      // Even: the two middle rows meet exactly at the vertical centre.
+      //   row (n/2 - 1) → bottom edge at centerY
+      //   row (n/2)     → top    edge at centerY
+      const halfRows = rows / 2;
+      for (let i = 0; i < rows; i++) {
+        rowOffsets.push(centerY + (i - halfRows) * fittedHeight);
+      }
+    } else {
+      // Odd: the centre row sits symmetrically on the vertical centre.
+      // Rows above extend upward from its top edge; rows below extend
+      // downward from its bottom edge.
+      const middleIndex = Math.floor(rows / 2);
+      const middleOffsetY = centerY - fittedHeight / 2;
+      for (let i = 0; i < rows; i++) {
+        rowOffsets.push(middleOffsetY + (i - middleIndex) * fittedHeight);
+      }
+    }
+
     for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
-      const rowTop = rowHeight * rowIndex;
+      const offsetY = rowOffsets[rowIndex];
       const zone =
         currentRatio === "3x4"
-          ? calculateSimpleRowZones(imgW, rowHeight, rowTop)
+          ? calculateSimpleRowZones(imgW, rowHeight, fittedHeight, offsetY)
           : calculateFourByFiveRowZones(
               imgW,
               rowHeight,
-              rowTop,
+              fittedHeight,
+              offsetY,
               manualOverlapOverride,
             );
       rowZones.push(zone);
@@ -467,12 +503,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  function calculateSimpleRowZones(imgW, rowHeight, rowTop) {
-    const fittedHeight = Math.min(rowHeight, imgW / 2.25);
+  // fittedHeight and offsetY are now pre-computed by calculateZones.
+  function calculateSimpleRowZones(imgW, rowHeight, fittedHeight, offsetY) {
     const cropWidth = fittedHeight * (3 / 4);
     const totalWidth = cropWidth * 3;
     const offsetX = (imgW - totalWidth) / 2;
-    const offsetY = rowTop + (rowHeight - fittedHeight) / 2;
 
     return {
       tiles: [0, 1, 2].map((index) => ({
@@ -495,10 +530,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  // fittedHeight and offsetY are now pre-computed by calculateZones.
   function calculateFourByFiveRowZones(
     imgW,
     rowHeight,
-    rowTop,
+    fittedHeight,
+    offsetY,
     manualOverlapOverride,
   ) {
     const midX = imgW / 2;
@@ -506,14 +543,8 @@ document.addEventListener("DOMContentLoaded", () => {
       manualOverlapOverride === null
         ? null
         : Math.max(manualOverlapOverride, 0);
-    const fittedHeight = calculateFittedCropHeight(
-      imgW,
-      rowHeight,
-      manualOverlap,
-    );
     const profilePreviewWidth = fittedHeight * (3 / 4);
     const postDetailWidth = fittedHeight * (4 / 5);
-    const offsetY = rowTop + (rowHeight - fittedHeight) / 2;
 
     const postCenterStartX = midX - postDetailWidth / 2;
     const postCenterEndX = midX + postDetailWidth / 2;
