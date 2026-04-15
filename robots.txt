@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://gridcutter.com/sitemap.xml
+LLMs-txt: https://gridcutter.com/llms.txt
