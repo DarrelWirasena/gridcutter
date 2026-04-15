@@ -591,18 +591,42 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     ];
 
-    const previewCropWidth =
-      manualOverlapCb && manualOverlapCb.checked
-        ? Math.round(postDetailWidth)
-        : Math.round(profilePreviewWidth);
-    const previewOffsetX =
-      postCenterStartX + postDetailWidth / 2 - (previewCropWidth * 3) / 2;
-    const previewTiles = [0, 1, 2].map((index) => ({
-      sx: Math.round(previewOffsetX + previewCropWidth * index),
-      sy: Math.round(offsetY),
-      sw: previewCropWidth,
-      sh: Math.round(fittedHeight),
-    }));
+    let previewTiles;
+    if (manualOverlapCb && manualOverlapCb.checked) {
+      // Manual overlap: preview must mirror the actual export tile positions
+      // so the user sees the true overlap in the canvas preview.
+      previewTiles = [
+        {
+          sx: Math.round(postLeftStartX),
+          sy: Math.round(offsetY),
+          sw: Math.round(postDetailWidth),
+          sh: Math.round(fittedHeight),
+        },
+        {
+          sx: Math.round(postCenterStartX),
+          sy: Math.round(offsetY),
+          sw: Math.round(postDetailWidth),
+          sh: Math.round(fittedHeight),
+        },
+        {
+          sx: Math.round(postRightStartX),
+          sy: Math.round(offsetY),
+          sw: Math.round(postDetailWidth),
+          sh: Math.round(fittedHeight),
+        },
+      ];
+    } else {
+      // Auto overlap: show the profile-preview crop (no overlap, side-by-side)
+      const previewCropWidth = Math.round(profilePreviewWidth);
+      const previewOffsetX =
+        postCenterStartX + postDetailWidth / 2 - (previewCropWidth * 3) / 2;
+      previewTiles = [0, 1, 2].map((index) => ({
+        sx: Math.round(previewOffsetX + previewCropWidth * index),
+        sy: Math.round(offsetY),
+        sw: previewCropWidth,
+        sh: Math.round(fittedHeight),
+      }));
+    }
 
     return {
       tiles: exportTiles,
