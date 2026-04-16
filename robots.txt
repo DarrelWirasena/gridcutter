@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 
+# Reference to LLM context (Commented out to pass SEO validation)
+# LLMs-txt: https://gridcutter.com/llms.txt
+
 Sitemap: https://gridcutter.com/sitemap.xml
-LLMs-txt: https://gridcutter.com/llms.txt
