@@ -15,11 +15,13 @@ GridCutter helps Instagram creators post stunning multi-tile photo grids without
 
 - **No Authentication Required** — works entirely in your browser
 - **100% Client-Side Processing** — images never uploaded to any server
-- **Multiple Layouts** — 3×1 (panoramic), 3×2 (featured), 3×3 (full grid)
-- **Flexible Ratios** — Instagram-style (4:5) or simple triptych (3:4)
+- **Multiple Layouts** — 3×1 (panoramic), 3×2 (featured), 3×3 (full grid), plus Advanced Mode up to 3×6 (18 tiles)
+- **Flexible Ratios** — Instagram feed-optimized (4:5) or profile grid-optimized (3:4)
 - **Export Options** — PNG, JPG, WebP, or keep original format
 - **Quality Control** — adjustable compression (1–100%)
+- **Bulk Download** — all tiles packaged as a single ZIP file
 - **Precision Tools** — manual overlap adjustment for advanced layouts
+- **Self-Hosted Fonts** — Archivo and Source Serif 4 served locally, no Google Fonts requests
 - **Fast & Responsive** — works on desktop, tablet, and mobile
 
 ## Supported Layouts
@@ -29,24 +31,31 @@ GridCutter helps Instagram creators post stunning multi-tile photo grids without
 | **3×1** | 3 tiles | Panoramic banner, announcements, launches |
 | **3×2** | 6 tiles | Product series, travel stories, before-and-after |
 | **3×3** | 9 tiles | Full grid takeover, unified brand image |
+| **Up to 3×6** | 18 tiles | Massive continuous feeds (via Advanced Mode) |
 
 ## Supported Formats
 
 **Input:** JPEG, PNG, WebP  
 **Output:** JPEG, PNG, WebP (plus original format option)
 
+## Instagram Context (2026)
+
+- Instagram's profile grid now displays in the taller **3:4 aspect ratio**
+- The **4:5 aspect ratio** remains widely used and preferred for maximum feed visibility
+- GridCutter is built to bridge this transition — works flawlessly with either ratio
+
 ## Getting Started
 
 ### Live Website
 
-Visit [gridcutter.io](https://gridcutter.io) to use GridCutter directly in your browser.
+Visit [gridcutter.com](https://gridcutter.com) to use GridCutter directly in your browser.
 
 ### Running Locally
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/InstagramGridCutter.git
-   cd InstagramGridCutter
+   git clone https://github.com/DarrelWirasena/gridcutter.git
+   cd gridcutter
    ```
 
 2. **Start a local server** (requires Python 3 or Node.js):
@@ -69,23 +78,27 @@ Visit [gridcutter.io](https://gridcutter.io) to use GridCutter directly in your 
 ## Project Structure
 
 ```
-InstagramGridCutter/
+gridcutter/
 ├── index.html                 # Homepage with layout showcase
 ├── gridcutter.html            # Main tool interface
 ├── about.html                 # About page
-├── contact.html               # Contact page
+├── contact.html               # Contact page 
 ├── privacy.html               # Privacy policy
 ├── terms.html                 # Terms of service
+├── data-processing.html       # GDPR data processing rights
+├── sitemap.xml                # Sitemap with lastmod dates
+├── robots.txt                 # Crawler rules + LLMs-txt reference
+├── llms.txt                   # LLM/AI agent context file
+├── BingSiteAuth.xml           # Bing Webmaster verification
 ├── assets/
-│   └── css/
-│       └── style.css          # Shared styles
+│   ├── css/
+│   │   └── style.css          # Shared styles (includes self-hosted font declarations)
+│   └── fonts/                 # Self-hosted Archivo + Source Serif 4 woff2 files
 ├── js/
-│   ├── app.js                 # Main tool logic
-│   └── app.min.js             # Minified version
+│   └── app.js                 # Main tool logic
 ├── tests/
 │   ├── gridcutter.spec.js     # Tool tests
 │   └── fixtures/              # Test fixtures
-├── playwright.config.js       # E2E test config
 ├── package.json               # Dependencies & scripts
 └── README.md                  # This file
 ```
@@ -112,44 +125,43 @@ This runs Playwright tests that verify:
 GridCutter is **100% private**:
 - All image processing happens in your browser
 - Images are **never** uploaded to any server
-- No tracking or analytics on the image itself
-- No cookies or user profiles
-- Only analytics: Google Analytics on traffic patterns
+- No tracking cookies, analytics, or user profiles are used
 
-Read the full [Privacy Policy](https://gridcutter.io/privacy.html) for details.
+Read the full [Privacy Policy](https://gridcutter.com/privacy.html) for details.
 
 ## Development
 
 ### Key Technologies
 
-- **HTML/CSS** — Responsive layout framework
-- **Vanilla JavaScript** — No frameworks, lightweight & fast
-- **Canvas API** — Image slicing and manipulation
-- **Google Analytics** — Traffic insights only
+- **HTML5/CSS3** — Responsive layout with modern CSS variables and Grid/Flexbox
+- **Vanilla JavaScript** — Lightweight, high-performance logic with no external framework dependencies
+- **Canvas API** — Core engine for high-precision image slicing and manipulation
+- **JSZip** — For packaging all tiles into a single ZIP file for bulk download
+- **Self-Hosted Fonts** — Archivo and Source Serif 4 served locally to minimize external requests and ensure privacy
+- **Schema.org JSON-LD** — Structured metadata (`SoftwareApplication`) for enhanced SEO on both homepage and tool page
 
-### Build & Minify
-
-```bash
-npm install
-npm run build  # Minifies app.js to app.min.js
-```
-
-### Making Changes
+### Local Development Flow
 
 1. Edit source files in `js/app.js` and `assets/css/style.css`
-2. Test locally at `http://localhost:8000`
-3. Run automated tests: `npm test`
-4. Minify before deployment: `npm run build`
+2. Test locally using a static server
+3. Run automated tests to verify grid calculations: `npm test`
 
 ## Browser Support
 
 GridCutter works on all modern browsers that support:
-- Canvas API
-- FileReader API
-- LocalStorage (optional)
-- Modern CSS Grid/Flexbox
+- **Canvas API** — Required for image processing
+- **FileReader API** — Required for local image loading
+- **LocalStorage** — Used to persist your preferred grid layout (3x1, 3x2, etc.)
+- **Modern CSS** — Utilizes CSS Grid and Flexbox for responsive layout
 
-**Tested:** Chrome, Firefox, Safari, Edge (latest versions)
+**Tested & Verified:** Chrome (latest version)
+
+## SEO & Discoverability
+
+- **Structured Data**: JSON-LD `SoftwareApplication` markup for rich search results
+- **Webmaster Tools**: Bing verification and IndexNow integration for instant crawling
+- **Search Optimization**: Semantic HTML, sitemap at `/sitemap.xml`, and optimized `robots.txt`
+- **AI-Ready**: Dedicated `llms.txt` file providing context for AI agents and LLMs
 
 ## Common Questions
 
@@ -165,14 +177,17 @@ A: Any size. GridCutter scales and crops to match your chosen ratio. Square or l
 **Q: Do I need an account?**  
 A: No. GridCutter is completely free and requires no registration.
 
+**Q: Can I make grids larger than 3×3?**  
+A: Yes. Open Advanced Mode in the tool to create custom layouts up to 3×6 (18 tiles).
+
 ## License
 
-© 2024 GridCutter. Open for personal and commercial use.
+© 2026 GridCutter. Open for personal and commercial use.
 
 ## Support
 
 **Found a bug?** Have a feature request?  
-[Contact us](https://gridcutter.io/contact.html) or email **gridcuttertool@gmail.com**
+Contact us or email **gridcuttertool@gmail.com**
 
 ---
 
