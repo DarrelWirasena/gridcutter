@@ -37,33 +37,6 @@
         <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 
-        <!-- Google Analytics - Loaded conditionally based on cookie consent -->
-        <script>
-            function loadGoogleAnalytics() {
-                const script = document.createElement('script');
-                script.async = true;
-                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-H4GB4E0X7E';
-                document.head.appendChild(script);
-                
-                window.dataLayer = window.dataLayer || [];
-                function gtag() {
-                    dataLayer.push(arguments);
-                }
-                window.gtag = gtag;
-                gtag('js', new Date());
-                gtag('config', 'G-H4GB4E0X7E');
-            }
-            
-            // Check if user has already consented
-            const cookieConsent = localStorage.getItem('gridcutter_cookies');
-            if (cookieConsent) {
-                const preferences = JSON.parse(cookieConsent);
-                if (preferences.analytics) {
-                    loadGoogleAnalytics();
-                }
-            }
-        </script>
-
         <link rel="preload" href="/assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="preload" href="/assets/fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -273,71 +246,6 @@
                 margin: 0;
             }
 
-            /* Cookie rows */
-            .cookie-list {
-                display: flex;
-                flex-direction: column;
-                gap: var(--sp-3);
-                margin-top: var(--sp-5);
-            }
-            .cookie-row {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: var(--sp-4);
-                padding: var(--sp-4) var(--sp-5);
-                background: var(--surface-0);
-                border: 1px solid var(--border-subtle);
-                border-radius: 12px;
-            }
-            .cookie-info {
-                display: flex;
-                align-items: center;
-                gap: var(--sp-3);
-            }
-            .cookie-dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                flex-shrink: 0;
-            }
-            .cookie-dot-required {
-                background: var(--green);
-            }
-            .cookie-dot-optional {
-                background: var(--brand);
-            }
-            .cookie-row h5 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 700;
-                font-size: var(--text-sm);
-                color: var(--text-primary);
-            }
-            .cookie-row p {
-                font-size: var(--text-xs);
-                color: var(--text-tertiary);
-                margin: 0;
-            }
-            .cookie-badge {
-                font-family: "Archivo", sans-serif;
-                font-size: 10px;
-                font-weight: 700;
-                letter-spacing: 0.06em;
-                text-transform: uppercase;
-                padding: 4px var(--sp-3);
-                border-radius: 100px;
-                white-space: nowrap;
-                flex-shrink: 0;
-            }
-            .cookie-badge-required {
-                background: var(--green-surface);
-                color: var(--green);
-            }
-            .cookie-badge-optional {
-                background: var(--brand-xlight);
-                color: var(--brand);
-            }
-
             /* Rights list */
             .rights-list {
                 display: flex;
@@ -415,171 +323,7 @@
         </style>
     </head>
     <body>
-        <!-- COOKIE CONSENT BANNER -->
-        <div id="cookieBanner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.98); color: white; padding: 20px; z-index: 9999; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Archivo', sans-serif;">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <!-- Expanded Preferences Section (Hidden by default) -->
-                <div id="cookieBannerExpanded" style="display: none; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                    <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">Privacy Settings</h3>
-                    <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.9);">
-                        We use cookies for essential functionality and (optionally) for analytics and ads. You control what's enabled.
-                    </p>
-                    
-                    <!-- Cookie Checkboxes -->
-                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
-                        <!-- Strictly Necessary -->
-                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; opacity: 0.7;">
-                            <input type="checkbox" id="cookieNecessary" checked disabled style="margin-top: 3px; cursor: not-allowed;">
-                            <div>
-                                <div style="font-size: 13px; font-weight: 600; color: white;">Strictly Necessary</div>
-                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Required for site to function (always enabled)</div>
-                            </div>
-                        </label>
-                        
-                        <!-- Analytics -->
-                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
-                            <input type="checkbox" id="cookieAnalytics" style="margin-top: 3px;">
-                            <div>
-                                <div style="font-size: 13px; font-weight: 600; color: white;">Analytics (Google Analytics)</div>
-                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Helps us understand how you use the site (anonymized)</div>
-                            </div>
-                        </label>
-                        
-                        <!-- Advertising -->
-                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
-                            <input type="checkbox" id="cookieAdvertising" style="margin-top: 3px;">
-                            <div>
-                                <div style="font-size: 13px; font-weight: 600; color: white;">Advertising (Google AdSense)</div>
-                                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Personalized ads based on browsing history</div>
-                            </div>
-                        </label>
-                    </div>
-                    <button id="saveCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Save Preferences</button>
-                    <a href="privacy.html" style="font-size: 12px; color: #66b3ff; text-decoration: none; border-bottom: 1px solid #66b3ff;">Read our Privacy Policy</a>
-                </div>
-                
-                <!-- Message & Buttons (Always visible) -->
-                <div class="cookie-bottom-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-                    <p style="margin: 0; font-size: 14px; color: rgba(255,255,255,0.9); flex: 1; min-width: 200px;">
-                        We use cookies to ensure you get the best experience on our website.
-                    </p>
-                    
-                    <!-- Buttons -->
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0;">
-                        <button class="cookie-buttons" id="preferencesBtn" style="padding: 8px 16px; background: transparent; color: white; border: 3px solid rgba(255,255,255,0.3); border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Preferences</button>
-                        <button class="cookie-buttons" id="rejectAllCookies" style="padding: 8px 16px; background: transparent; color: rgba(255,255,255,0.7); border: none; cursor: pointer; font-weight: 400; font-size: 14px; white-space: nowrap; text-decoration: underline;">Reject</button>
-                        <button class="cookie-buttons" id="acceptAllCookies" style="padding: 8px 16px; background: #5b9dff; color: white; border: 3px solid #ffffff8f; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap;">Accept</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            // Cookie management system
-            const COOKIE_CONSENT_KEY = 'gridcutter_cookies';
-            
-            // Default preferences
-            const defaultPreferences = {
-                necessary: true,
-                analytics: false,
-                advertising: false
-            };
-            
-            // Initialize cookie banner
-            function initCookieBanner() {
-                const bannerEl = document.getElementById('cookieBanner');
-                const analyticsCheckbox = document.getElementById('cookieAnalytics');
-                const advertisingCheckbox = document.getElementById('cookieAdvertising');
-                const saveBtn = document.getElementById('saveCookies');
-                const acceptAllBtn = document.getElementById('acceptAllCookies');
-                const rejectAllBtn = document.getElementById('rejectAllCookies');
-                const preferencesBtn = document.getElementById('preferencesBtn');
-                
-                // Check if user has already made a choice
-                const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
-                if (stored) {
-                    const preferences = JSON.parse(stored);
-                    analyticsCheckbox.checked = preferences.analytics;
-                    advertisingCheckbox.checked = preferences.advertising;
-                    bannerEl.style.display = 'none';
-                } else {
-                    bannerEl.style.display = 'block';
-                }
-                
-                // Save preferences
-                saveBtn.addEventListener('click', function() {
-                    const preferences = {
-                        necessary: true,
-                        analytics: analyticsCheckbox.checked,
-                        advertising: advertisingCheckbox.checked
-                    };
-                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-                    applyPreferences(preferences);
-                    bannerEl.style.display = 'none';
-                });
-                
-                // Toggle preferences panel  <-- ADD THIS RIGHT HERE
-                preferencesBtn.addEventListener('click', function() {
-                    const expanded = document.getElementById('cookieBannerExpanded');
-                    expanded.style.display = expanded.style.display === 'none' ? 'block' : 'none';
-                });
-
-                // Accept all
-                acceptAllBtn.addEventListener('click', function() {
-                    const preferences = {
-                        necessary: true,
-                        analytics: true,
-                        advertising: true
-                    };
-                    analyticsCheckbox.checked = true;
-                    advertisingCheckbox.checked = true;
-                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-                    applyPreferences(preferences);
-                    bannerEl.style.display = 'none';
-                });
-                
-                // Reject optional
-                rejectAllBtn.addEventListener('click', function() {
-                    const preferences = {
-                        necessary: true,
-                        analytics: false,
-                        advertising: false
-                    };
-                    analyticsCheckbox.checked = false;
-                    advertisingCheckbox.checked = false;
-                    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(preferences));
-                    applyPreferences(preferences);
-                    bannerEl.style.display = 'none';
-                });
-            }
-            
-            // Load AdSense conditionally
-            function loadAdSense() {
-                const script = document.createElement('script');
-                script.async = true;
-                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7273655471475479';
-                script.crossOrigin = 'anonymous';
-                document.head.appendChild(script);
-            }
-            
-            // Apply preferences (load GA/AdSense if consented)
-            function applyPreferences(preferences) {
-                if (preferences.analytics) {
-                    loadGoogleAnalytics();
-                }
-                if (preferences.advertising) {
-                    loadAdSense();
-                }
-            }
-            
-            // Wait for DOM to be ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initCookieBanner);
-            } else {
-                initCookieBanner();
-            }
-        </script>
-
+        
         <!-- NAV -->
         <header class="nav">
             <div class="container">
@@ -748,12 +492,11 @@
                                 that information.
                             </p>
                             <p>
-                                The short version: GridCutter is a static web
-                                utility. The heaviest lifting — image processing
-                                — happens entirely in your browser. The data we
-                                do collect (via standard server logs, Google
-                                Analytics, and advertising cookies) is minimal,
-                                industry-standard, and described in full below.
+                                The short version: GridCutter is a static web utility. 
+                                The heaviest lifting—image processing—happens entirely in your browser. 
+                                The only data we collect is the minimal, industry-standard information 
+                                contained in server logs, which is necessary for security and site 
+                                functionality and is described in full below.
                             </p>
                             <p>
                                 By using GridCutter, you agree to the practices
@@ -765,40 +508,25 @@
                         <!-- LAWFUL BASIS -->
                         <section class="privacy-section reveal" id="lawful-basis">
                             <h2>Lawful Basis for Processing</h2>
-                            <p>
-                                Under GDPR Article 6, we process personal data (primarily through server logs, Google Analytics, and Google AdSense) based on two lawful bases:
+                             <p>
+                                Under GDPR Article 6, we process a minimal amount of personal data based on our legitimate interest (Article 6(1)(f)) to maintain the security and functionality of the service.
                             </p>
-                            <div class="info-grid">
-                                <div class="info-card">
-                                    <h4>Legitimate Interest (Article 6(1)(f))</h4>
-                                    <p>
-                                        We process server logs (IP address, browser type, access time) to prevent abuse, detect errors, and maintain security. We believe this legitimate interest outweighs privacy intrusion because: (1) logs are retained only 90 days, (2) we hold no sensitive personal data, and (3) processing is minimal and industry-standard.
-                                    </p>
-                                </div>
-                                <div class="info-card">
-                                    <h4>Explicit Consent (Article 7)</h4>
-                                    <p>
-                                        For Google Analytics and Google AdSense cookies, we rely on your explicit consent. When you accept our cookie banner, you consent to these services. You can withdraw consent at any time by disabling cookies in your browser settings or opting out at <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ads Settings</a>.
-                                    </p>
-                                </div>
-                            </div>
-                            <p style="margin-top: var(--sp-5)">
+                            <p>
+                                This processing is limited to standard server logs (IP address, browser type, access time), which are used to prevent abuse, detect errors, and ensure the site is operating correctly. We believe this legitimate interest is necessary for providing the service and outweighs any privacy intrusion because the data is not used for tracking, is retained for only 90 days, and is not linked to any other personal information.
+                            </p>
+                            <p>
                                 If you have questions about our lawful basis for processing, please see our <a href="data-processing.html">Data Processing page</a> or <a href="contact.html">contact us</a>.
                             </p>
                         </section>
 
                         <!-- DATA WE COLLECT -->
-                        <section
-                            class="privacy-section reveal"
-                            id="data-we-collect"
-                        >
+                        <section class="privacy-section reveal" id="data-we-collect">
                             <h2>Data We Collect</h2>
                             <p>
-                                We collect two broad categories of data: data
-                                generated automatically when you visit any
-                                website (server & analytics data), and data you
-                                voluntarily provide (if any). We collect no
-                                health, financial, or sensitive personal data.
+                                We collect only the data generated automatically
+                                when you visit our website (server log data). We
+                                collect no health, financial, or other sensitive
+                                personal data.
                             </p>
                             <div class="info-grid">
                                 <div class="info-card">
@@ -831,65 +559,6 @@
                                         system, referring page, and timestamp.
                                         Standard for every web server. Not
                                         linked to any personal identity.
-                                    </p>
-                                </div>
-                                <div class="info-card">
-                                    <div class="info-card-icon">
-                                        <svg
-                                            width="16"
-                                            height="16"
-                                            viewBox="0 0 16 16"
-                                            fill="none"
-                                        >
-                                            <path
-                                                d="M2 12 L4 8 L7 10 L10 5 L14 9"
-                                                stroke="currentColor"
-                                                stroke-width="1.4"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <h4>Analytics Data</h4>
-                                    <p>
-                                        Pages visited, time on site, feature
-                                        interactions, and general device/browser
-                                        category — collected via Google
-                                        Analytics in anonymised, aggregated
-                                        form.
-                                    </p>
-                                </div>
-                                <div class="info-card">
-                                    <div class="info-card-icon">
-                                        <svg
-                                            width="16"
-                                            height="16"
-                                            viewBox="0 0 16 16"
-                                            fill="none"
-                                        >
-                                            <rect
-                                                x="2"
-                                                y="2"
-                                                width="12"
-                                                height="12"
-                                                rx="2"
-                                                stroke="currentColor"
-                                                stroke-width="1.4"
-                                            />
-                                            <path
-                                                d="M5 8h6M5 5h6M5 11h4"
-                                                stroke="currentColor"
-                                                stroke-width="1.4"
-                                                stroke-linecap="round"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <h4>Advertising Signals</h4>
-                                    <p>
-                                        Google AdSense may read or set cookies
-                                        to serve relevant ads. These are managed
-                                        by Google and governed by Google's
-                                        Privacy Policy.
                                     </p>
                                 </div>
                                 <div class="info-card">
@@ -934,93 +603,19 @@
 
                         <!-- COOKIES & ADS -->
                         <section class="privacy-section reveal" id="cookies">
-                            <h2>Cookies &amp; Ads</h2>
+                            <h2>Cookies</h2>
                             <p>
-                                GridCutter uses cookies for two purposes: site
-                                analytics (Google Analytics) and advertising
-                                (Google AdSense). We do not use cookies for
-                                authentication or to build first-party user
-                                profiles.
+                                GridCutter does not use cookies for tracking,
+                                advertising, or analytics. The core
+                                functionality of the tool works without setting
+                                any cookies on your device.
                             </p>
-                            <div class="cookie-list">
-                                <div class="cookie-row">
-                                    <div class="cookie-info">
-                                        <div
-                                            class="cookie-dot cookie-dot-required"
-                                        ></div>
-                                        <div>
-                                            <h5>Strictly Necessary</h5>
-                                            <p>
-                                                Cookie consent preference stored
-                                                in localStorage so the banner
-                                                only appears once. No personal
-                                                data is collected.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <span
-                                        class="cookie-badge cookie-badge-required"
-                                        >Always On</span
-                                    >
-                                </div>
-                                <div class="cookie-row">
-                                    <div class="cookie-info">
-                                        <div
-                                            class="cookie-dot cookie-dot-optional"
-                                        ></div>
-                                        <div>
-                                            <h5>
-                                                Google Analytics (_ga, _gid)
-                                            </h5>
-                                            <p>
-                                                Anonymous usage statistics.
-                                                Helps us understand which
-                                                features are used most.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <span
-                                        class="cookie-badge cookie-badge-optional"
-                                        >Analytics</span
-                                    >
-                                </div>
-                                <div class="cookie-row">
-                                    <div class="cookie-info">
-                                        <div
-                                            class="cookie-dot cookie-dot-optional"
-                                        ></div>
-                                        <div>
-                                            <h5>Google AdSense (DART)</h5>
-                                            <p>
-                                                Used by Google to serve
-                                                interest-based ads based on your
-                                                browsing history across sites.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <span
-                                        class="cookie-badge cookie-badge-optional"
-                                        >Advertising</span
-                                    >
-                                </div>
-                            </div>
-                            <p style="margin-top: var(--sp-5)">
-                                You can opt out of Google's personalised
-                                advertising via
-                                <a
-                                    href="https://adssettings.google.com"
-                                    target="_blank"
-                                    rel="noopener"
-                                    >Google Ads Settings</a
-                                >. You can also disable Google Analytics across
-                                all sites using the
-                                <a
-                                    href="https://tools.google.com/dlpage/gaoptout"
-                                    target="_blank"
-                                    rel="noopener"
-                                    >Google Analytics Opt-out Browser Add-on</a
-                                >. Most browsers let you block or delete cookies
-                                entirely through their privacy settings.
+                            <p>
+                                The site uses `localStorage` in your browser for
+                                an essential site preference: remembering the
+                                last grid layout you selected. This data is
+                                stored only on your device, is not used to
+                                track you, and contains no personal information.
                             </p>
                         </section>
 
@@ -1032,56 +627,15 @@
                             <h2>Third Parties</h2>
                             <p>
                                 We do not sell, trade, or rent your personal
-                                data to third parties. The third-party services
-                                we use — and the data they may receive — are:
+                                data to third parties. Our site is served
+                                through a hosting provider and Content Delivery
+                                Network (CDN). These services may process
+                                standard server logs (containing your IP
+                                address, user-agent, and timestamp) for security
+                                and abuse prevention purposes, which is a
+                                standard and necessary part of operating a
+                                website.
                             </p>
-                            <div class="info-grid">
-                                <div class="info-card">
-                                    <h4>Google Analytics</h4>
-                                    <p>
-                                        Receives anonymised visit data (pages,
-                                        duration, device type). Governed by
-                                        <a
-                                            href="https://policies.google.com/privacy"
-                                            target="_blank"
-                                            rel="noopener"
-                                            >Google's Privacy Policy</a
-                                        >. You can learn more about how Google
-                                        uses this data at
-                                        <a
-                                            href="https://policies.google.com/technologies/partner-sites"
-                                            target="_blank"
-                                            rel="noopener"
-                                            >policies.google.com</a
-                                        >.
-                                    </p>
-                                </div>
-                                <div class="info-card">
-                                    <h4>Google AdSense</h4>
-                                    <p>
-                                        May set the DART cookie to serve ads
-                                        based on your prior visits. You can opt
-                                        out at
-                                        <a
-                                            href="https://adssettings.google.com"
-                                            target="_blank"
-                                            rel="noopener"
-                                            >adssettings.google.com</a
-                                        >.
-                                    </p>
-                                </div>
-                                <div class="info-card">
-                                    <h4>Hosting / CDN</h4>
-                                    <p>
-                                        Our static files are served via a CDN
-                                        provider. Server logs (IP, timestamp,
-                                        user-agent) may be retained by the
-                                        provider for security and abuse
-                                        prevention.
-                                    </p>
-                                </div>
-
-                            </div>
                         </section>
 
                         <!-- YOUR RIGHTS -->
@@ -1125,18 +679,6 @@
                                 <div class="right-item">
                                     <div class="right-num">03</div>
                                     <div>
-                                        <h4>Right to Opt Out of Ads</h4>
-                                        <p>
-                                            You can opt out of personalised
-                                            advertising via Google Ads Settings
-                                            or by disabling advertising cookies
-                                            in your browser at any time.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="right-item">
-                                    <div class="right-num">04</div>
-                                    <div>
                                         <h4>Right to Complain</h4>
                                         <p>
                                             If you believe we have violated your
@@ -1154,10 +696,8 @@
                             <h2>Data Retention</h2>
                             <p>
                                 Server log files are retained for up to 90 days
-                                for security and debugging purposes, after which
-                                they are automatically deleted. Google Analytics
-                                data is retained for 14 months by default, as
-                                configured in our Google Analytics account.
+                                for security and debugging purposes, after
+                                which they are automatically deleted.
                             </p>
                             <p>
                                 Since we hold no account data and no image data,
