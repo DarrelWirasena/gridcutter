@@ -1,14 +1,20 @@
 {
-  "name": "instagramgridcutter",
+  "name": "gridcutter",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A free, web-based tool for splitting photos into perfectly aligned grids for Instagram.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "playwright test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "instagram",
+    "grid",
+    "splitter",
+    "cutter",
+    "photo",
+    "image"
+  ],
+  "author": "DarrelWirasena",
+  "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.59.1"
   }
