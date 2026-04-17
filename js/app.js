@@ -64,6 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentGrid = { cols: 3, rows: 1 };
   let currentSlices = [];
 
+  // Manual overlay positioning state (in image-pixel coordinates).
+  // offsetX/Y are deltas applied to the entire group of tiles.
+  // scale multiplies the tile dimensions while locking the ratio.
+  let overlayOffset = { x: 0, y: 0 };
+  let overlayScale = 1.0;
+  let overlayBaseZones = null; // zones produced by calculateZones() before offset/scale
+  let overlaySelected = false;
+  const resetOverlayBtn = document.getElementById("resetOverlayBtn");
+
   const formatPills = Array.from(document.querySelectorAll(".pill[data-fmt]"));
   const ratioPills = Array.from(document.querySelectorAll(".pill[data-ratio]"));
   const gridPresetPills = Array.from(
@@ -320,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function processImage(img) {
+  function processImage(img, keepOverlay = false) {
     clearErr();
 
     const imgW = img.naturalWidth;
@@ -334,17 +343,26 @@ document.addEventListener("DOMContentLoaded", () => {
       : 0;
     const zones = calculateZones(imgW, imgH, useManual ? manualVal : null);
 
-    drawOriginal(img, imgW, imgH, zones);
-    currentSlices = generateSlices(img, zones);
+    // Reset overlay positioning whenever settings change (not when dragging).
+    if (!keepOverlay) {
+      overlayOffset = { x: 0, y: 0 };
+      overlayScale = 1.0;
+    }
+    overlayBaseZones = zones;
+
+    const adjustedZones = applyOverlayTransform(zones, imgW, imgH);
+
+    drawOriginal(img, imgW, imgH, adjustedZones);
+    currentSlices = generateSlices(img, adjustedZones);
     renderDownloadGrid(currentSlices);
     showInfo(
       imgW,
       imgH,
-      zones.tileW,
-      zones.tileH,
-      zones.calculatedOverlap,
+      adjustedZones.tileW,
+      adjustedZones.tileH,
+      adjustedZones.calculatedOverlap,
       useManual,
-      zones.fitMode,
+      adjustedZones.fitMode,
     );
 
     if (mainContent) {
@@ -650,6 +668,419 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.min(rowHeight, maxHeightFromWidth);
   }
 
+  // ─── Overlay transform ───────────────────────────────────────────────────
+  
+  function applyOverlayTransform(zones, imgW, imgH) {
+    if (overlayOffset.x === 0 && overlayOffset.y === 0 && overlayScale === 1.0) {
+      return zones;
+    }
+
+    const s = overlayScale;
+
+    // Find the center of the entire base group (all tiles across all rows)
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    zones.rows.forEach((row) => {
+      row.tiles.forEach((t) => {
+        minX = Math.min(minX, t.sx);
+        minY = Math.min(minY, t.sy);
+        maxX = Math.max(maxX, t.sx + t.sw);
+        maxY = Math.max(maxY, t.sy + t.sh);
+      });
+    });
+    const groupCX = (minX + maxX) / 2;
+    const groupCY = (minY + maxY) / 2;
+
+    // Scale every tile relative to the group center, then apply offset
+    const transformTiles = (tiles) =>
+      tiles.map((t) => {
+        const newSW = Math.round(t.sw * s);
+        const newSH = Math.round(t.sh * s);
+        // Scale the tile's center relative to the group center
+        const tileCX = t.sx + t.sw / 2;
+        const tileCY = t.sy + t.sh / 2;
+        const scaledCX = groupCX + (tileCX - groupCX) * s;
+        const scaledCY = groupCY + (tileCY - groupCY) * s;
+        const newSX = Math.round(scaledCX - newSW / 2 + overlayOffset.x);
+        const newSY = Math.round(scaledCY - newSH / 2 + overlayOffset.y);
+        return { sx: newSX, sy: newSY, sw: newSW, sh: newSH };
+      });
+
+    const newRows = zones.rows.map((row) => ({
+      ...row,
+      tiles: transformTiles(row.tiles),
+      previewTiles: transformTiles(row.previewTiles),
+      tileW: Math.round(row.tileW * s),
+      tileH: Math.round(row.tileH * s),
+    }));
+
+    // Clamp the transformed group back inside the image
+    let rMinX = Infinity, rMinY = Infinity, rMaxX = -Infinity, rMaxY = -Infinity;
+    newRows.forEach((row) => {
+      row.tiles.forEach((t) => {
+        rMinX = Math.min(rMinX, t.sx);
+        rMinY = Math.min(rMinY, t.sy);
+        rMaxX = Math.max(rMaxX, t.sx + t.sw);
+        rMaxY = Math.max(rMaxY, t.sy + t.sh);
+      });
+    });
+
+    const clampDX = rMinX < 0 ? -rMinX : rMaxX > imgW ? imgW - rMaxX : 0;
+    const clampDY = rMinY < 0 ? -rMinY : rMaxY > imgH ? imgH - rMaxY : 0;
+
+    const clampedRows = clampDX === 0 && clampDY === 0
+      ? newRows
+      : newRows.map((row) => {
+          const shift = (tiles) =>
+            tiles.map((t) => ({ ...t, sx: t.sx + clampDX, sy: t.sy + clampDY }));
+          return { ...row, tiles: shift(row.tiles), previewTiles: shift(row.previewTiles) };
+        });
+
+    overlayOffset.x += clampDX;
+    overlayOffset.y += clampDY;
+
+    return {
+      ...zones,
+      rows: clampedRows,
+      tileW: newRows[0]?.tileW ?? zones.tileW,
+      tileH: newRows[0]?.tileH ?? zones.tileH,
+    };
+  }
+
+  // ─── Overlay drag + scroll-to-scale interaction ───────────────────────────
+  // Drag anywhere on the SVG overlay to pan the whole group.
+  // Scroll (or pinch via wheel) on the overlay to scale it (ratio-locked).
+
+  function setupOverlayInteraction() {
+    if (!overlaySvg || !origCanvas) return;
+
+    overlaySvg.style.pointerEvents = "all";
+
+    let isDragging = false;
+    let isScaling = false;
+    let activeHandle = null; // 'tl' | 'tr' | 'bl' | 'br'
+    let dragStartSVG = null;
+    let dragStartOffset = null;
+    let scaleStartSVG = null;
+    let scaleStartScale = null;
+    let scaleStartOffset = null;
+
+    // ── helpers ──────────────────────────────────────────────────────────────
+
+    function clientToSVG(e) {
+      const rect = overlaySvg.getBoundingClientRect();
+      const vb = overlaySvg.viewBox.baseVal;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: ((clientX - rect.left) / rect.width) * vb.width,
+        y: ((clientY - rect.top) / rect.height) * vb.height,
+      };
+    }
+
+    function getGroupBBox(zones) {
+      // Bounding box of ALL previewTiles across all rows
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      zones.rows.forEach((row) => {
+        row.previewTiles.forEach((t) => {
+          minX = Math.min(minX, t.sx);
+          minY = Math.min(minY, t.sy);
+          maxX = Math.max(maxX, t.sx + t.sw);
+          maxY = Math.max(maxY, t.sy + t.sh);
+        });
+      });
+      return { minX, minY, maxX, maxY };
+    }
+
+    function pointInGroupBBox(pt, zones) {
+      const bb = getGroupBBox(zones);
+      return pt.x >= bb.minX && pt.x <= bb.maxX && pt.y >= bb.minY && pt.y <= bb.maxY;
+    }
+
+    function getHandleRadius() {
+      if (!overlaySvg) return 8;
+      const vb = overlaySvg.viewBox.baseVal;
+      return Math.max(6, Math.round(vb.width / 80));
+    }
+
+    function getHandleHitRadius() {
+      return getHandleRadius() * 2.5;
+    }
+
+    function getHandlePositions(zones) {
+      const bb = getGroupBBox(zones);
+      return {
+        tl: { x: bb.minX, y: bb.minY },
+        tr: { x: bb.maxX, y: bb.minY },
+        bl: { x: bb.minX, y: bb.maxY },
+        br: { x: bb.maxX, y: bb.maxY },
+      };
+    }
+
+    function hitTestHandle(pt, zones) {
+      if (!overlaySelected) return null;
+      const handles = getHandlePositions(zones);
+      const r = getHandleHitRadius();
+      for (const [key, pos] of Object.entries(handles)) {
+        const dx = pt.x - pos.x;
+        const dy = pt.y - pos.y;
+        if (Math.sqrt(dx * dx + dy * dy) <= r) return key;
+      }
+      return null;
+    }
+
+    function getCurrentZones() {
+      if (!currentLoadedImage || !overlayBaseZones) return null;
+      return applyOverlayTransform(overlayBaseZones, currentLoadedImage.naturalWidth, currentLoadedImage.naturalHeight);
+    }
+
+    function setSelected(val) {
+      overlaySelected = val;
+      overlaySvg.style.cursor = val ? "grab" : "default";
+      if (currentLoadedImage) {
+        const img = currentLoadedImage;
+        const zones = applyOverlayTransform(overlayBaseZones, img.naturalWidth, img.naturalHeight);
+        drawOriginal(img, img.naturalWidth, img.naturalHeight, zones);
+      }
+      // Show reset btn only when selected AND not in default position
+      updateResetBtnVisibility();
+    }
+
+    function updateResetBtnVisibility() {
+      if (!resetOverlayBtn) return;
+      const isDefault = overlayOffset.x === 0 && overlayOffset.y === 0 && overlayScale === 1.0;
+      resetOverlayBtn.disabled = isDefault;
+      resetOverlayBtn.style.opacity = isDefault ? "0.35" : "1";
+      resetOverlayBtn.style.pointerEvents = isDefault ? "none" : "auto";
+    }
+
+    function commitSlices() {
+      if (!currentLoadedImage) return;
+      const img = currentLoadedImage;
+      const adj = applyOverlayTransform(overlayBaseZones, img.naturalWidth, img.naturalHeight);
+      currentSlices = generateSlices(img, adj);
+      renderDownloadGrid(currentSlices);
+      showInfo(img.naturalWidth, img.naturalHeight, adj.tileW, adj.tileH,
+        adj.calculatedOverlap,
+        currentRatio === "4x5" && manualOverlapCb ? manualOverlapCb.checked : false,
+        adj.fitMode);
+    }
+
+    if (resetOverlayBtn) {
+      resetOverlayBtn.addEventListener("click", () => {
+        overlayOffset = { x: 0, y: 0 };
+        overlayScale = 1.0;
+        overlaySelected = false;
+        if (currentLoadedImage) {
+          const img = currentLoadedImage;
+          const adj = applyOverlayTransform(overlayBaseZones, img.naturalWidth, img.naturalHeight);
+          drawOriginal(img, img.naturalWidth, img.naturalHeight, adj);
+          currentSlices = generateSlices(img, adj);
+          renderDownloadGrid(currentSlices);
+        }
+        updateResetBtnVisibility();
+      });
+    }
+    
+    // document.addEventListener("pointerdown", (e) => {
+    //   if (!overlaySelected) return;
+    //   if (overlaySvg.contains(e.target)) return; // let SVG handle its own clicks
+    //   setSelected(false);
+    // }, { capture: true });
+
+    // ── pointer events (desktop + touch via pointer events) ──────────────────
+
+    overlaySvg.addEventListener("pointerdown", (e) => {
+      if (e.button !== 0 && e.pointerType !== "touch") return;
+      e.preventDefault();
+
+      const pt = clientToSVG(e);
+      const zones = getCurrentZones();
+      if (!zones) return;
+
+      // Check handle hit first (only when selected)
+      const handle = hitTestHandle(pt, zones);
+      if (handle) {
+        isScaling = true;
+        activeHandle = handle;
+        scaleStartSVG = pt;
+        scaleStartScale = overlayScale;
+        scaleStartOffset = { ...overlayOffset };
+        overlaySvg.setPointerCapture(e.pointerId);
+        overlaySvg.style.cursor = "nwse-resize";
+        return;
+      }
+
+      // Click inside overlay bounding box
+      if (pointInGroupBBox(pt, zones)) {
+        if (!overlaySelected) {
+          // First click: just select, don't start drag yet
+          setSelected(true);
+          return;
+        }
+        // Already selected: start drag
+        isDragging = true;
+        overlaySvg.setPointerCapture(e.pointerId);
+        overlaySvg.style.cursor = "grabbing";
+        dragStartSVG = pt;
+        dragStartOffset = { ...overlayOffset };
+        return;
+      }
+
+      // Click outside: deselect
+      if (overlaySelected) {
+        setSelected(false);
+      }
+    });
+
+    overlaySvg.addEventListener("pointermove", (e) => {
+      if (!currentLoadedImage || !overlayBaseZones) return;
+
+      const pt = clientToSVG(e);
+      const img = currentLoadedImage;
+
+      if (isDragging) {
+        overlayOffset = {
+          x: dragStartOffset.x + (pt.x - dragStartSVG.x),
+          y: dragStartOffset.y + (pt.y - dragStartSVG.y),
+        };
+        const adjusted = applyOverlayTransform(overlayBaseZones, img.naturalWidth, img.naturalHeight);
+        drawOriginal(img, img.naturalWidth, img.naturalHeight, adjusted);
+        return;
+      }
+
+      if (isScaling && scaleStartSVG) {
+        const img = currentLoadedImage;
+        const zones = getCurrentZones();
+        if (!zones) return;
+        const bb = getGroupBBox(zones);
+
+        const anchorX = (activeHandle === "tl" || activeHandle === "bl") ? bb.maxX : bb.minX;
+        const anchorY = (activeHandle === "tl" || activeHandle === "tr") ? bb.maxY : bb.minY;
+
+        const startDist = Math.hypot(scaleStartSVG.x - anchorX, scaleStartSVG.y - anchorY);
+        const curDist = Math.hypot(pt.x - anchorX, pt.y - anchorY);
+
+        if (startDist > 0) {
+          const rawScale = Math.max(0.2, Math.min(3.0, scaleStartScale * (curDist / startDist)));
+
+          // Compute the max scale that keeps the entire group inside the image
+          // by testing what applyOverlayTransform would produce at that scale.
+          const savedScale = overlayScale;
+          const savedOffset = { ...overlayOffset };
+          overlayScale = rawScale;
+          overlayOffset = { ...scaleStartOffset };
+          const testZones = applyOverlayTransform(overlayBaseZones, img.naturalWidth, img.naturalHeight);
+          const testBB = getGroupBBox(testZones);
+
+          const fitsInImage =
+            testBB.minX >= 0 &&
+            testBB.minY >= 0 &&
+            testBB.maxX <= img.naturalWidth &&
+            testBB.maxY <= img.naturalHeight;
+
+          if (!fitsInImage) {
+            // Restore — don't apply this scale step
+            overlayScale = savedScale;
+            overlayOffset = savedOffset;
+          }
+          // overlayScale + overlayOffset are now either the new valid value or the last valid one
+          const adjusted = applyOverlayTransform(overlayBaseZones, img.naturalWidth, img.naturalHeight);
+          drawOriginal(img, img.naturalWidth, img.naturalHeight, adjusted);
+        }
+        return;
+      }
+
+      // Cursor hints when selected but not dragging
+      if (overlaySelected) {
+        const zones = getCurrentZones();
+        if (!zones) return;
+        const handle = hitTestHandle(pt, zones);
+        if (handle) {
+          overlaySvg.style.cursor = "nwse-resize";
+        } else if (pointInGroupBBox(pt, zones)) {
+          overlaySvg.style.cursor = "grab";
+        } else {
+          overlaySvg.style.cursor = "default";
+        }
+      }
+    });
+
+    const commitPointer = (e) => {
+      const wasScaling = isScaling;
+      const wasDragging = isDragging;
+      isDragging = false;
+      isScaling = false;
+      activeHandle = null;
+      overlaySvg.style.cursor = overlaySelected ? "grab" : "default";
+
+      if ((wasScaling || wasDragging) && currentLoadedImage) {
+        commitSlices();
+        updateResetBtnVisibility();
+      }
+    };
+
+    overlaySvg.addEventListener("pointerup", commitPointer);
+    overlaySvg.addEventListener("pointercancel", commitPointer);
+
+    // ── wheel to scale (desktop only — mobile uses handles) ──────────────────
+
+    // overlaySvg.addEventListener("wheel", (e) => {
+    //   if (!overlaySelected || !currentLoadedImage || !overlayBaseZones) return;
+    //   e.preventDefault();
+    //   const delta = e.deltaY > 0 ? -0.05 : 0.05;
+    //   overlayScale = Math.max(0.2, Math.min(3.0, overlayScale + delta));
+    //   const img = currentLoadedImage;
+    //   const adjusted = applyOverlayTransform(overlayBaseZones, img.naturalWidth, img.naturalHeight);
+    //   drawOriginal(img, img.naturalWidth, img.naturalHeight, adjusted);
+
+    //   clearTimeout(overlaySvg._scaleTimer);
+    //   overlaySvg._scaleTimer = setTimeout(commitSlices, 300);
+    // }, { passive: false });
+
+    // ── touch: prevent page scroll when selected, allow pinch ────────────────
+
+    overlaySvg.addEventListener("touchstart", (e) => {
+      if (!overlaySelected) return; // don't intercept if not selected
+      if (e.touches.length === 1) {
+        // Single touch inside overlay: prevent scroll
+        const pt = clientToSVG(e.touches[0]);
+        const zones = getCurrentZones();
+        if (zones && pointInGroupBBox(pt, zones)) {
+          e.preventDefault();
+        }
+      }
+      if (e.touches.length === 2) {
+        e.preventDefault(); // prevent pinch-zoom on page
+      }
+    }, { passive: false });
+
+    overlaySvg.addEventListener("touchend", (e) => {
+      if (!overlaySelected) {
+        // If not selected: check if tap was inside overlay
+        const pt = clientToSVG(e.changedTouches[0]);
+        const zones = getCurrentZones();
+        if (zones && pointInGroupBBox(pt, zones)) {
+          setSelected(true);
+        }
+      } else {
+        // If selected: check if tap was outside
+        if (e.touches.length === 0) {
+          const pt = clientToSVG(e.changedTouches[0]);
+          const zones = getCurrentZones();
+          if (zones && !pointInGroupBBox(pt, zones)) {
+            setSelected(false);
+          }
+        }
+      }
+    }, { passive: true });
+  }
+
+  // Wire up the overlay interaction once the DOM is ready
+  setupOverlayInteraction();
+  updateResetBtnVisibility();
+
+  // ─────────────────────────────────────────────────────────────────────────
+
   function drawOriginal(img, width, height, zones) {
     if (!origCanvas || !overlaySvg) {
       return;
@@ -700,6 +1131,80 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+
+    // ── Selection state visuals ───────────────────────────────────────────────
+    if (overlaySelected) {
+      // Thicken + whiten all overlay rect borders
+      overlaySvg.querySelectorAll("rect[stroke]").forEach((r) => {
+        r.setAttribute("stroke", "#ffffff");
+        r.setAttribute("stroke-width", strokeWidth * 2.5);
+        r.setAttribute("fill", r.getAttribute("fill").replace(/[0-9a-f]{2}\)$/, "18)"));
+      });
+
+      // Corner scale handles — only at the 4 outer corners of the full group bbox
+      const allPreviewTiles = zones.rows.flatMap((r) => r.previewTiles);
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      allPreviewTiles.forEach((t) => {
+        minX = Math.min(minX, t.sx);
+        minY = Math.min(minY, t.sy);
+        maxX = Math.max(maxX, t.sx + t.sw);
+        maxY = Math.max(maxY, t.sy + t.sh);
+      });
+
+      const handleR = Math.max(6, Math.round(width / 80));
+      const corners = [
+        { x: minX, y: minY },
+        { x: maxX, y: minY },
+        { x: minX, y: maxY },
+        { x: maxX, y: maxY },
+      ];
+      corners.forEach(({ x, y }) => {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", x);
+        circle.setAttribute("cy", y);
+        circle.setAttribute("r", handleR);
+        circle.setAttribute("fill", "#ffffff");
+        circle.setAttribute("stroke", "#888888");
+        circle.setAttribute("stroke-width", Math.max(1, strokeWidth * 0.8));
+        circle.style.cursor = "nwse-resize";
+        overlaySvg.appendChild(circle);
+      });
+
+    } else {
+      // Unselected: show "tap to select" hint badge
+      const isDefault = overlayOffset.x === 0 && overlayOffset.y === 0 && overlayScale === 1.0;
+      const allPreviewTiles = zones.rows.flatMap((r) => r.previewTiles);
+      if (allPreviewTiles.length > 0) {
+        const firstTile = allPreviewTiles[0];
+        const badgeFontSize = Math.max(10, Math.round(width / 60));
+        const badgeText = isDefault ? "Click to select · drag & scale" : "Click to reposition";
+        const badgeW = badgeText.length * badgeFontSize * 0.52;
+        const badgeH = badgeFontSize + badgeFontSize;
+        const badgeX = firstTile.sx;
+        const badgeY = firstTile.sy - badgeH - strokeWidth;
+
+        if (badgeY > 0) {
+          const badgeBg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          badgeBg.setAttribute("x", badgeX);
+          badgeBg.setAttribute("y", badgeY);
+          badgeBg.setAttribute("width", badgeW + badgeFontSize * 1.4);
+          badgeBg.setAttribute("height", badgeH);
+          badgeBg.setAttribute("rx", badgeFontSize * 0.3);
+          badgeBg.setAttribute("fill", "rgba(0,0,0,0.55)");
+          overlaySvg.appendChild(badgeBg);
+
+          const badgeTxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          badgeTxt.setAttribute("x", badgeX + badgeFontSize * 0.7);
+          badgeTxt.setAttribute("y", badgeY + badgeH * 0.68);
+          badgeTxt.setAttribute("fill", "#ffffff");
+          badgeTxt.setAttribute("font-size", badgeFontSize);
+          badgeTxt.setAttribute("font-family", "Archivo, sans-serif");
+          badgeTxt.setAttribute("font-weight", "500");
+          badgeTxt.textContent = badgeText;
+          overlaySvg.appendChild(badgeTxt);
+        }
+      }
+    }
   }
 
   function fitPreviewToStage(img) {
