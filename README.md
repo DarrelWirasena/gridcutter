@@ -1,3 +1,5 @@
+![Socialify Image](https://socialify.git.ci/DarrelWirasena/gridcutter/image?custom_language=JavaScript&description=1&font=Bitter&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2FDarrelWirasena%2Fgridcutter%2Frefs%2Fheads%2Fmain%2Ffavicon%2Fandroid-icon-192x192.png&name=1&owner=1&stargazers=1&theme=Auto)
+
 # GridCutter — Precision Instagram Grid Splitter
 
 A free, web-based tool for splitting photos into perfectly aligned grids for Instagram. **100% private** — your images never leave your device.
