@@ -848,6 +848,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateResetBtnVisibility() {
       if (!resetOverlayBtn) return;
       const isDefault = overlayOffset.x === 0 && overlayOffset.y === 0 && overlayScale === 1.0;
+      resetOverlayBtn.style.display = "block";
       resetOverlayBtn.disabled = isDefault;
       resetOverlayBtn.style.opacity = isDefault ? "0.35" : "1";
       resetOverlayBtn.style.pointerEvents = isDefault ? "none" : "auto";
@@ -881,11 +882,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
     
-    // document.addEventListener("pointerdown", (e) => {
-    //   if (!overlaySelected) return;
-    //   if (overlaySvg.contains(e.target)) return; // let SVG handle its own clicks
-    //   setSelected(false);
-    // }, { capture: true });
+    document.addEventListener("pointerdown", (e) => {
+      if (!overlaySelected) return;
+      if (overlaySvg.contains(e.target)) return; // let SVG handle its own clicks
+      setSelected(false);
+    }, { capture: true });
 
     // ── pointer events (desktop + touch via pointer events) ──────────────────
 
