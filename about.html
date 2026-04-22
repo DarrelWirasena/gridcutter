@@ -12,6 +12,8 @@
             content="GridCutter is a free, private Instagram grid splitter. Built for creators who care about precision and craft."
         />
         <meta property="og:url" content="https://gridcutter.com/about.html" />
+        <meta property="og:title" content="About | GridCutter" />
+        <meta property="og:description" content="GridCutter is a free, private Instagram grid splitter. Built for creators who care about precision and craft." />
         <meta property="og:image" content="https://gridcutter.com/assets/img/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
@@ -36,327 +38,24 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
-                
+        
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "url": "https://gridcutter.com",
+            "description": "Independent solo creator from Indonesia. Built GridCutter as a free, private Instagram grid splitter for creators who care about precision.",
+            "knowsAbout": ["Instagram grid splitting", "browser-based image processing", "client-side web tools"]
+        }
+        </script>
+
         <link rel="preload" href="/assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="preload" href="/assets/fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 
         <link rel="stylesheet" href="assets/css/style.css" />
 
         <style>
-            /* ── About page layout ── */
-
-            .about-header {
-                padding-block: var(--sp-9) var(--sp-7);
-                border-bottom: 1px solid var(--border-subtle);
-            }
-            .about-header .f-label {
-                margin-bottom: var(--sp-4);
-                display: block;
-            }
-            .about-header h1 {
-                font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
-                max-width: 18ch;
-                margin-bottom: var(--sp-5);
-            }
-            .about-header h1 em {
-                font-style: italic;
-                color: var(--brand);
-            }
-            .about-header-lead {
-                font-size: var(--text-lg);
-                color: var(--text-secondary);
-                max-width: 58ch;
-                font-weight: 300;
-                line-height: 1.6;
-            }
-
-            /* ── Origin section ── */
-            .origin-layout {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: var(--sp-8);
-                padding-block: var(--sp-9);
-                align-items: start;
-            }
-            @media (min-width: 860px) {
-                .origin-layout {
-                    grid-template-columns: 1fr 1fr;
-                    gap: var(--sp-9);
-                    align-items: center;
-                }
-            }
-            .origin-text h2 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                font-size: var(--text-2xl);
-                letter-spacing: -0.03em;
-                color: var(--text-primary);
-                margin-bottom: var(--sp-5);
-                line-height: 1.15;
-            }
-            .origin-text h2 em {
-                font-style: italic;
-                color: var(--brand);
-            }
-            .origin-text p {
-                font-size: var(--text-base);
-                color: var(--text-secondary);
-                line-height: 1.75;
-                margin-bottom: var(--sp-4);
-                max-width: 54ch;
-            }
-            .origin-text p:last-child {
-                margin-bottom: 0;
-            }
-
-            /* Stat block — no hero-metric layout, just inline text pairs */
-            .stat-row {
-                display: flex;
-                flex-wrap: wrap;
-                gap: var(--sp-6) var(--sp-8);
-                padding-top: var(--sp-6);
-                border-top: 1px solid var(--border-subtle);
-                margin-top: var(--sp-6);
-            }
-            .stat-item {
-            }
-            .stat-value {
-                font-family: "Archivo", sans-serif;
-                font-weight: 900;
-                font-size: var(--text-2xl);
-                letter-spacing: -0.04em;
-                color: var(--brand);
-                line-height: 1;
-                margin-bottom: 4px;
-            }
-            .stat-label {
-                font-family: "Archivo", sans-serif;
-                font-size: var(--text-xs);
-                font-weight: 600;
-                letter-spacing: 0.05em;
-                text-transform: uppercase;
-                color: var(--text-tertiary);
-            }
-
-            /* Visual panel */
-            .origin-visual {
-                background: var(--surface-1);
-                border: 1px solid var(--border-subtle);
-                border-radius: 20px;
-                padding: var(--sp-5);
-            }
-            .origin-visual-label {
-                font-family: "Archivo", sans-serif;
-                font-size: var(--text-xs);
-                font-weight: 700;
-                letter-spacing: 0.06em;
-                text-transform: uppercase;
-                color: var(--text-tertiary);
-                margin-bottom: var(--sp-4);
-            }
-            /* Mini grid demo */
-            .about-grid-demo {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 3px;
-                border-radius: 12px;
-                overflow: hidden;
-                margin-bottom: var(--sp-4);
-            }
-            .about-grid-cell {
-                aspect-ratio: 3/4;
-            }
-            .about-grid-cell:nth-child(1) {
-                background: oklch(82% 0.12 264);
-            }
-            .about-grid-cell:nth-child(2) {
-                background: oklch(72% 0.14 264);
-            }
-            .about-grid-cell:nth-child(3) {
-                background: oklch(62% 0.16 264);
-            }
-            .about-grid-cell:nth-child(4) {
-                background: oklch(78% 0.13 264);
-            }
-            .about-grid-cell:nth-child(5) {
-                background: oklch(55% 0.17 264);
-            }
-            .about-grid-cell:nth-child(6) {
-                background: oklch(48% 0.18 264);
-            }
-            .about-grid-cell:nth-child(7) {
-                background: oklch(70% 0.14 264);
-            }
-            .about-grid-cell:nth-child(8) {
-                background: oklch(50% 0.17 264);
-            }
-            .about-grid-cell:nth-child(9) {
-                background: oklch(40% 0.18 264);
-            }
-            .origin-visual-caption {
-                font-size: var(--text-xs);
-                color: var(--text-tertiary);
-                line-height: 1.5;
-            }
-
-            /* ── Principles — tiled, no icon-above-heading ── */
-            .principles-section {
-                padding-block: var(--sp-9);
-                border-top: 1px solid var(--border-subtle);
-            }
-            .principles-header {
-                margin-bottom: var(--sp-7);
-            }
-            .principles-header h2 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                font-size: var(--text-2xl);
-                letter-spacing: -0.03em;
-                margin-top: var(--sp-2);
-            }
-            .principles-grid {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 1px;
-                background: var(--border-subtle);
-                border: 1px solid var(--border-subtle);
-                border-radius: 20px;
-                overflow: hidden;
-            }
-            @media (min-width: 640px) {
-                .principles-grid {
-                    grid-template-columns: repeat(2, 1fr);
-                }
-            }
-            @media (min-width: 960px) {
-                .principles-grid {
-                    grid-template-columns: repeat(3, 1fr);
-                }
-            }
-            .principle-item {
-                background: var(--surface-0);
-                padding: var(--sp-6);
-                transition: background 0.2s;
-            }
-            .principle-item:hover {
-                background: var(--brand-xlight);
-            }
-            .principle-num {
-                font-family: "Archivo", sans-serif;
-                font-size: var(--text-xs);
-                font-weight: 700;
-                color: var(--brand);
-                letter-spacing: 0.04em;
-                margin-bottom: var(--sp-4);
-            }
-            .principle-title {
-                font-family: "Archivo", sans-serif;
-                font-weight: 700;
-                font-size: var(--text-base);
-                color: var(--text-primary);
-                margin-bottom: var(--sp-3);
-            }
-            .principle-desc {
-                font-size: var(--text-sm);
-                color: var(--text-secondary);
-                line-height: 1.65;
-                max-width: 38ch;
-            }
-
-            /* ── Privacy promise card ── */
-            .promise-card {
-                display: flex;
-                align-items: flex-start;
-                gap: var(--sp-5);
-                padding: var(--sp-6);
-                background: var(--brand-xlight);
-                border: 1px solid oklch(85% 0.06 264);
-                border-radius: 16px;
-                margin-bottom: var(--sp-9);
-            }
-            .promise-icon {
-                width: 44px;
-                height: 44px;
-                flex-shrink: 0;
-                background: var(--brand);
-                border-radius: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .promise-icon svg {
-                color: white;
-            }
-            .promise-card h4 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                font-size: var(--text-base);
-                color: var(--text-primary);
-                margin-bottom: var(--sp-2);
-            }
-            .promise-card p {
-                font-size: var(--text-sm);
-                color: var(--text-secondary);
-                line-height: 1.65;
-            }
-
-            /* ── CTA ── */
-            .about-cta {
-                padding-block: var(--sp-9);
-                border-top: 1px solid var(--border-subtle);
-            }
-            .cta-strip {
-                background: var(--brand);
-                border-radius: 20px;
-                padding: var(--sp-7);
-                display: flex;
-                flex-direction: column;
-                gap: var(--sp-5);
-                align-items: flex-start;
-            }
-            @media (min-width: 640px) {
-                .cta-strip {
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-            }
-            .cta-strip h2 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                letter-spacing: -0.03em;
-                font-size: var(--text-2xl);
-                color: white;
-                line-height: 1.1;
-            }
-            .cta-strip p {
-                color: oklch(87% 0.06 264);
-                font-size: var(--text-sm);
-                font-weight: 300;
-                max-width: 38ch;
-                margin-top: var(--sp-2);
-            }
-            .btn-cta-inverse {
-                background: white;
-                color: var(--brand);
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                font-size: var(--text-sm);
-                padding: 12px var(--sp-6);
-                border-radius: 10px;
-                white-space: nowrap;
-                display: inline-flex;
-                align-items: center;
-                gap: var(--sp-2);
-                transition:
-                    opacity 0.15s,
-                    transform 0.15s;
-                flex-shrink: 0;
-            }
-            .btn-cta-inverse:hover {
-                opacity: 0.9;
-                transform: translateY(-1px);
-            }
+            
         </style>
     </head>
     <body>
@@ -481,22 +180,22 @@
                             this the way I wanted.
                         </p>
 
-                        <div class="stat-row">
+                        <div class="about-stat-row">
                             <div class="stat-item">
-                                <div class="stat-value">100%</div>
-                                <div class="stat-label">
+                                <div class="about-stat-value">100%</div>
+                                <div class="about-stat-label">
                                     Client-side processing
                                 </div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value">3:4</div>
-                                <div class="stat-label">
+                                <div class="about-stat-value">3:4</div>
+                                <div class="about-stat-label">
                                     Native IG ratio enforced
                                 </div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value">Free</div>
-                                <div class="stat-label">
+                                <div class="about-stat-value">Free</div>
+                                <div class="about-stat-label">
                                     No account, no paywall
                                 </div>
                             </div>
