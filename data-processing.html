@@ -9,9 +9,11 @@
         <title>Data Processing | GridCutter</title>
         <meta
             name="description"
-            content="GridCutter's Data Processing & GDPR information. Learn how to exercise your data rights."
+            content="How GridCutter handles GDPR data subject rights — access requests, erasure, data retention, and lawful basis for processing."
         />
         <meta property="og:url" content="https://gridcutter.com/data-processing.html" />
+        <meta property="og:title" content="Data Processing | GridCutter" />
+        <meta property="og:description" content="How GridCutter handles GDPR data subject rights — access requests, erasure, data retention, and lawful basis for processing." />
         <meta property="og:image" content="https://gridcutter.com/assets/img/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
@@ -36,6 +38,16 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Data Processing | GridCutter",
+            "url": "https://gridcutter.com/data-processing.html",
+            "description": "How GridCutter handles GDPR data subject rights including access requests, erasure, data retention, and lawful basis for processing."
+        }
+        </script>
                 
         <link rel="preload" href="/assets/fonts/archivo-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="preload" href="/assets/fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -43,165 +55,7 @@
         <link rel="stylesheet" href="assets/css/style.css" />
 
         <style>
-            /* Data Processing page layout */
-            .dp-header {
-                padding-block: var(--sp-9) var(--sp-7);
-                border-bottom: 1px solid var(--border-subtle);
-            }
-            .dp-header h1 {
-                font-size: var(--text-3xl);
-                margin-top: var(--sp-4);
-                max-width: 20ch;
-            }
-            .dp-header-meta {
-                display: flex;
-                align-items: center;
-                gap: var(--sp-3);
-                margin-top: var(--sp-5);
-                flex-wrap: wrap;
-            }
-            .dp-header-meta span {
-                font-family: "Archivo", sans-serif;
-                font-size: var(--text-xs);
-                color: var(--text-tertiary);
-            }
-            .dp-header-meta .sep {
-                width: 3px;
-                height: 3px;
-                border-radius: 50%;
-                background: var(--border-mid);
-            }
-
-            /* Content layout */
-            .dp-content {
-                padding-block: var(--sp-9);
-                display: flex;
-                flex-direction: column;
-                gap: var(--sp-8);
-            }
-            .dp-section {
-                scroll-margin-top: 90px;
-            }
-            .dp-section h2 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                font-size: var(--text-2xl);
-                letter-spacing: -0.03em;
-                color: var(--text-primary);
-                margin-bottom: var(--sp-5);
-                padding-bottom: var(--sp-4);
-                border-bottom: 1px solid var(--border-subtle);
-            }
-            .dp-section p {
-                font-size: var(--text-base);
-                color: var(--text-secondary);
-                line-height: 1.75;
-                margin-bottom: var(--sp-4);
-            }
-            .dp-section p:last-child {
-                margin-bottom: 0;
-            }
-            .dp-section a:not(.btn) {
-                color: var(--brand);
-                text-decoration: underline;
-                text-underline-offset: 3px;
-            }
-            .dp-section a:not(.btn):hover {
-                opacity: 0.8;
-            }
-            .process-list {
-                display: flex;
-                flex-direction: column;
-                gap: var(--sp-5);
-                margin-top: var(--sp-5);
-            }
-            .process-item {
-                display: flex;
-                gap: var(--sp-4);
-            }
-            .process-num {
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                font-size: var(--text-sm);
-                color: var(--brand);
-                background: var(--brand-xlight);
-                border-radius: 8px;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-                margin-top: 2px;
-            }
-            .process-item h4 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 700;
-                font-size: var(--text-base);
-                color: var(--text-primary);
-                margin-bottom: var(--sp-2);
-            }
-            .process-item p {
-                font-size: var(--text-sm);
-                color: var(--text-secondary);
-                line-height: 1.65;
-                margin: 0;
-            }
-
-            /* Contact box */
-            .dp-contact {
-                background: var(--surface-1);
-                border-radius: 16px;
-                padding: var(--sp-7);
-                display: flex;
-                flex-direction: column;
-                gap: var(--sp-4);
-                align-items: flex-start;
-                border: 1px solid var(--border-subtle);
-                margin-top: var(--sp-5);
-            }
-            @media (min-width: 640px) {
-                .dp-contact {
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-            }
-            .dp-contact h4 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 800;
-                font-size: var(--text-lg);
-                letter-spacing: -0.02em;
-                color: var(--text-primary);
-                margin-bottom: var(--sp-2);
-            }
-            .dp-contact p {
-                font-size: var(--text-sm);
-                color: var(--text-secondary);
-                max-width: 40ch;
-                line-height: 1.6;
-            }
-
-            /* Code block for DPA reference */
-            .dpa-info {
-                background: var(--surface-1);
-                border: 1px solid var(--border-subtle);
-                border-radius: 12px;
-                padding: var(--sp-5);
-                margin-top: var(--sp-5);
-            }
-            .dpa-info h5 {
-                font-family: "Archivo", sans-serif;
-                font-weight: 700;
-                font-size: var(--text-sm);
-                color: var(--text-primary);
-                margin-bottom: var(--sp-3);
-            }
-            .dpa-info p {
-                font-size: var(--text-sm);
-                color: var(--text-secondary);
-                margin: 0;
-            }
+            
         </style>
     </head>
     <body>
