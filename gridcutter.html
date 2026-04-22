@@ -9,7 +9,7 @@
         <title>Grid Cutter Tool — GridCutter</title>
         <meta
             name="description"
-            content="Split your photos into perfect 3:4 grids for Instagram. 3×1, 3×2, and 3×3 layouts. 100% client-side — your images never leave your device."
+            content="Split your photos into perfect 4:5 or 3:4 grids for Instagram. Supports layouts from 3x1 up to 3x6. 100% client-side — your images never leave your device."
         />
         <meta
             name="keywords"
@@ -18,7 +18,7 @@
         <meta property="og:title" content="Grid Cutter Tool — GridCutter" />
         <meta
             property="og:description"
-            content="Split your photos into perfect 3:4 grids for Instagram. 100% private, no uploads."
+            content="Split your photos into perfect 4:5 or 3:4 grids for Instagram. Supports layouts from 3x1 up to 3x6. 100% client-side — your images never leave your device."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://gridcutter.com/gridcutter.html" />
@@ -175,7 +175,7 @@
                             class="f-display reveal"
                             style="font-size: var(--text-2xl)"
                         >
-                            Grid Cutter
+                           Instagram Grid Cutter
                         </h1>
                         <p
                             style="
@@ -197,6 +197,7 @@
                     <!-- ── SIDEBAR ── -->
                     <aside class="sidebar reveal">
                         <!-- Upload -->
+                        <h2 class="sr-only">Upload your photo</h2>
                         <div class="panel tool-panel tool-panel-upload">
                             <div class="panel-title">
                                 <svg
@@ -311,7 +312,8 @@
                                 ></span>
                             </div>
                         </div>
-
+                        
+                        <h2 class="sr-only">Choose post ratio — 4:5 or 3:4</h2>
                         <div class="panel tool-panel tool-panel-ratio">
                             <div class="panel-title">
                                 <svg
@@ -388,6 +390,7 @@
                             </p>
                         </div>
 
+                        <h2 class="sr-only">Select grid layout — 3×1, 3×2, 3×3, or custom up to 3×6</h2>
                         <div class="panel tool-panel tool-panel-grid">
                             <div class="panel-title">
                                 <svg
@@ -521,12 +524,11 @@
                                     line-height: 1.6;
                                 "
                             >
-                                Presets control how many 3-column rows are
-                                exported. For custom grids, use the Advanced
-                                section.
+                                Presets cover the most common layouts. For larger grids up to 3×6 (18 tiles), open the Advanced section to set rows manually from 1 to 6.
                             </p>
                         </div>
 
+                        <h2 class="sr-only">Select grid layout — 3×1, 3×2, 3×3, or custom up to 3×6</h2>
                         <div class="panel tool-panel tool-panel-format">
                             <div class="panel-title">
                                 <svg
@@ -607,6 +609,7 @@
                             </p>
                         </div>
 
+                        <h2 class="sr-only">Advanced settings — custom rows, precision overlap, and quality control</h2>
                         <details
                             class="panel tool-panel tool-panel-advanced"
                             id="advancedPanel"
@@ -747,8 +750,7 @@
                                             line-height: 1.6;
                                         "
                                     >
-                                        Use presets above for quick layouts, or
-                                        set rows manually here.
+                                        Set rows from 1 to 6 to create custom grids up to 3×6. Useful for continuous feed layouts spanning 18 tiles.
                                     </p>
                                 </div>
                                 <div id="manualOverlapGroup">
@@ -767,7 +769,7 @@
                                         <label
                                             for="manualOverlapCb"
                                             style="font-size: var(--text-xs)"
-                                            >Enable Precision Overlap</label
+                                            >Enable Precision Overlap (4:5 mode only)</label
                                         >
                                     </div>
                                     <input
@@ -794,9 +796,7 @@
                                             line-height: 1.6;
                                         "
                                     >
-                                        Only applies to `4:5` mode when you want
-                                        to override the automatic Instagram
-                                        overlap.
+                                        Manually override the automatic Instagram seam overlap in 4:5 mode. Useful for fine-tuning alignment on high-resolution images.
                                     </p>
                                 </div>
                                 <div id="qualityGroup">
@@ -816,6 +816,7 @@
                             </div>
                         </details>
 
+                        <h2 class="sr-only">Export summary and download</h2>
                         <div class="panel tool-panel tool-panel-summary">
                             <div
                                 class="panel-title"
@@ -896,6 +897,7 @@
                         </div>
 
                         <!-- Stage -->
+                        <h2 class="sr-only">Preview — drag, scale, and reposition your grid overlay</h2>
                         <div
                             class="canvas-stage tool-panel tool-panel-preview-stage"
                             id="mainContent"
@@ -958,6 +960,7 @@
                         ></div>
 
                         <!-- Download panel -->
+                        <h2 class="sr-only">Download tiles — numbered files with correct Instagram posting order</h2>
                         <div
                             class="download-panel tool-panel tool-panel-downloads"
                             id="downloadPanel"
