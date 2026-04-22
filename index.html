@@ -9,7 +9,7 @@
         <title>GridCutter — Precision Instagram Grid Splitter</title>
         <meta
             name="description"
-            content="Split your photos into perfect 4:5 or 3:4 grids for Instagram. Supports layouts from 3x1 up to 3x6. 100% client-side — your images never leave your device."
+            content="GridCutter is a free, private Instagram grid splitter. Split photos into seamless grids from 3×1 up to 3×6. No uploads, no account — runs entirely in your browser."
         />
         <meta
             name="keywords"
@@ -21,7 +21,7 @@
         />
         <meta
             property="og:description"
-            content="Split your photos into perfect 3:4 grids for Instagram. 100% private, no uploads."
+            content="Split your photos into perfect 4:5 or 3:4 grids for Instagram. Supports layouts from 3x1 up to 3x6. 100% client-side — your images never leave your device."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://gridcutter.com/" />
@@ -52,19 +52,91 @@
 
         <script type="application/ld+json">
         {
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          "name": "GridCutter",
-          "url": "https://gridcutter.com/",
-          "applicationCategory": "BrowserApplication",
-          "operatingSystem": "Web",
-          "description": "High-precision Instagram grid splitter that natively cuts perfectly accurate 4:5 and 3:4 tiles without padding.",
-          "isAccessibleForFree": true,
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          }
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "GridCutter",
+            "url": "https://gridcutter.com/",
+            "applicationCategory": "BrowserApplication",
+            "operatingSystem": "Web",
+            "description": "High-precision Instagram grid splitter that natively cuts perfectly accurate 4:5 and 3:4 tiles without padding.",
+            "isAccessibleForFree": true,
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                "@type": "Question",
+                "name": "Who is GridCutter for?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "GridCutter is for anyone who wants a seamless Instagram grid without doing the manual math. Whether you are managing a personal profile or a professional feed, it is specifically built for users who want to maintain the traditional 4:5 aspect ratio for maximum feed visibility, while ensuring perfect alignment with Instagram's new, taller 3:4 profile grid."
+                    }
+                },
+                {
+                "@type": "Question",
+                "name": "Are my images uploaded anywhere?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "The basic cutting flow is designed to run client-side in the browser, so your image stays on your device while you prepare your grid."
+                    }
+                },
+                {
+                "@type": "Question",
+                "name": "What file types are supported?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "GridCutter currently supports JPG, PNG, and WEBP images."
+                    }
+                },
+                {
+                "@type": "Question",
+                "name": "What grid sizes can I make?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "GridCutter includes quick presets for the most common layouts: 3×1, 3×2, and 3×3. If you need a massive continuous feed, you can open the Advanced settings to manually create custom layouts up to 3×6 (18 tiles)."
+                    }
+                },
+                {
+                "@type": "Question",
+                "name": "Why is GridCutter different from other grid cutters?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "It was built to avoid two common problems: incorrect cutting logic and ugly solid-color buffer areas that appear when some tools try to fake alignment."
+                    }
+                },
+                {
+                "@type": "Question",
+                "name": "What is the correct posting order?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "For multi-tile grids, post from the bottom-right tile back toward the top-left so the finished layout lands correctly on your profile."
+                    }
+                },
+                {
+                "@type": "Question",
+                "name": "Does GridCutter work on mobile?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "GridCutter is designed to work in modern browsers on desktop and mobile. The best experience is on up-to-date browsers."
+                    }
+                },
+                {
+                "@type": "Question",
+                "name": "Is GridCutter free?",
+                "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, the core tool is free to use and requires no account or subscription."
+                    }
+                }
+            ]
         }
         </script>
 
@@ -658,221 +730,64 @@
                     >
                         Common questions about GridCutter.
                     </h2>
-                    <div
-                        class="reveal reveal-delay-1"
-                        style="
-                            display: grid;
-                            grid-template-columns: repeat(
-                                auto-fit,
-                                minmax(260px, 1fr)
-                            );
-                            gap: var(--sp-4);
-                        "
-                    >
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                Who is GridCutter for?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                GridCutter is for anyone who wants a seamless Instagram grid without 
-                                doing the manual math. Whether you are managing a personal profile or 
-                                a professional feed, it is specifically built for users who want to 
-                                maintain the traditional 4:5 aspect ratio for maximum feed visibility, 
-                                while ensuring perfect alignment with Instagram’s new, taller 3:4 profile grid.
-                            </p>
-                        </div>
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                Are my images uploaded anywhere?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                The basic cutting flow is designed to run
-                                client-side in the browser, so your image stays
-                                on your device while you prepare your grid.
-                            </p>
-                        </div>
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                What file types are supported?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                GridCutter currently supports JPG, PNG, and WEBP
-                                images.
-                            </p>
-                        </div>
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                What grid sizes can I make?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                GridCutter includes quick presets for the most common layouts: 3×1, 3×2, and 3×3. 
-                                If you need a massive continuous feed, you can open the Advanced 
-                                settings to manually create custom layouts up to 3×6 (18 tiles). Note: 
-                                Because GridCutter processes everything securely on your own device 
-                                without uploading to a server, generating very large grids may take a second or two to render.
-                            </p>
-                        </div>
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                Why is GridCutter different from other grid
-                                cutters?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                It was built to avoid two common problems:
-                                incorrect cutting logic and ugly solid-color
-                                buffer areas that appear when some tools try to
-                                fake alignment.
-                            </p>
-                        </div>
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                What is the correct posting order?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                For multi-tile grids, post from the bottom-right
-                                tile back toward the top-left so the finished
-                                layout lands correctly on your profile.
-                            </p>
-                        </div>
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                Does GridCutter work on mobile?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                GridCutter is designed to work in modern
-                                browsers on desktop and mobile. The best
-                                experience is on up-to-date browsers.
-                            </p>
-                        </div>
-                        <div class="panel" style="padding: var(--sp-6)">
-                            <h3
-                                style="
-                                    font-family:
-                                        &quot;Archivo&quot;, sans-serif;
-                                    font-size: var(--text-base);
-                                    font-weight: 700;
-                                    margin-bottom: var(--sp-3);
-                                    color: var(--text-primary);
-                                "
-                            >
-                                Is GridCutter free?
-                            </h3>
-                            <p
-                                style="
-                                    font-size: var(--text-sm);
-                                    color: var(--text-secondary);
-                                    line-height: 1.7;
-                                "
-                            >
-                                Yes, the core tool is free to use and requires
-                                no account or subscription.
-                            </p>
-                        </div>
+                    <div class="faq-list reveal reveal-delay-1">
+
+                        <details class="panel faq-item">
+                            <summary>Who is GridCutter for?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>GridCutter is for anyone who wants a seamless Instagram grid without doing the manual math. Whether you are managing a personal profile or a professional feed, it is specifically built for users who want to maintain the traditional 4:5 aspect ratio for maximum feed visibility, while ensuring perfect alignment with Instagram's new, taller 3:4 profile grid.</p>
+                        </details>
+
+                        <details class="panel faq-item">
+                            <summary>Are my images uploaded anywhere?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>The basic cutting flow is designed to run client-side in the browser, so your image stays on your device while you prepare your grid.</p>
+                        </details>
+
+                        <details class="panel faq-item">
+                            <summary>What file types are supported?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>GridCutter currently supports JPG, PNG, and WEBP images.</p>
+                        </details>
+
+                        <details class="panel faq-item">
+                            <summary>What grid sizes can I make?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>GridCutter includes quick presets for the most common layouts: 3×1, 3×2, and 3×3. If you need a massive continuous feed, you can open the Advanced settings to manually create custom layouts up to 3×6 (18 tiles). Note: Because GridCutter processes everything securely on your own device without uploading to a server, generating very large grids may take a second or two to render.</p>
+                        </details>
+
+                        <details class="panel faq-item">
+                            <summary>Why is GridCutter different from other grid cutters?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>It was built to avoid two common problems: incorrect cutting logic and ugly solid-color buffer areas that appear when some tools try to fake alignment.</p>
+                        </details>
+
+                        <details class="panel faq-item">
+                            <summary>What is the correct posting order?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>For multi-tile grids, post from the bottom-right tile back toward the top-left so the finished layout lands correctly on your profile.</p>
+                        </details>
+
+                        <details class="panel faq-item">
+                            <summary>Does GridCutter work on mobile?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>GridCutter is designed to work in modern browsers on desktop and mobile. The best experience is on up-to-date browsers.</p>
+                        </details>
+
+                        <details class="panel faq-item">
+                            <summary>Is GridCutter free?
+                                <svg class="faq-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </summary>
+                            <p>Yes, the core tool is free to use and requires no account or subscription.</p>
+                        </details>
+
                     </div>
                 </div>
             </section>
