@@ -6,6 +6,7 @@ blog1.html
 tests/
 playwright.config.js
 test-results/
+teststyle.css
 
 #notes files
 notes/
