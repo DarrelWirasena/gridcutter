@@ -329,6 +329,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function updateResetBtnVisibility() {
+    if (!resetOverlayBtn) return;
+    const isDefault = overlayOffset.x === 0 && overlayOffset.y === 0 && overlayScale === 1.0;
+    resetOverlayBtn.style.display = "block";
+    resetOverlayBtn.disabled = isDefault;
+    resetOverlayBtn.style.opacity = isDefault ? "0.35" : "1";
+    resetOverlayBtn.style.pointerEvents = isDefault ? "none" : "auto";
+    resetOverlayBtn.style.cursor = isDefault ? "default" : "pointer";
+  }
+
   function processImage(img, keepOverlay = false) {
     clearErr();
 
@@ -367,6 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (mainContent) {
       mainContent.style.display = "flex";
+      updateResetBtnVisibility();
     }
     if (previewWrap) {
       previewWrap.style.display = "block";
@@ -845,15 +856,6 @@ document.addEventListener("DOMContentLoaded", () => {
       updateResetBtnVisibility();
     }
 
-    function updateResetBtnVisibility() {
-      if (!resetOverlayBtn) return;
-      const isDefault = overlayOffset.x === 0 && overlayOffset.y === 0 && overlayScale === 1.0;
-      resetOverlayBtn.style.display = "block";
-      resetOverlayBtn.disabled = isDefault;
-      resetOverlayBtn.style.opacity = isDefault ? "0.35" : "1";
-      resetOverlayBtn.style.pointerEvents = isDefault ? "none" : "auto";
-    }
-
     function commitSlices() {
       if (!currentLoadedImage) return;
       const img = currentLoadedImage;
@@ -1078,7 +1080,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Wire up the overlay interaction once the DOM is ready
   setupOverlayInteraction();
-  updateResetBtnVisibility();
+  // updateResetBtnVisibility();
 
   // ─────────────────────────────────────────────────────────────────────────
 
