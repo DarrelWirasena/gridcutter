@@ -2739,14 +2739,15 @@ a { color: inherit; text-decoration: none; }
   .tool-panel-upload   { order: 1; }
   .tool-panel-preview-head  { order: 2; }
   .tool-panel-preview-stage { order: 3; }
-  .tool-panel-error    { order: 4; }
-  .tool-panel-ratio    { order: 5; }
-  .tool-panel-grid     { order: 6; }
-  .tool-panel-format   { order: 7; }
-  .tool-panel-summary  { order: 8; }
-  .tool-panel-downloads { order: 9; }
-  .tool-panel-info     { order: 10; }
-  .tool-panel-advanced { order: 11; }
+  .tool-panel-reset { order: 4; }
+  .tool-panel-error    { order: 5; }
+  .tool-panel-ratio    { order: 6; }
+  .tool-panel-grid     { order: 7; }
+  .tool-panel-format   { order: 8; }
+  .tool-panel-summary  { order: 9; }
+  .tool-panel-downloads { order: 10; }
+  .tool-panel-info     { order: 11; }
+  .tool-panel-advanced { order: 12; }
 
   .canvas-area   { gap: var(--sp-4); }
   .canvas-header { margin-bottom: calc(var(--sp-4) * -1); }
