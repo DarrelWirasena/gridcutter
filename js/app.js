@@ -63,6 +63,26 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentRatio = "4x5";
   let currentGrid = { cols: 3, rows: 1 };
   let currentSlices = [];
+  let kofiShown = false;
+  let tilesDownloaded = 0;
+  let totalTiles = 0;
+
+  function showKofiCard() {
+      if (kofiShown) return;
+      kofiShown = true;
+      const card = document.getElementById('kofiCard');
+      const corner = document.getElementById('kofiCorner');
+      if (!card) return;
+      card.style.display = 'flex';
+      requestAnimationFrame(() => card.classList.add('visible'));
+      const dismiss = () => {
+          card.classList.remove('visible');
+          setTimeout(() => { card.style.display = 'none'; }, 300);
+          if (corner) corner.style.display = 'block';
+      };
+      document.getElementById('kofiClose').addEventListener('click', dismiss);
+      setTimeout(dismiss, 7000);
+  }
 
   // Manual overlay positioning state (in image-pixel coordinates).
   // offsetX/Y are deltas applied to the entire group of tiles.
@@ -1285,6 +1305,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!downloadGrid) {
       return;
     }
+    tilesDownloaded = 0;
+    totalTiles = slices.length;
     downloadGrid.innerHTML = "";
 
     slices.forEach((slice) => {
@@ -1299,13 +1321,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
       const button = card.querySelector("button");
+      const handleTileDownload = () => {
+        triggerDownload(slice.dataUrl, slice.filename);
+        tilesDownloaded++;
+        if (tilesDownloaded >= totalTiles) showKofiCard();
+      };
       button.addEventListener("click", (event) => {
         event.stopPropagation();
-        triggerDownload(slice.dataUrl, slice.filename);
+        handleTileDownload();
       });
-      card.addEventListener("click", () =>
-        triggerDownload(slice.dataUrl, slice.filename),
-      );
+      card.addEventListener("click", handleTileDownload);
       downloadGrid.appendChild(card);
     });
 
@@ -1334,6 +1359,7 @@ document.addEventListener("DOMContentLoaded", () => {
           link.href = URL.createObjectURL(content);
           link.download = "GridCutter_Pack.zip";
           link.click();
+          showKofiCard();
           setTimeout(() => URL.revokeObjectURL(link.href), 1000);
         } catch (error) {
           console.error("ZIP Error:", error);
