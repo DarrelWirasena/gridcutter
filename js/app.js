@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const manualOverlapCb = document.getElementById("manualOverlapCb");
   const manualOverlapInput = document.getElementById("manualOverlapInput");
   const manualOverlapGroup = document.getElementById("manualOverlapGroup");
+  const bgFillColor = document.getElementById("bgFillColor");
   const qualityGroup = document.getElementById("qualityGroup");
   const qualitySlider = document.getElementById("qualitySlider");
   const qualityVal = document.getElementById("qualityVal");
@@ -187,6 +188,12 @@ document.addEventListener("DOMContentLoaded", () => {
         updateUiState();
       }
     });
+  }
+
+  if (bgFillColor) {
+      bgFillColor.addEventListener("input", () => {
+          if (currentLoadedImage) processImage(currentLoadedImage);
+      });
   }
 
   if (qualitySlider) {
@@ -1273,6 +1280,11 @@ document.addEventListener("DOMContentLoaded", () => {
     zones.rows.forEach((row, rowIndex) => {
       row.tiles.forEach((tile, colIndex) => {
         tempCtx.clearRect(0, 0, zones.tileW, zones.tileH);
+        const fillInput = document.getElementById("bgFillColor");
+        if (fillInput && fillInput.value) {
+            tempCtx.fillStyle = fillInput.value;
+            tempCtx.fillRect(0, 0, zones.tileW, zones.tileH);
+        }
         tempCtx.drawImage(
           img,
           tile.sx,

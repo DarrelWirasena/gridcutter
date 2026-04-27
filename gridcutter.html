@@ -609,7 +609,7 @@
                             </p>
                         </div>
 
-                        <h2 class="sr-only">Advanced settings — custom rows, precision overlap, and quality control</h2>
+                        <h2 class="sr-only">Advanced settings — custom rows, precision overlap, background fill for transparent PNGs, and quality control</h2>
                         <details
                             class="panel tool-panel tool-panel-advanced"
                             id="advancedPanel"
@@ -798,6 +798,13 @@
                                     >
                                         Manually override the automatic Instagram seam overlap in 4:5 mode. Useful for fine-tuning alignment on high-resolution images.
                                     </p>
+                                </div>
+                                <div class="option-row">
+                                    <label for="bgFillColor" style="font-size:var(--text-xs);">
+                                        Background fill
+                                        <span style="font-size:var(--text-xs);color:var(--text-secondary);">— for transparent PNGs</span>
+                                    </label>
+                                    <input type="color" id="bgFillColor" value="#ffffff" style="width:36px;height:28px;padding:2px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;background:none;">
                                 </div>
                                 <div id="qualityGroup">
                                     <div class="panel-title">
