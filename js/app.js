@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const manualOverlapCb = document.getElementById("manualOverlapCb");
   const manualOverlapInput = document.getElementById("manualOverlapInput");
   const manualOverlapGroup = document.getElementById("manualOverlapGroup");
+  const bgFillColor = document.getElementById("bgFillColor");
   const qualityGroup = document.getElementById("qualityGroup");
   const qualitySlider = document.getElementById("qualitySlider");
   const qualityVal = document.getElementById("qualityVal");
@@ -83,6 +84,96 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById('kofiClose').addEventListener('click', dismiss);
       setTimeout(dismiss, 7000);
   }
+
+  // Grid Preview
+  const gridPreviewBtn = document.getElementById("gridPreviewBtn");
+  const gridPreviewModal = document.getElementById("gridPreviewModal");
+  const gridPreviewClose = document.getElementById("gridPreviewClose");
+  const gridPreviewGrid = document.getElementById("gridPreviewGrid");
+  const postPreviewModal = document.getElementById("postPreviewModal");
+  const postPreviewClose = document.getElementById("postPreviewClose");
+  const postPreviewImg = document.getElementById("postPreviewImg");
+
+  function openGridPreview() {
+      if (!currentSlices.length) return;
+      gridPreviewGrid.innerHTML = "";
+      currentSlices.forEach((slice) => {
+          const sourceImg = new Image();
+          sourceImg.onload = () => {
+              const canvas = document.createElement("canvas");
+              const targetRatio = 3 / 4;
+              const srcW = sourceImg.naturalWidth;
+              const srcH = sourceImg.naturalHeight;
+
+              // Use full height as anchor, derive the 3:4 width from it
+              const cropW = srcH * targetRatio;
+              const cropH = srcH;
+
+              // Center horizontally
+              const cropX = (srcW - cropW) / 2;
+              const cropY = 0;
+
+              canvas.width  = cropW;
+              canvas.height = cropH;
+
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(sourceImg, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+
+              const img = document.createElement("img");
+              img.src = canvas.toDataURL();
+              img.alt = slice.label;
+              img.style.cssText = "width:100%;display:block;cursor:pointer;";
+              img.addEventListener("click", () => {
+                  postPreviewImg.src = slice.dataUrl;
+                  postPreviewModal.style.display = "flex";
+              });
+              gridPreviewGrid.appendChild(img);
+          };
+          sourceImg.src = slice.dataUrl;
+      });
+
+      // Sync post count in the preview chrome
+      const countEl = document.getElementById("previewPostCount");
+      if (countEl) countEl.textContent = currentSlices.length;
+
+      gridPreviewModal.style.display = "block";
+      history.pushState({ modal: "grid" }, "");
+  }
+
+  function closePostPreview() {
+      postPreviewModal.style.display = "none";
+  }
+
+  function closeGridPreview() {
+      postPreviewModal.style.display = "none";
+      gridPreviewModal.style.display = "none";
+      history.back();
+  }
+
+  if (gridPreviewBtn) gridPreviewBtn.addEventListener("click", openGridPreview);
+
+  if (gridPreviewClose) gridPreviewClose.addEventListener("click", closeGridPreview);
+  if (postPreviewClose) postPreviewClose.addEventListener("click", closePostPreview);
+
+  gridPreviewModal?.addEventListener("click", (e) => {
+      if (e.target === gridPreviewModal) closeGridPreview();
+  });
+
+  postPreviewModal?.addEventListener("click", (e) => {
+      if (e.target === postPreviewModal) closePostPreview();
+  });
+
+  document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+          if (postPreviewModal.style.display === "flex") closePostPreview();
+          else if (gridPreviewModal.style.display === "block") closeGridPreview();
+      }
+  });
+
+  window.addEventListener("popstate", () => {
+      postPreviewModal.style.display = "none";
+      gridPreviewModal.style.display = "none";
+  });
 
   // Manual overlay positioning state (in image-pixel coordinates).
   // offsetX/Y are deltas applied to the entire group of tiles.
@@ -187,6 +278,12 @@ document.addEventListener("DOMContentLoaded", () => {
         updateUiState();
       }
     });
+  }
+
+  if (bgFillColor) {
+      bgFillColor.addEventListener("input", () => {
+          if (currentLoadedImage) processImage(currentLoadedImage);
+      });
   }
 
   if (qualitySlider) {
@@ -1273,6 +1370,11 @@ document.addEventListener("DOMContentLoaded", () => {
     zones.rows.forEach((row, rowIndex) => {
       row.tiles.forEach((tile, colIndex) => {
         tempCtx.clearRect(0, 0, zones.tileW, zones.tileH);
+        const fillInput = document.getElementById("bgFillColor");
+        if (fillInput && fillInput.value) {
+            tempCtx.fillStyle = fillInput.value;
+            tempCtx.fillRect(0, 0, zones.tileW, zones.tileH);
+        }
         tempCtx.drawImage(
           img,
           tile.sx,
@@ -1400,6 +1502,24 @@ document.addEventListener("DOMContentLoaded", () => {
           `<div class="panel" style="padding:14px 16px;font-size:var(--text-xs);font-family:'Archivo',sans-serif;">${text}</div>`,
       )
       .join("");
+    // Resolution warning
+    const minW = 1080;
+    const minH = currentRatio === "3x4" ? 1440 : 1350;
+    if (cropW < minW || cropH < minH) {
+        const warn = document.createElement("div");
+        warn.style.cssText = `
+            grid-column: 1 / -1;
+            padding: 12px 16px;
+            font-size: var(--text-xs);
+            font-family: 'Archivo', sans-serif;
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-radius: var(--radius);
+            color: var(--warning-text);
+        `;
+        warn.textContent = `⚠️ Tiles will export at ${cropW}×${cropH}px — for best Instagram quality, use a larger source image (${minW}×${minH}px recommended per tile).`;
+        infoRow.appendChild(warn);
+    }
   }
 
   function getExportOptions() {
