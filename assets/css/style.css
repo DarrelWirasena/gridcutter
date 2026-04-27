@@ -123,6 +123,9 @@
   --border-mid:     oklch(80% 0.03 264);
   --green:          oklch(52% 0.15 155);
   --green-surface:  oklch(96% 0.04 155);
+  --warning-bg:     oklch(97% 0.05 85);
+  --warning-border: oklch(85% 0.08 85);
+  --warning-text:   oklch(45% 0.08 85);
 
   --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
   --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;

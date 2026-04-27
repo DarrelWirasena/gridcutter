@@ -1502,6 +1502,24 @@ document.addEventListener("DOMContentLoaded", () => {
           `<div class="panel" style="padding:14px 16px;font-size:var(--text-xs);font-family:'Archivo',sans-serif;">${text}</div>`,
       )
       .join("");
+    // Resolution warning
+    const minW = 1080;
+    const minH = currentRatio === "3x4" ? 1440 : 1350;
+    if (cropW < minW || cropH < minH) {
+        const warn = document.createElement("div");
+        warn.style.cssText = `
+            grid-column: 1 / -1;
+            padding: 12px 16px;
+            font-size: var(--text-xs);
+            font-family: 'Archivo', sans-serif;
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-radius: var(--radius);
+            color: var(--warning-text);
+        `;
+        warn.textContent = `⚠️ Tiles will export at ${cropW}×${cropH}px — for best Instagram quality, use a larger source image (${minW}×${minH}px recommended per tile).`;
+        infoRow.appendChild(warn);
+    }
   }
 
   function getExportOptions() {
