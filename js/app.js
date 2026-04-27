@@ -85,6 +85,96 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(dismiss, 7000);
   }
 
+  // Grid Preview
+  const gridPreviewBtn = document.getElementById("gridPreviewBtn");
+  const gridPreviewModal = document.getElementById("gridPreviewModal");
+  const gridPreviewClose = document.getElementById("gridPreviewClose");
+  const gridPreviewGrid = document.getElementById("gridPreviewGrid");
+  const postPreviewModal = document.getElementById("postPreviewModal");
+  const postPreviewClose = document.getElementById("postPreviewClose");
+  const postPreviewImg = document.getElementById("postPreviewImg");
+
+  function openGridPreview() {
+      if (!currentSlices.length) return;
+      gridPreviewGrid.innerHTML = "";
+      currentSlices.forEach((slice) => {
+          const sourceImg = new Image();
+          sourceImg.onload = () => {
+              const canvas = document.createElement("canvas");
+              const targetRatio = 3 / 4;
+              const srcW = sourceImg.naturalWidth;
+              const srcH = sourceImg.naturalHeight;
+
+              // Use full height as anchor, derive the 3:4 width from it
+              const cropW = srcH * targetRatio;
+              const cropH = srcH;
+
+              // Center horizontally
+              const cropX = (srcW - cropW) / 2;
+              const cropY = 0;
+
+              canvas.width  = cropW;
+              canvas.height = cropH;
+
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(sourceImg, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+
+              const img = document.createElement("img");
+              img.src = canvas.toDataURL();
+              img.alt = slice.label;
+              img.style.cssText = "width:100%;display:block;cursor:pointer;";
+              img.addEventListener("click", () => {
+                  postPreviewImg.src = slice.dataUrl;
+                  postPreviewModal.style.display = "flex";
+              });
+              gridPreviewGrid.appendChild(img);
+          };
+          sourceImg.src = slice.dataUrl;
+      });
+
+      // Sync post count in the preview chrome
+      const countEl = document.getElementById("previewPostCount");
+      if (countEl) countEl.textContent = currentSlices.length;
+
+      gridPreviewModal.style.display = "block";
+      history.pushState({ modal: "grid" }, "");
+  }
+
+  function closePostPreview() {
+      postPreviewModal.style.display = "none";
+  }
+
+  function closeGridPreview() {
+      postPreviewModal.style.display = "none";
+      gridPreviewModal.style.display = "none";
+      history.back();
+  }
+
+  if (gridPreviewBtn) gridPreviewBtn.addEventListener("click", openGridPreview);
+
+  if (gridPreviewClose) gridPreviewClose.addEventListener("click", closeGridPreview);
+  if (postPreviewClose) postPreviewClose.addEventListener("click", closePostPreview);
+
+  gridPreviewModal?.addEventListener("click", (e) => {
+      if (e.target === gridPreviewModal) closeGridPreview();
+  });
+
+  postPreviewModal?.addEventListener("click", (e) => {
+      if (e.target === postPreviewModal) closePostPreview();
+  });
+
+  document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+          if (postPreviewModal.style.display === "flex") closePostPreview();
+          else if (gridPreviewModal.style.display === "block") closeGridPreview();
+      }
+  });
+
+  window.addEventListener("popstate", () => {
+      postPreviewModal.style.display = "none";
+      gridPreviewModal.style.display = "none";
+  });
+
   // Manual overlay positioning state (in image-pixel coordinates).
   // offsetX/Y are deltas applied to the entire group of tiles.
   // scale multiplies the tile dimensions while locking the ratio.
