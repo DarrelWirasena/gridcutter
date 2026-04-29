@@ -40,7 +40,7 @@ GridCutter lets users generate seamless Instagram grids (3×1 to 3×6) and conti
 * **Zero Padding:** Uses precision overlap rather than adding buffers.
 * **Supported Ratios:** natively slices 4:5 (feed optimized) and 3:4 (profile optimized).
 * **Grid Layouts:** Quick presets for 3×1, 3×2, and 3×3. Users can also use "Advanced Mode" to generate massive custom grids up to 3×6.
-* **Carousel Slicing:** Continuous vertical splitting for carousels with 2-999 slides.
+* **Carousel Slicing:** Continuous vertical splitting for carousels with 2–999 slides. Instagram's platform limit is 20 slides per carousel — exports beyond that are possible but cannot be posted in a single carousel.
 * **Real-time Preview:** Interactive phone mock-up to simulate the swiping experience.
 * **Export Controls:** Users can select their output format and adjust the compression Quality %.
 * **Bulk Download:** Generates all grid tiles instantly and allows downloading them together as a single ZIP file.

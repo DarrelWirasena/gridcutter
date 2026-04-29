@@ -17,7 +17,7 @@ GridCutter helps Instagram creators post stunning multi-tile photo grids and con
 ## Key Features
 
 - **Multiple Tools** — Choose between Grid Cutter and Carousel Cutter
-- **Carousel Mode** — Split images into 2–999 seamless slides with 4:5 or 3:4 ratios
+- **Carousel Mode** — Split images into 2–999 seamless slides with 4:5 or 3:4 ratios. Note: Instagram's carousel limit is 20 slides per post.
 - **Phone Simulator** — Preview carousel swipes and profile grid appearance in real-time
 - **No Authentication Required** — works entirely in your browser
 - **100% Client-Side Processing** — images never uploaded to any server
