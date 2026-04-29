@@ -73,26 +73,35 @@
                     </a>
                     <ul class="nav-links" role="list">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="gridcutter.html">Tool</a></li>
+                        <li class="nav-dropdown">
+                            <button class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                                Tools
+                                <svg class="nav-dropdown-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                                    <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <div class="nav-dropdown-menu" role="menu">
+                                <a href="gridcutter.html" role="menuitem">
+                                    <span class="nav-dropdown-icon" aria-hidden="true">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="5.5" y="1" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="1" width="3" height="4" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="5.5" width="4" height="7.5" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="5.5" y="5.5" width="4" height="7.5" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="5.5" width="3" height="7.5" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>
+                                    </span>
+                                    Grid Cutter
+                                </a>
+                                <a href="carousel.html" role="menuitem">
+                                    <span class="nav-dropdown-icon" aria-hidden="true">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="3" height="10" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="5.5" y="2" width="3" height="10" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="2" width="3" height="10" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>
+                                    </span>
+                                    Carousel Cutter
+                                </a>
+                            </div>
+                        </li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                     <a href="gridcutter.html" class="btn btn-primary nav-cta">
                         Try Free
-                        <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M2 7h10M8 3l4 4-4 4"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
                     <button
@@ -101,24 +110,25 @@
                         aria-label="Toggle navigation"
                         aria-expanded="false"
                     >
-                        <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
-                        >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                             <rect y="2" width="16" height="1.5" rx="1" />
                             <rect y="7" width="16" height="1.5" rx="1" />
                             <rect y="12" width="16" height="1.5" rx="1" />
                         </svg>
                     </button>
                 </nav>
-                <div class="mobile-menu" id="mobileMenu" role="navigation">
-                    <a href="index.html">Home</a>
-                    <a href="gridcutter.html">Tool</a>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Contact</a>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="index.html">Home</a>
+                <div class="mobile-menu-label">Tools</div>
+                <div class="mobile-menu-sub">
+                    <a href="gridcutter.html">Grid Cutter</a>
+                    <a href="carousel.html">Carousel Cutter</a>
                 </div>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="gridcutter.html" class="btn btn-primary">Try Free</a>
+            </div>
             </div>
         </header>
 
@@ -596,9 +606,8 @@
                         <div class="footer-col">
                             <div class="footer-col-title">Tools</div>
                             <ul>
-                                <li>
-                                    <a href="gridcutter.html">Grid Cutter</a>
-                                </li>
+                                <li><a href="gridcutter.html">Grid Cutter</a></li>
+                                <li><a href="carousel.html">Carousel</a></li>
                             </ul>
                         </div>
                         <div class="footer-col">
