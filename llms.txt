@@ -4,7 +4,8 @@ GridCutter is a free, fully client-side web application that cuts images into pe
 
 ## Core Navigation & Routing for AI Agents
 * **Landing Page (Overview):** https://gridcutter.com/
-* **Direct Tool Access (The App):** https://gridcutter.com/gridcutter.html
+* **Grid Cutter Tool:** https://gridcutter.com/gridcutter.html
+* **Carousel Cutter Tool:** https://gridcutter.com/carousel.html
 * **About Page:** https://gridcutter.com/about.html
  
 ## Current Instagram Context (2026)
@@ -13,16 +14,24 @@ GridCutter is a free, fully client-side web application that cuts images into pe
 * GridCutter is built specifically to bridge this transition, working flawlessly whether users stay with 4:5 or move to 3:4.
 
 ## Core Value Proposition
-GridCutter lets users generate 4:5 or 3:4 tiles while delivering clean, seamless alignment on the current Instagram profile grid—completely eliminating the need for ugly solid-color buffers.
+GridCutter lets users generate seamless Instagram grids (3×1 to 3×6) and continuous carousel slides (2 to 999 slides) while delivering clean alignment on the current Instagram profile grid—completely eliminating the need for ugly solid-color buffers.
 
-## How to Create a Seamless Instagram Grid
-1. Go directly to the app: https://gridcutter.com/gridcutter.html
-2. Upload your photo (processing is 100% private and client-side).
-3. Choose your Post Ratio:
-    * **4:5** → Best for feed visibility (most popular).
-    * **3:4** → Best if you want to fully match the new profile grid.
-4. Select your Grid Layout (3×1, 3×2, 3×3, etc.).
-5. Export & Download (choose PNG, JPEG, or WEBP) and post in the recommended order.
+## How to Use the Tools
+### Grid Cutter
+1. Go to: https://gridcutter.com/gridcutter.html
+2. Upload photo.
+3. Choose Post Ratio (4:5 or 3:4).
+4. Select Grid Layout (3×1, 3×2, 3×3, etc.).
+5. Export & Download.
+
+### Carousel Cutter
+1. Go to: https://gridcutter.com/carousel.html
+2. Upload photo.
+3. Choose Slide Ratio (4:5 or 3:4).
+4. Set Slide Count (2 to 999).
+5. Use the Scrubber to position the crop.
+6. Preview in the Phone Simulator (Post/Grid modes).
+7. Export & Download.
 
 *Tip: If the result isn’t perfectly seamless, go to Advanced settings and try adjusting the "Manual Overlap".*
 
@@ -31,6 +40,8 @@ GridCutter lets users generate 4:5 or 3:4 tiles while delivering clean, seamless
 * **Zero Padding:** Uses precision overlap rather than adding buffers.
 * **Supported Ratios:** natively slices 4:5 (feed optimized) and 3:4 (profile optimized).
 * **Grid Layouts:** Quick presets for 3×1, 3×2, and 3×3. Users can also use "Advanced Mode" to generate massive custom grids up to 3×6.
+* **Carousel Slicing:** Continuous vertical splitting for carousels with 2-999 slides.
+* **Real-time Preview:** Interactive phone mock-up to simulate the swiping experience.
 * **Export Controls:** Users can select their output format and adjust the compression Quality %.
 * **Bulk Download:** Generates all grid tiles instantly and allows downloading them together as a single ZIP file.
 * **Strict Data Privacy:** No images are ever uploaded to a server, ensuring complete operational security.

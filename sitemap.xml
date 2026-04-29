@@ -2,44 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://gridcutter.com/</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-04-29</lastmod>
   </url>
   <url>
     <loc>https://gridcutter.com/gridcutter.html</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-04-29</lastmod>
+  </url>
+  <url>
+    <loc>https://gridcutter.com/carousel.html</loc>
+    <lastmod>2026-04-29</lastmod>
   </url>
   <url>
     <loc>https://gridcutter.com/about.html</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-04-29</lastmod>
   </url>
   <url>
     <loc>https://gridcutter.com/contact.html</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-04-29</lastmod>
   </url>
   <url>
     <loc>https://gridcutter.com/privacy.html</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-04-29</lastmod>
   </url>
   <url>
     <loc>https://gridcutter.com/terms.html</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-04-29</lastmod>
   </url>
   <url>
     <loc>https://gridcutter.com/data-processing.html</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-04-29</lastmod>
   </url>
 </urlset>
