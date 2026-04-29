@@ -1,20 +1,24 @@
 ![Socialify Image](https://socialify.git.ci/DarrelWirasena/gridcutter/image?custom_language=JavaScript&description=1&font=Bitter&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2FDarrelWirasena%2Fgridcutter%2Frefs%2Fheads%2Fmain%2Ffavicon%2Fandroid-icon-192x192.png&name=1&owner=1&stargazers=1&theme=Auto)
 
-# GridCutter — Precision Instagram Grid Splitter
+# GridCutter — Precision Instagram Grid & Carousel Splitter
 
-A free, web-based tool for splitting photos into perfectly aligned grids for Instagram. **100% private** — your images never leave your device.
+A free, web-based tool for splitting photos into perfectly aligned grids and seamless carousels for Instagram. **100% private** — your images never leave your device.
 
 ## What is GridCutter?
 
-GridCutter helps Instagram creators post stunning multi-tile photo grids without the guess-work. Upload a single photo, choose your layout (3×1, 3×2, or 3×3), and download perfectly sliced tiles. The tool automatically handles:
+GridCutter helps Instagram creators post stunning multi-tile photo grids and continuous carousels without the guess-work. Upload a single photo, choose your tool, and download perfectly sliced images. The tool automatically handles:
 
-- Aspect ratio matching (4:5 or 3:4 per post)
-- Precise edge alignment for seamless grids
-- Overlap calculations for Instagram's feed layout
-- Optional manual adjustments for advanced users
+- **Grid Slicing**: 3×1, 3×2, 3×3, and custom layouts up to 3×6.
+- **Carousel Slicing**: Seamless vertical splits for 2 to 999 slides.
+- **Aspect Ratio Matching**: 4:5 (Portrait) or 3:4 (New Profile Grid) per post.
+- **Precise Edge Alignment**: No buffers or padding for truly seamless transitions.
+- **Interactive Preview**: Real-time phone simulator for carousels.
 
 ## Key Features
 
+- **Multiple Tools** — Choose between Grid Cutter and Carousel Cutter
+- **Carousel Mode** — Split images into 2–999 seamless slides with 4:5 or 3:4 ratios
+- **Phone Simulator** — Preview carousel swipes and profile grid appearance in real-time
 - **No Authentication Required** — works entirely in your browser
 - **100% Client-Side Processing** — images never uploaded to any server
 - **Multiple Layouts** — 3×1 (panoramic), 3×2 (featured), 3×3 (full grid), plus Advanced Mode up to 3×6 (18 tiles)
@@ -82,7 +86,8 @@ Visit [gridcutter.com](https://gridcutter.com) to use GridCutter directly in you
 ```
 gridcutter/
 ├── index.html                 # Homepage with layout showcase
-├── gridcutter.html            # Main tool interface
+├── gridcutter.html            # Main Grid tool interface
+├── carousel.html              # Main Carousel tool interface
 ├── about.html                 # About page
 ├── contact.html               # Contact page 
 ├── privacy.html               # Privacy policy
@@ -97,7 +102,8 @@ gridcutter/
 │   │   └── style.css          # Shared styles (includes self-hosted font declarations)
 │   └── fonts/                 # Self-hosted Archivo + Source Serif 4 woff2 files
 ├── js/
-│   └── app.js                 # Main tool logic
+│   ├── app.js                 # Shared UI and Grid logic
+│   └── carousel.js            # Carousel tool logic
 ├── tests/
 │   ├── gridcutter.spec.js     # Tool tests
 │   └── fixtures/              # Test fixtures

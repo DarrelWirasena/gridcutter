@@ -1,6 +1,6 @@
 {
   "name": "gridcutter",
-  "version": "1.0.0",
+  "version": "2.5.0",
   "description": "A free, web-based tool for splitting photos into perfectly aligned grids for Instagram.",
   "scripts": {
     "test": "playwright test"
