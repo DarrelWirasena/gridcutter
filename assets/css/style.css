@@ -301,6 +301,134 @@ a { color: inherit; text-decoration: none; }
   .nav-cta { display: flex; }
 }
 
+/* --------------------------------------------------------------------------
+   NAV DROPDOWN (Tools menu)
+   -------------------------------------------------------------------------- */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.15s;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.nav-dropdown-toggle:hover,
+.nav-dropdown-toggle.active { color: var(--brand); }
+
+.nav-dropdown-toggle.active { font-weight: 700; }
+
+.nav-dropdown-chevron {
+  transition: transform 0.2s var(--ease-out-quart);
+  flex-shrink: 0;
+}
+
+.nav-dropdown:hover .nav-dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface-0);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px oklch(18% 0.015 264 / 0.12), 0 2px 8px oklch(18% 0.015 264 / 0.06);
+  padding: 6px;
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-4px);
+  transition: opacity 0.18s var(--ease-out-quart), transform 0.18s var(--ease-out-quart), visibility 0.18s;
+  z-index: 100;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+
+.nav-dropdown-menu a:hover {
+  background: var(--surface-2);
+  color: var(--brand);
+}
+
+.nav-dropdown-menu a.active {
+  color: var(--brand);
+  font-weight: 700;
+  background: var(--brand-xlight);
+}
+
+.nav-dropdown-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+  transition: background 0.12s, color 0.12s;
+}
+
+.nav-dropdown-menu a:hover .nav-dropdown-icon,
+.nav-dropdown-menu a.active .nav-dropdown-icon {
+  background: var(--brand-light);
+  color: var(--brand);
+}
+
+/* Mobile menu tools section */
+.mobile-menu-label {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: var(--sp-2) 0 var(--sp-1);
+}
+
+.mobile-menu-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: var(--sp-4);
+  border-left: 2px solid var(--border-subtle);
+}
+
+.nav-dropdown-menu.force-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
 
 /* --------------------------------------------------------------------------
    7. BUTTONS
@@ -408,6 +536,17 @@ a { color: inherit; text-decoration: none; }
 }
 
 .mobile-menu a:hover { color: var(--brand); }
+
+.mobile-menu .btn {
+  color: white;
+  justify-content: center;
+  margin-top: var(--sp-2);
+}
+
+.mobile-menu .btn:hover {
+  color: white;
+  opacity: 0.9;
+}
 
 
 /* --------------------------------------------------------------------------
@@ -2798,20 +2937,21 @@ a { color: inherit; text-decoration: none; }
   .tool-wrap > .sidebar,
   .tool-wrap > .canvas-area { display: contents; }
 
-  /* Panel ordering on mobile */
-  .tool-panel          { order: 10; }
-  .tool-panel-upload   { order: 1; }
+  /* gridcutter & carousel Panel ordering on mobile */
+  .tool-panel               { order: 10; }
+  .tool-panel-upload        { order: 1; }
   .tool-panel-preview-head  { order: 2; }
   .tool-panel-preview-stage { order: 3; }
-  .tool-panel-reset { order: 4; }
-  .tool-panel-error    { order: 5; }
-  .tool-panel-ratio    { order: 6; }
-  .tool-panel-grid     { order: 7; }
-  .tool-panel-format   { order: 8; }
-  .tool-panel-summary  { order: 9; }
-  .tool-panel-downloads { order: 10; }
-  .tool-panel-info     { order: 11; }
-  .tool-panel-advanced { order: 12; }
+  .tool-panel-reset         { order: 4; }
+  .tool-panel-error         { order: 5; }
+  .tool-panel-ratio         { order: 6; }
+  .tool-panel-slides        { order: 7; }
+  .tool-panel-grid          { order: 7; }
+  .tool-panel-format        { order: 8; }
+  .tool-panel-info          { order: 9; }
+  .tool-panel-downloads     { order: 10; }
+  .tool-panel-summary       { order: 11; }
+  .tool-panel-advanced      { order: 12; }
 
   .canvas-area   { gap: var(--sp-4); }
   .canvas-header { margin-bottom: calc(var(--sp-4) * -1); }
@@ -2853,4 +2993,62 @@ a { color: inherit; text-decoration: none; }
 
   #cookieBanner .cookie-bottom-bar p,
   #cookieBanner .cookie-bottom-bar .cookie-buttons { width: 100%; }
+}
+
+/* Responsive Download Panel Buttons */
+.download-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.download-buttons-group {
+  display: flex;
+  gap: var(--sp-3);
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.download-buttons-group .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .download-panel-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .download-buttons-group {
+    flex-basis: 100%;
+    width: 100%;
+  }
+  
+  .download-buttons-group .btn {
+    font-size: 0.75rem;
+    padding: 8px 12px;
+    gap: 4px;
+  }
+  
+  .download-buttons-group .btn svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .download-buttons-group .btn {
+    font-size: 0.8rem;
+    padding: 8px 14px;
+  }
+  
+  .download-buttons-group .btn svg {
+    width: 13px;
+    height: 13px;
+  }
 }

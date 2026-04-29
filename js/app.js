@@ -8,6 +8,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Nav dropdown — close on outside click (mobile/keyboard fallback)
+  document.querySelectorAll(".nav-dropdown-toggle").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      // On narrow viewports the hover doesn't fire; provide toggle via click
+      const dd = btn.closest(".nav-dropdown");
+      const menu = dd && dd.querySelector(".nav-dropdown-menu");
+      if (!menu) return;
+      const isOpen = menu.classList.toggle("force-open");
+      btn.setAttribute("aria-expanded", String(isOpen));
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".nav-dropdown-menu.force-open").forEach((m) => {
+      m.classList.remove("force-open");
+      const btn = m.closest(".nav-dropdown")?.querySelector(".nav-dropdown-toggle");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+    });
+  });
+
   const revealElements = document.querySelectorAll(".reveal");
   if (revealElements.length > 0) {
     const io = new IntersectionObserver(
