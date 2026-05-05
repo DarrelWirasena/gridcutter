@@ -2,7 +2,7 @@
     "name": "GridCutter — Precision Instagram Grid Splitter",
     "short_name": "GridCutter",
     "description": "Split your photos into perfect Instagram grids. 100% client-side.",
-    "start_url": "/gridcutter.html",
+    "start_url": "/gridcutter",
     "display": "standalone",
     "theme_color": "#f7f9fb",
     "background_color": "#f7f9fb",
