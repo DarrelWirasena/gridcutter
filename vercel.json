@@ -1,3 +1,11 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.gridcutter.com" }],
+      "destination": "https://gridcutter.com/:path*",
+      "permanent": true
+    }
+  ]
 }
